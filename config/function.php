@@ -54,6 +54,19 @@
         }        
     }
 
+    function clean_float($value){
+
+        if ($value == 0) {
+            return $value;
+        } else {
+            if (!filter_var($value, FILTER_VALIDATE_FLOAT)) {
+                header($input_error."?note=not_real_float");
+            } else {
+                return $value;
+            }
+        }        
+    }
+
 	function get_curr_age($birthday){
         //values
         $date_now = strtotime(date("Y-m-d"));
@@ -619,7 +632,111 @@
 
     // methods candidates
 
-    
+    function countCandidates(){
+        
+        $statement=dbaselink()->prepare("SELECT tabs_can_id From tabs_candidates");
+        $statement->execute();
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
+    function countCandidatesByEvent($eventId){
+        
+        $statement=dbaselink()->prepare("SELECT tabs_can_id From tabs_candidates
+                                        Where
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
+    function selectCandidates(){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_candidates
+                                        Order By tabs_can_id DESC");
+        $statement->execute();
+
+        return $statement;
+
+    }
+
+    function createCandidate($name, $designation, $eventId){
+
+        $statement=dbaselink()->prepare("INSERT INTO tabs_candidates
+                                        (
+                                            tabs_can_name, 
+                                            tabs_can_desc, 
+                                            tabs_can_created, 
+                                            tabs_event_id
+                                        )
+                                        Values
+                                        (
+                                            :tabs_can_name, 
+                                            :tabs_can_desc, 
+                                            NOW(), 
+                                            :tabs_event_id
+                                        )");
+        $statement->execute([
+            'tabs_can_name' => $name,
+            'tabs_can_desc' => $designation,
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function updateCandidate($name, $designation, $eventId, $canId){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_candidates 
+                                        SET
+                                        tabs_can_name = :tabs_can_name, 
+                                        tabs_can_desc = :tabs_can_desc,
+                                        tabs_event_id = :tabs_event_id
+                                        Where
+                                        tabs_can_id = :tabs_can_id
+                                        ");
+        $statement->execute([
+            'tabs_can_name' => $name,
+            'tabs_can_desc' => $designation,
+            'tabs_event_id' => $eventId,
+            'tabs_can_id' => $canId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function deleteCandidate($canId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_candidates
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+        $statement->execute([
+            'tabs_can_id' => $canId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
     // methods_events
 
@@ -638,6 +755,19 @@
         $statement=dbaselink()->prepare("SELECT * From tabs_events 
                                         Order By tabs_event_id DESC");
         $statement->execute();
+
+        return $statement;
+    }
+
+    function selectEventsById($eventId){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_events 
+                                        Where
+                                        tabs_event_id = :tabs_event_id
+                                        Order By tabs_event_id DESC");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
 
         return $statement;
     }
@@ -723,6 +853,68 @@
         $res=$statement->fetch(PDO::FETCH_ASSOC);
 
         return $res['tabs_event_title'];
+
+    }
+
+    // methods_category
+
+    function countCategories($eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
+                                        Where
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
+    function selectCategories($eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
+                                        Where
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+        
+        return $statement;
+
+    }
+
+    function createCategory($title, $min, $max, $percentage, $eventId){
+
+        $statement=dbaselink()->prepare("INSERT INTO tabs_categories
+            (
+                tabs_cat_title, 
+                tabs_cat_score_min, 
+                tabs_cat_score_max, 
+                tabs_cat_percentage, 
+                tabs_event_id
+            )
+            VALUES (
+                :tabs_cat_title,
+                :tabs_cat_score_min,
+                :tabs_cat_score_max,
+                :tabs_cat_percentage,
+                :tabs_event_id
+            )");
+        $statement->execute([
+            'tabs_cat_title' => $title, 
+            'tabs_cat_score_min' => $min, 
+            'tabs_cat_score_max' => $max, 
+            'tabs_cat_percentage' => $percentage, 
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
 
     }
 ?>

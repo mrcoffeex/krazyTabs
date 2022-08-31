@@ -2,8 +2,8 @@
     require '../../config/includes.php';
     require 'session.php';
 
-    $title = "Events";
-    $upp_description = '<span class="text-primary">'.countEvents().'</span> results.';
+    $title = "Candidates";
+    $upp_description = '<span class="text-primary">'.countCandidates().'</span> results.';
 ?>
 
 <!DOCTYPE html>
@@ -30,54 +30,34 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-user"><i class="ti-plus"></i> Create Event</button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-user"><i class="ti-plus"></i> Create Candidate</button>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th class="text-center">Categories</th>
-                                                    <th class="text-center">Candidates</th>    
-                                                    <th>Title</th>
-                                                    <th>Description</th>
-                                                    <th>Year</th>
+                                                    <th>Name</th>
+                                                    <th>Designation</th>
+                                                    <th>Event</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    $getEvents=selectEvents();
-                                                    while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
+                                                    $getCandidates=selectCandidates();
+                                                    while ($candidate=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
-                                                    <td class="text-center">
-                                                        <button 
-                                                            type="button" 
-                                                            class="btn btn-success btn-sm" 
-                                                            onclick="window.location.href='category?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>'">
-                                                            <i class="ti-list"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button 
-                                                            type="button" 
-                                                            class="btn btn-warning btn-sm" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="">
-                                                            <i class="ti-crown"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td><?= $event['tabs_event_title']; ?></td>
-                                                    <td><?= $event['tabs_event_desc']; ?></td>
-                                                    <td><?= $event['tabs_event_year']; ?></td>
-                                                   
+                                                    <td><?= $candidate['tabs_can_name']; ?></td>
+                                                    <td><?= $candidate['tabs_can_desc']; ?></td>
+                                                    <td><?= getEventTitle($candidate['tabs_event_id']); ?></td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
                                                             class="btn btn-info btn-sm" 
                                                             data-bs-toggle="modal" 
-                                                            data-bs-target="#edit_<?= $event['tabs_event_id']; ?>">
+                                                            data-bs-target="#edit_<?= $candidate['tabs_can_id']; ?>">
                                                             <i class="ti-pencil"></i>
                                                         </button>
                                                     </td>
@@ -86,18 +66,18 @@
                                                             type="button" 
                                                             class="btn btn-danger btn-sm"
                                                             data-bs-toggle="modal" 
-                                                            data-bs-target="#delete_<?= $event['tabs_event_id']; ?>">
+                                                            data-bs-target="#delete_<?= $candidate['tabs_can_id'] ?>">
                                                             <i class="ti-close"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
 
                                                 <!-- edit -->
-                                                <div class="modal fade" id="edit_<?= $event['tabs_event_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="edit_<?= $candidate['tabs_can_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="ModalLabel"><i class="ti-pencil"></i> Update Event</h5>
+                                                                <h5 class="modal-title" id="ModalLabel"><i class="ti-pencil"></i> Update Candidate</h5>
                                                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -105,37 +85,46 @@
                                                             <form 
                                                                 method="post" 
                                                                 enctype="multipart/form-data" 
-                                                                action="event_update?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>">
+                                                                action="candidate_update?rand=<?= my_rand_str(30) ?>&cd=<?= $candidate['tabs_can_id'] ?>">
 
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    <label>Title</label>
-                                                                    <input type="text" class="form-control" name="event_title" value="<?= $event['tabs_event_title'] ?>" autofocus required>
+                                                                    <label>Name</label>
+                                                                    <input type="text" class="form-control" name="name" value="<?= $candidate['tabs_can_name'] ?>" autofocus required>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Description</label>
-                                                                    <textarea class="form-control" name="event_desc" rows="3" required><?= $event['tabs_event_desc'] ?></textarea>
+                                                                    <label>Designation</label>
+                                                                    <input type="text" class="form-control" name="designation" value="<?= $candidate['tabs_can_desc'] ?>" required>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Year</label>
-                                                                    <input type="text" class="form-control" name="event_year" maxlength="4" value="<?= $event['tabs_event_year'] ?>" required>
+                                                                    <label>Event</label>
+                                                                    <select name="event" class="form-control" required>
+                                                                        <option value="<?= $candidate['tabs_event_id'] ?>"><?= getEventTitle($candidate['tabs_event_id']) ?></option>
+                                                                        <?php  
+                                                                            //populate events
+                                                                            $getEvents = selectEvents();
+                                                                            while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
+                                                                                echo "<option value='".$event['tabs_event_id']."'>".$event['tabs_event_title']."</option>";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> 
                                                             <div class="modal-footer">
-                                                                <button type="submit" id="submit_update_event" class="btn btn-info">Update</button>
+                                                                <button type="submit" id="submit_update_can" class="btn btn-info">Update</button>
                                                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                            </div>
+                                                            </div>     
                                                             </form>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- deactivate -->
-                                                <div class="modal fade" id="delete_<?= $event['tabs_event_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                <!-- delete -->
+                                                <div class="modal fade" id="delete_<?= $candidate['tabs_can_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-sm" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="ModalLabel"><i class="ti-close"></i> Delete Event</h5>
+                                                                <h5 class="modal-title" id="ModalLabel"><i class="ti-close"></i> Delete Candidate</h5>
                                                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -143,16 +132,16 @@
                                                             <form 
                                                                 method="post" 
                                                                 enctype="multipart/form-data" 
-                                                                action="event_delete?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id']; ?>">
+                                                                action="candidate_delete?rand=<?= my_rand_str(30) ?>&cd=<?= $candidate['tabs_can_id'] ?>">
                                                             <div class="modal-body">
                                                                 <p class="text-center">
                                                                     Trying to delete <br>
-                                                                    <span class="text-danger"><?= $event['tabs_event_title']; ?></span>
+                                                                    <span class="text-danger"><?= $candidate['tabs_can_name']; ?></span>
                                                                 </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" id="submit_delete_event" 
-                                                                name="submit_delete_event" class="btn btn-danger">Delete</button>
+                                                                <button type="submit" id="submit_delete_can" 
+                                                                name="submit_delete_can" class="btn btn-danger">Delete</button>
                                                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                                                             </div>
 
@@ -182,28 +171,37 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalLabel"><i class="ti-plus"></i> Create Event</h5>
+                    <h5 class="modal-title" id="ModalLabel"><i class="ti-plus"></i> Create Candidate</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" enctype="multipart/form-data" action="event_create" onsubmit="validateCreateEvent(this)">
+                <form method="post" enctype="multipart/form-data" action="candidate_create" onsubmit="validateCreateCandidate(this)">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="event_title" autofocus required>
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" autofocus required>
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" name="event_desc" rows="3" required></textarea>
+                        <label>Designation</label>
+                        <input type="text" class="form-control" name="designation" required>
                     </div>
                     <div class="form-group">
-                        <label>Year</label>
-                        <input type="number" class="form-control" name="event_year" min="2022" max="2050" required>
+                        <label>Event</label>
+                        <select name="event" class="form-control" required>
+                            <option></option>
+                            <?php  
+                                //populate events
+                                $getEvents = selectEvents();
+                                while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$event['tabs_event_id']."'>".$event['tabs_event_title']."</option>";
+                                }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="submit_create_event" class="btn btn-success">Create</button>
+                    <button type="submit" id="submit_create_can" class="btn btn-success">Create</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
                 </form>

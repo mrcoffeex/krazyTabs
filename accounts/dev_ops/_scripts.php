@@ -49,11 +49,25 @@
 		return true;  
 	}
 
-function validateCreateJudge(formObj){
-	formObj.submit_create_judge.disabled = true;
-	formObj.submit_create_judge.innerHTML = "processing ...";
-	return true;  
-}
+	function validateCreateJudge(formObj){
+		formObj.submit_create_judge.disabled = true;
+		formObj.submit_create_judge.innerHTML = "processing ...";
+		return true;  
+	}
+
+	function validateCreateCandidate(formObj){
+		formObj.submit_create_can.disabled = true;
+		formObj.submit_create_can.innerHTML = "processing ...";
+		return true;  
+	}
+
+	function validateCreateCategory(formObj){
+		formObj.submit_create_category.disabled = true;
+		formObj.submit_create_category.innerHTML = "processing ...";
+		return true;  
+	}
+
+	// events
     
     //toastr custom options
 	toastr.options = {

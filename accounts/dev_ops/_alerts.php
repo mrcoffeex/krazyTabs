@@ -70,6 +70,30 @@
                 toastr.success('Judge has been updated');
             </script>
         ";
+    }else if ($note == "can_added" && $currpage == "candidates") {
+        echo "
+            <script>
+                toastr.success('Candidate has been added');
+            </script>
+        ";
+    }else if ($note == "can_updated" && $currpage == "candidates") {
+        echo "
+            <script>
+                toastr.success('Candidate has been updated');
+            </script>
+        ";
+    }else if ($note == "can_deleted" && $currpage == "candidates") {
+        echo "
+            <script>
+                toastr.success('Candidate has been deleted');
+            </script>
+        ";
+    }else if ($note == "cat_added" && $currpage == "category") {
+        echo "
+            <script>
+                toastr.success('Cateogry has been added');
+            </script>
+        ";
     }else{
         echo "";
     }
