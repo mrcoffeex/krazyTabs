@@ -659,17 +659,32 @@
     function selectCandidates(){
 
         $statement=dbaselink()->prepare("SELECT * From tabs_candidates
-                                        Order By tabs_can_id DESC");
+                                        Order By tabs_can_number ASC");
         $statement->execute();
 
         return $statement;
 
     }
 
-    function createCandidate($name, $designation, $eventId){
+    function selectCandidatesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_candidates 
+                                        Where
+                                        tabs_event_id = :tabs_event_id 
+                                        Order By tabs_can_number ASC");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        return $statement;
+
+    }
+
+    function createCandidate($number, $name, $designation, $eventId){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_candidates
                                         (
+                                            tabs_can_number, 
                                             tabs_can_name, 
                                             tabs_can_desc, 
                                             tabs_can_created, 
@@ -677,12 +692,14 @@
                                         )
                                         Values
                                         (
+                                            :tabs_can_number, 
                                             :tabs_can_name, 
                                             :tabs_can_desc, 
                                             NOW(), 
                                             :tabs_event_id
                                         )");
         $statement->execute([
+            'tabs_can_number' => $number,
             'tabs_can_name' => $name,
             'tabs_can_desc' => $designation,
             'tabs_event_id' => $eventId
@@ -696,10 +713,11 @@
 
     }
 
-    function updateCandidate($name, $designation, $eventId, $canId){
+    function updateCandidate($number, $name, $designation, $eventId, $canId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_candidates 
                                         SET
+                                        tabs_can_number = :tabs_can_number, 
                                         tabs_can_name = :tabs_can_name, 
                                         tabs_can_desc = :tabs_can_desc,
                                         tabs_event_id = :tabs_event_id
@@ -707,6 +725,7 @@
                                         tabs_can_id = :tabs_can_id
                                         ");
         $statement->execute([
+            'tabs_can_number' => $number,
             'tabs_can_name' => $name,
             'tabs_can_desc' => $designation,
             'tabs_event_id' => $eventId,
@@ -736,6 +755,21 @@
             return false;
         }
 
+    }
+
+    function checkCandidateNumberIfExist($eventId, $number){
+
+        $statement=dbaselink()->prepare("SELECT tabs_can_id From tabs_candidates
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_can_number = :tabs_can_number");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_can_number' => $number
+        ]);
+        $countres=$statement->rowCount();
+        
+        return $countres;
     }
 
     // methods_events
@@ -910,5 +944,177 @@
             return false;
         }
 
+    }
+
+    function updateCategory($title, $percentage, $catId){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_categories
+                                        SET
+                                        tabs_cat_title = :tabs_cat_title, 
+                                        tabs_cat_percentage = :tabs_cat_percentage
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_title' => $title, 
+            'tabs_cat_percentage' => $percentage, 
+            'tabs_cat_id' => $catId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function deleteCategory($catId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_categories 
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getCategoryTitle($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_title From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cat_title'];
+
+    }
+
+    function getEventTitleByCatId($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_event_id From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        $title = getEventTitle($res['tabs_event_id']);
+
+        return $title;
+
+    }
+
+    // methods_criteria
+    
+    function countCriteria($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cri_id From tabs_criterias
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+    
+    function selectCriteria($catId){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_criterias
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        return $statement;
+
+    }
+
+    function createCriteria($title, $min, $max, $percentage, $catId){
+
+        $statement=dbaselink()->prepare("INSERT INTO tabs_criterias
+            (
+                tabs_cri_title, 
+                tabs_cri_score_min, 
+                tabs_cri_score_max, 
+                tabs_cri_percentage, 
+                tabs_cat_id
+            )
+            VALUES (
+                :tabs_cri_title, 
+                :tabs_cri_score_min, 
+                :tabs_cri_score_max, 
+                :tabs_cri_percentage, 
+                :tabs_cat_id
+            )");
+        $statement->execute([
+            'tabs_cri_title' => $title, 
+            'tabs_cri_score_min' => $min, 
+            'tabs_cri_score_max' => $max, 
+            'tabs_cri_percentage' => $percentage, 
+            'tabs_cat_id' => $catId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function updateCriteria($title, $min, $max, $percentage, $criId){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_criterias
+                                        SET
+                                        tabs_cri_title = :tabs_cri_title, 
+                                        tabs_cri_score_min = :tabs_cri_score_min, 
+                                        tabs_cri_score_max = :tabs_cri_score_max, 
+                                        tabs_cri_percentage = :tabs_cri_percentage 
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id");
+        $statement->execute([
+            'tabs_cri_title' => $title, 
+            'tabs_cri_score_min' => $min, 
+            'tabs_cri_score_max' => $max, 
+            'tabs_cri_percentage' => $percentage, 
+            'tabs_cri_id' => $criId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function deleteCriteria($criId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_criterias 
+                                        Where 
+                                        tabs_cri_id = :tabs_cri_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
     }
 ?>

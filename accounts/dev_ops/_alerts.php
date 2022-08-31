@@ -88,10 +88,46 @@
                 toastr.success('Candidate has been deleted');
             </script>
         ";
+    }else if ($note == "can_duplicate" && $currpage == "candidates") {
+        echo "
+            <script>
+                toastr.error('Candidate number has been taken');
+            </script>
+        ";
     }else if ($note == "cat_added" && $currpage == "category") {
         echo "
             <script>
-                toastr.success('Cateogry has been added');
+                toastr.success('Category has been added');
+            </script>
+        ";
+    }else if ($note == "cat_updated" && $currpage == "category") {
+        echo "
+            <script>
+                toastr.success('Category has been updated');
+            </script>
+        ";
+    }else if ($note == "cat_deleted" && $currpage == "category") {
+        echo "
+            <script>
+                toastr.success('Category has been deleted');
+            </script>
+        ";
+    }else if ($note == "cri_added" && $currpage == "criteria") {
+        echo "
+            <script>
+                toastr.success('Criteria has been added');
+            </script>
+        ";
+    }else if ($note == "cri_updated" && $currpage == "criteria") {
+        echo "
+            <script>
+                toastr.success('Criteria has been updated');
+            </script>
+        ";
+    }else if ($note == "cri_deleted" && $currpage == "criteria") {
+        echo "
+            <script>
+                toastr.success('Criteria has been deleted');
             </script>
         ";
     }else{

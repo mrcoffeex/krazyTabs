@@ -36,6 +36,7 @@
                                         <table class="table table-hover table-bordered">
                                             <thead>
                                                 <tr class="table-dark">
+                                                    <th class="text-center">Results</th>
                                                     <th class="text-center">Categories</th>
                                                     <th class="text-center">Candidates</th>    
                                                     <th>Title</th>
@@ -54,6 +55,14 @@
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
+                                                            class="btn btn-primary btn-sm" 
+                                                            onclick="window.location.href='event_results?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>'">
+                                                            <i class="ti-bar-chart"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button 
+                                                            type="button" 
                                                             class="btn btn-success btn-sm" 
                                                             onclick="window.location.href='category?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>'">
                                                             <i class="ti-list"></i>
@@ -63,8 +72,7 @@
                                                         <button 
                                                             type="button" 
                                                             class="btn btn-warning btn-sm" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="">
+                                                            onclick="window.location.href='event_candidates?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>'">
                                                             <i class="ti-crown"></i>
                                                         </button>
                                                     </td>

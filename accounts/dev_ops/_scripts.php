@@ -67,6 +67,12 @@
 		return true;  
 	}
 
+	function validateCreateCriteria(formObj){
+		formObj.submit_create_criteria.disabled = true;
+		formObj.submit_create_criteria.innerHTML = "processing ...";
+		return true;  
+	}
+
 	// events
     
     //toastr custom options

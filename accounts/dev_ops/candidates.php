@@ -36,6 +36,7 @@
                                         <table class="table table-hover table-bordered">
                                             <thead>
                                                 <tr class="table-dark">
+                                                    <th>#</th>
                                                     <th>Name</th>
                                                     <th>Designation</th>
                                                     <th>Event</th>
@@ -49,6 +50,7 @@
                                                     while ($candidate=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
+                                                    <td><?= $candidate['tabs_can_number']; ?></td>
                                                     <td><?= $candidate['tabs_can_name']; ?></td>
                                                     <td><?= $candidate['tabs_can_desc']; ?></td>
                                                     <td><?= getEventTitle($candidate['tabs_event_id']); ?></td>
@@ -89,8 +91,12 @@
 
                                                             <div class="modal-body">
                                                                 <div class="form-group">
+                                                                    <label>Number</label>
+                                                                    <input type="number" class="form-control" name="can_number" min="1" step="1" value="<?= $candidate['tabs_can_number'] ?>" autofocus required>
+                                                                </div>
+                                                                <div class="form-group">
                                                                     <label>Name</label>
-                                                                    <input type="text" class="form-control" name="name" value="<?= $candidate['tabs_can_name'] ?>" autofocus required>
+                                                                    <input type="text" class="form-control" name="name" value="<?= $candidate['tabs_can_name'] ?>" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Designation</label>
@@ -179,8 +185,12 @@
                 <form method="post" enctype="multipart/form-data" action="candidate_create" onsubmit="validateCreateCandidate(this)">
                 <div class="modal-body">
                     <div class="form-group">
+                        <label>Number</label>
+                        <input type="number" class="form-control" name="can_number" min="1" step="1" autofocus required>
+                    </div>
+                    <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" name="name" autofocus required>
+                        <input type="text" class="form-control" name="name" required>
                     </div>
                     <div class="form-group">
                         <label>Designation</label>
