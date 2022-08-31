@@ -874,7 +874,7 @@
 
     function selectCategories($eventId){
 
-        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
+        $statement=dbaselink()->prepare("SELECT * From tabs_categories
                                         Where
                                         tabs_event_id = :tabs_event_id");
         $statement->execute([
@@ -885,27 +885,21 @@
 
     }
 
-    function createCategory($title, $min, $max, $percentage, $eventId){
+    function createCategory($title, $percentage, $eventId){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_categories
             (
                 tabs_cat_title, 
-                tabs_cat_score_min, 
-                tabs_cat_score_max, 
                 tabs_cat_percentage, 
                 tabs_event_id
             )
             VALUES (
                 :tabs_cat_title,
-                :tabs_cat_score_min,
-                :tabs_cat_score_max,
                 :tabs_cat_percentage,
                 :tabs_event_id
             )");
         $statement->execute([
             'tabs_cat_title' => $title, 
-            'tabs_cat_score_min' => $min, 
-            'tabs_cat_score_max' => $max, 
             'tabs_cat_percentage' => $percentage, 
             'tabs_event_id' => $eventId
         ]);

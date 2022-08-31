@@ -38,24 +38,32 @@
                                         <table class="table table-hover table-bordered">
                                             <thead>
                                                 <tr class="table-dark">   
+                                                    <th class="text-center">Criteria</th>
                                                     <th>Title</th>
-                                                    <th>Min-Max</th>
-                                                    <th>%</th>
                                                     <th>Event</th>
+                                                    <th>%</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    $getCategory=selectCategories($redirect);
+                                                    $getCategory = selectCategories($redirect);
                                                     while ($category=$getCategory->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
+                                                    <td class="text-center">
+                                                        <button 
+                                                            type="button" 
+                                                            class="btn btn-success btn-sm" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#criteria_<?= $category['tabs_cat_id']; ?>">
+                                                            <i class="ti-list"></i>
+                                                        </button>
+                                                    </td>
                                                     <td><?= $category['tabs_cat_title'] ?></td>
-                                                    <td><?= $category['tabs_cat_score_min']." - ".$category['tabs_cat_score_max'] ?></td>
-                                                    <td><?= $category['tabs_cat_percentage'] ?></td>
-                                                   
+                                                    <td><?= getEventTitle($category['tabs_event_id']) ?></td>
+                                                    <td><?= $category['tabs_cat_percentage']." %" ?></td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
@@ -171,25 +179,13 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" enctype="multipart/form-data" action="category_create?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" onsubmit="validateCreateCategory(this)">
+                <form method="post" enctype="multipart/form-data" action="category_create?rand=<?= my_rand_str(30) ?>&cd=<?= $redirect ?>" onsubmit="validateCreateCategory(this)">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>Title</label>
                                 <input type="text" class="form-control" name="cat_title" autofocus required>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Score Min</label>
-                                <input type="number" class="form-control" name="cat_min" min="0" step="0.01" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Score Max</label>
-                                <input type="number" class="form-control" name="cat_max" min="0" step="0.01" required>
                             </div>
                         </div>
                         <div class="col-lg-12">
