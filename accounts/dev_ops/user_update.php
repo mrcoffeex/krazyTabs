@@ -2,14 +2,17 @@
     include '../../config/includes.php';
     include 'session.php';
 
+    $redirect = @$_GET['cd'];
+
     if (isset($_POST['name'])) {
         $name = clean_string($_POST['name']);
         $username = clean_string($_POST['username']);
+        $password = clean_string(encryptIt($_POST['password']));
 
-        $insert_data = createUser($name, $username);
+        $update_data = updateUser($name, $username, $password, $redirect);
 
-        if ($insert_data == true) {
-            header("location: users?rand=".my_rand_str(30)."&note=user_added");
+        if ($update_data == true) {
+            header("location: users?rand=".my_rand_str(30)."&note=user_updated");
         }else{
             header("location: users?rand=".my_rand_str(30)."&note=error");
         }

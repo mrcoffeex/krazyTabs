@@ -42,6 +42,18 @@
 		formObj.submit_create_user.innerHTML = "processing ...";
 		return true;  
 	}
+
+	function validateCreateEvent(formObj){
+		formObj.submit_create_event.disabled = true;
+		formObj.submit_create_event.innerHTML = "processing ...";
+		return true;  
+	}
+
+function validateCreateJudge(formObj){
+	formObj.submit_create_judge.disabled = true;
+	formObj.submit_create_judge.innerHTML = "processing ...";
+	return true;  
+}
     
     //toastr custom options
 	toastr.options = {

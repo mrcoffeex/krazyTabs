@@ -2,7 +2,7 @@
     require '../../config/includes.php';
     require 'session.php';
 
-	my_notify("Logout", $e4ps_user_email, "auth");
+	my_notify("Logout", $tabs_user_email, "auth");
 	session_destroy();
 ?>
 

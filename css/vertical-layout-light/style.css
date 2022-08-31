@@ -29434,7 +29434,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar-dark .navbar .navbar-menu-wrapper .navbar-toggler {
-  padding-left: 2.375rem;
+  /* padding-left: 2.375rem; */
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item {

@@ -249,7 +249,7 @@
             'ltable' => $ltable
         ]);
         $latestrow=$statement->fetch(PDO::FETCH_ASSOC);
-        $count=$getlatest->rowCount();
+        $count=$statement->rowCount();
 
         if ($count == 0) {
             $mylatestcode = $lfirstcount;
@@ -354,6 +354,20 @@
 
     //methods_users
 
+    function countUsers(){
+
+        $statement=dbaselink()->prepare("SELECT tabs_user_id From tabs_users
+                                        Where
+                                        tabs_user_id != :tabs_user_id");
+        $statement->execute([
+            'tabs_user_id' => 1
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
     function selectUsers(){
 
         $statement=dbaselink()->prepare("SELECT * From tabs_users 
@@ -367,7 +381,7 @@
         return $statement;
     }
 
-    function createUser($name, $email, $role){
+    function createUser($name, $username){
 
         $usercode = clean_string(date("YmdHis")."".my_randoms(8));
         $newpassword = clean_string(encryptIt(my_rand_str(8)));
@@ -395,13 +409,75 @@
                 NOW()
             )");
         $statement->execute([
-            tabs_user_code => $usercode, 
-            tabs_full_name => $name, 
-            tabs_username => $email, 
-            tabs_password => $newpassword, 
-            tabs_user_type => $role, 
-            tabs_user_status => 0, 
-            tabs_user_profile_img => ''
+            'tabs_user_code' => $usercode, 
+            'tabs_full_name' => $name, 
+            'tabs_username' => $username, 
+            'tabs_password' => $newpassword, 
+            'tabs_user_type' => 0, 
+            'tabs_user_status' => 0, 
+            'tabs_user_profile_img' => ''
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function updateUser($name, $username, $password, $userid){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_users
+            SET
+            tabs_full_name = :tabs_full_name, 
+            tabs_username = :tabs_username, 
+            tabs_password = :tabs_password,
+            tabs_user_updated = NOW()
+            Where
+            tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_full_name' => $name, 
+            'tabs_username' => $username, 
+            'tabs_password' => $password,
+            'tabs_user_id' => $userid
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deactivateUser($userid){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_users
+                                        SET
+                                        tabs_user_status = :tabs_user_status
+                                        Where
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_user_status' => 1,
+            'tabs_user_id' => $userid
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function activateUser($userid){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_users
+                                        SET
+                                        tabs_user_status = :tabs_user_status
+                                        Where
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_user_status' => 0,
+            'tabs_user_id' => $userid
         ]);
 
         if ($statement) {
@@ -415,14 +491,238 @@
         if ($usertype == 0) {
             $res = "dev";
         }else if ($usertype == 1) {
-            $res = "administrator";
-        }else if ($usertype == 2) {
-            $res = "cswdo";
-        }else if ($usertype == 3) {
-            $res = "bhw";
-        }else if ($usertype == 41) {
-            $res = "user";
+            $res = "judge";
+        }else{
+            $res = "none";
         }
+
         return $res;
+    }
+
+    function statusUser($status){
+
+        if($status == 0){
+            $res = "Active";
+        }else{
+            $res = "Deactivated";
+        }
+
+        return $res;
+
+    }
+
+    // methods_judges
+
+    function countJudges(){
+        
+        $statement=dbaselink()->prepare("SELECT tabs_user_id From tabs_users
+                                        Where
+                                        tabs_user_type = :tabs_user_type AND 
+                                        tabs_user_status = :tabs_user_status");
+        $statement->execute([
+            'tabs_user_type' => 1,
+            'tabs_user_status' => 0
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
+    function selectJudges(){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_users 
+                                        Where
+                                        tabs_user_type = :tabs_user_type AND 
+                                        tabs_user_status = :tabs_user_status
+                                        Order By tabs_full_name ASC");
+        $statement->execute([
+            'tabs_user_type' => 1,
+            'tabs_user_status' => 0
+        ]);
+
+        return $statement;
+    }
+    
+    function createJudge($name, $username, $eventId){
+
+        $usercode = clean_string(date("YmdHis")."".my_randoms(8));
+        $newpassword = clean_string(encryptIt(my_rand_str(8)));
+
+        $statement=dbaselink()->prepare("INSERT INTO tabs_users(
+            tabs_user_code, 
+            tabs_full_name, 
+            tabs_username, 
+            tabs_password, 
+            tabs_user_type, 
+            tabs_user_status, 
+            tabs_user_profile_img, 
+            tabs_event_id, 
+            tabs_user_created, 
+            tabs_user_updated
+            ) 
+            VALUES (
+                :tabs_user_code,
+                :tabs_full_name,
+                :tabs_username,
+                :tabs_password,
+                :tabs_user_type,
+                :tabs_user_status,
+                :tabs_user_profile_img,
+                :tabs_event_id,
+                NOW(),
+                NOW()
+            )");
+        $statement->execute([
+            'tabs_user_code' => $usercode, 
+            'tabs_full_name' => $name, 
+            'tabs_username' => $username, 
+            'tabs_password' => $newpassword, 
+            'tabs_user_type' => 1, 
+            'tabs_user_status' => 0, 
+            'tabs_user_profile_img' => '',
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function updateJudge($name, $username, $password, $eventId, $userid){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_users
+            SET
+            tabs_full_name = :tabs_full_name, 
+            tabs_username = :tabs_username, 
+            tabs_password = :tabs_password, 
+            tabs_event_id = :tabs_event_id, 
+            tabs_user_updated = NOW()
+            Where
+            tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_full_name' => $name, 
+            'tabs_username' => $username, 
+            'tabs_password' => $password,
+            'tabs_event_id' => $eventId,
+            'tabs_user_id' => $userid
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    // methods candidates
+
+    
+
+    // methods_events
+
+    function countEvents(){
+        
+        $statement=dbaselink()->prepare("SELECT tabs_event_id From tabs_events");
+        $statement->execute();
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
+    function selectEvents(){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_events 
+                                        Order By tabs_event_id DESC");
+        $statement->execute();
+
+        return $statement;
+    }
+
+    function createEvent($title, $desc, $year){
+
+        $statement=dbaselink()->prepare("INSERT INTO tabs_events
+            (
+                tabs_event_title, 
+                tabs_event_desc, 
+                tabs_event_year, 
+                tabs_event_created, 
+                tabs_event_updated
+            )
+            VALUES (
+                :tabs_event_title,
+                :tabs_event_desc,
+                :tabs_event_year,
+                NOW(),
+                NOW()
+            )");
+        $statement->execute([
+            'tabs_event_title' => $title, 
+            'tabs_event_desc' => $desc, 
+            'tabs_event_year' => $year
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function updateEvent($title, $desc, $year, $eventId){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_events
+            SET
+            tabs_event_title = :tabs_event_title, 
+            tabs_event_desc = :tabs_event_desc, 
+            tabs_event_year = :tabs_event_year,
+            tabs_event_updated = NOW()
+            Where
+            tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_title' => $title, 
+            'tabs_event_desc' => $desc, 
+            'tabs_event_year' => $year,
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_events 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getEventTitle($eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_event_title From tabs_events
+                                        Where
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_event_title'];
+
     }
 ?>

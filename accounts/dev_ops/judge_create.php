@@ -5,13 +5,14 @@
     if (isset($_POST['name'])) {
         $name = clean_string($_POST['name']);
         $username = clean_string($_POST['username']);
+        $event = clean_int($_POST['event']);
 
-        $insert_data = createUser($name, $username);
+        $insert_data = createJudge($name, $username, $event);
 
         if ($insert_data == true) {
-            header("location: users?rand=".my_rand_str(30)."&note=user_added");
+            header("location: judges?rand=".my_rand_str(30)."&note=judge_added");
         }else{
-            header("location: users?rand=".my_rand_str(30)."&note=error");
+            header("location: judges?rand=".my_rand_str(30)."&note=error");
         }
     }
 ?>

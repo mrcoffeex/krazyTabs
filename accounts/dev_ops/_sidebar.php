@@ -7,40 +7,25 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="map">
-                <i class="ti-map-alt menu-icon"></i>
-                <span class="menu-title">Map</span>
+            <a class="nav-link" href="judges">
+                <i class="ti-user  menu-icon"></i>
+                <span class="menu-title">Judges</span> 
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">4ps Information</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <!-- <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#test">Test Input for Map</a></li> -->
-                    <li class="nav-item"> <a class="nav-link" href="applicant_create.php">Add New Applicant</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Approved 4ps</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Schedule</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Reports</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="dataanalytics">
-                <i class="ti-bar-chart-alt menu-icon"></i>
-                <span class="menu-title">Data Analytics</span>
+            <a class="nav-link" href="candidates">
+                <i class="ti-crown menu-icon"></i>
+                <span class="menu-title">Candidates</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="announcements">
-                <i class="ti-announcement menu-icon"></i>
-                <span class="menu-title">Announcements</span>
+            <a class="nav-link" href="events">
+                <i class="ti-star menu-icon"></i>
+                <span class="menu-title">Events</span>
             </a>
         </li>
-
+ 
+        
         <div class="dropdown-divider mt-3 mb-3"></div>
 
         <li class="nav-item">
@@ -56,15 +41,9 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="support">
-                <i class="ti-support menu-icon"></i>
-                <span class="menu-title">Support</span>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="about">
                 <i class="ti-info-alt menu-icon"></i>
-                <span class="menu-title">About <span class="text-e4ps-yellow">e4Ps Map</span></span>
+                <span class="menu-title">About <span class="text-e4ps-yellow">Tabulation</span></span>
             </a>
         </li>
     </ul>
