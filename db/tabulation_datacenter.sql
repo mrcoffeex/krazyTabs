@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2022 at 01:28 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.0.32
+-- Generation Time: Aug 31, 2022 at 06:13 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.0.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -30,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tabs_candidates` (
   `tabs_can_id` int(11) NOT NULL,
+  `tabs_can_number` int(11) NOT NULL,
   `tabs_can_name` text NOT NULL,
   `tabs_can_desc` text NOT NULL,
   `tabs_can_created` datetime NOT NULL,
@@ -40,9 +39,9 @@ CREATE TABLE `tabs_candidates` (
 -- Dumping data for table `tabs_candidates`
 --
 
-INSERT INTO `tabs_candidates` (`tabs_can_id`, `tabs_can_name`, `tabs_can_desc`, `tabs_can_created`, `tabs_event_id`) VALUES
-(1, 'Joane May', 'Miss Zone I', '2022-08-31 17:04:49', 3),
-(2, 'Jessa May', 'Miss Zone II', '2022-08-31 17:20:42', 3);
+INSERT INTO `tabs_candidates` (`tabs_can_id`, `tabs_can_number`, `tabs_can_name`, `tabs_can_desc`, `tabs_can_created`, `tabs_event_id`) VALUES
+(1, 1, 'Joane May', 'Miss Zone I', '2022-08-31 17:04:49', 3),
+(2, 2, 'Jessa May', 'Miss Zone II', '2022-08-31 17:20:42', 3);
 
 -- --------------------------------------------------------
 
@@ -63,7 +62,31 @@ CREATE TABLE `tabs_categories` (
 
 INSERT INTO `tabs_categories` (`tabs_cat_id`, `tabs_cat_title`, `tabs_cat_percentage`, `tabs_event_id`) VALUES
 (1, 'Q & A', 25, 3),
-(2, 'Bikini', 25, 3);
+(4, 'Bikini', 35, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tabs_criterias`
+--
+
+CREATE TABLE `tabs_criterias` (
+  `tabs_cri_id` int(11) NOT NULL,
+  `tabs_cri_title` text NOT NULL,
+  `tabs_cri_score_min` int(11) NOT NULL,
+  `tabs_cri_score_max` int(11) NOT NULL,
+  `tabs_cri_percentage` double NOT NULL,
+  `tabs_cat_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tabs_criterias`
+--
+
+INSERT INTO `tabs_criterias` (`tabs_cri_id`, `tabs_cri_title`, `tabs_cri_score_min`, `tabs_cri_score_max`, `tabs_cri_percentage`, `tabs_cat_id`) VALUES
+(3, 'Pronunciation', 5, 10, 30, 1),
+(4, 'Delivery', 5, 10, 20, 1),
+(5, 'Thought', 5, 10, 50, 1);
 
 -- --------------------------------------------------------
 
@@ -192,7 +215,8 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (64, 'auth', 'Login - kjohn0319@gmail.com', '2022-08-31 15:12:41'),
 (65, 'auth', 'Logout - kjohn0319@gmail.com', '2022-08-31 15:46:55'),
 (66, 'auth', 'Login - kjohn0319@gmail.com', '2022-08-31 16:00:46'),
-(67, 'auth', 'Login - kjohn0319@gmail.com', '2022-08-31 19:20:21');
+(67, 'auth', 'Login - kjohn0319@gmail.com', '2022-08-31 19:20:21'),
+(68, 'auth', 'Login - kjohn0319@gmail.com', '2022-08-31 21:56:43');
 
 -- --------------------------------------------------------
 
@@ -242,6 +266,12 @@ ALTER TABLE `tabs_categories`
   ADD PRIMARY KEY (`tabs_cat_id`);
 
 --
+-- Indexes for table `tabs_criterias`
+--
+ALTER TABLE `tabs_criterias`
+  ADD PRIMARY KEY (`tabs_cri_id`);
+
+--
 -- Indexes for table `tabs_events`
 --
 ALTER TABLE `tabs_events`
@@ -273,39 +303,37 @@ ALTER TABLE `tabs_users`
 -- AUTO_INCREMENT for table `tabs_candidates`
 --
 ALTER TABLE `tabs_candidates`
-  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tabs_categories`
 --
 ALTER TABLE `tabs_categories`
-  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `tabs_criterias`
+--
+ALTER TABLE `tabs_criterias`
+  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tabs_events`
 --
 ALTER TABLE `tabs_events`
   MODIFY `tabs_event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `tabs_my_project`
 --
 ALTER TABLE `tabs_my_project`
   MODIFY `tabs_project` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
-
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `tabs_users`
 --
 ALTER TABLE `tabs_users`
   MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
