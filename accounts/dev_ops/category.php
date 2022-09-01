@@ -63,12 +63,13 @@
                                                 ?>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <button 
-                                                            type="button" 
-                                                            class="btn btn-primary btn-sm" 
-                                                            onclick="window.location.href='category_results?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>'">
-                                                            <i class="ti-bar-chart"></i>
-                                                        </button>
+                                                        <a href="category_results?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1366, height=768, toolbar=1, resizable=0'); return false;">
+                                                            <button 
+                                                                type="button" 
+                                                                class="btn btn-primary btn-sm">
+                                                                <i class="ti-bar-chart"></i>
+                                                            </button>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center">
                                                         <a href="criteria?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1366, height=768, toolbar=1, resizable=0'); return false;">

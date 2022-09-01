@@ -33,7 +33,7 @@
                                             <i class="ti-user text-primary"></i>
                                         </span>
                                         </div>
-                                        <input type="email" name="tabs_log_username" class="form-control form-control-lg border-left-0" placeholder="Email">
+                                        <input type="text" name="tabs_log_username" class="form-control form-control-lg border-left-0" placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -772,6 +772,34 @@
         return $countres;
     }
 
+    function getCandidateName($canId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_can_name From tabs_candidates
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+        $statement->execute([
+            'tabs_can_id' => $canId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+        
+        return $res['tabs_can_name'];
+
+    }
+
+    function getCandidateNumber($canId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_can_number From tabs_candidates
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+        $statement->execute([
+            'tabs_can_id' => $canId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+        
+        return $res['tabs_can_number'];
+
+    }
+
     // methods_events
 
     function countEvents(){
@@ -1116,5 +1144,121 @@
         }else{
             return false;
         }
+    }
+
+    function getCategoryByCriteriaId($criId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_criterias
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cat_id'];
+
+    }
+
+    // method_results
+
+    function checkExistingResult($criId, $catId, $canId, $judgeId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_result_id FROM tabs_results
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id AND 
+                                        tabs_cat_id = :tabs_cat_id AND 
+                                        tabs_can_id = :tabs_can_id AND 
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId,
+            'tabs_cat_id' => $catId,
+            'tabs_can_id' => $canId,
+            'tabs_user_id' => $judgeId
+        ]);
+
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_result_id'];
+
+    }
+
+    function createResult($eventId, $catId, $criId, $judgeId, $canId, $score){
+
+        //check if exist
+        $result = checkExistingResult($criId, $catId, $canId, $judgeId);
+
+        if ($result != "") {
+            //not empty so update
+            $statement=dbaselink()->prepare("UPDATE tabs_results 
+                                            SET
+                                            tabs_result_score = :tabs_result_score
+                                            Where
+                                            tabs_result_id = :tabs_result_id");
+            $statement->execute([
+                'tabs_result_score' => $score, 
+                'tabs_result_id' => $result
+            ]);
+
+        } else {
+            //insert new
+            $statement=dbaselink()->prepare("INSERT INTO tabs_results
+                (
+                    tabs_event_id, 
+                    tabs_cat_id, 
+                    tabs_cri_id, 
+                    tabs_user_id, 
+                    tabs_can_id, 
+                    tabs_result_score, 
+                    tabs_result_created, 
+                    tabs_result_updated
+                )
+                VALUES (
+                    :tabs_event_id, 
+                    :tabs_cat_id, 
+                    :tabs_cri_id, 
+                    :tabs_user_id, 
+                    :tabs_can_id, 
+                    :tabs_result_score, 
+                    NOW(), 
+                    NOW()
+                )");
+            $statement->execute([
+                'tabs_event_id' => $eventId, 
+                'tabs_cat_id' => $catId, 
+                'tabs_cri_id' => $criId, 
+                'tabs_user_id' => $judgeId, 
+                'tabs_can_id' => $canId,
+                'tabs_result_score' => $score
+            ]);
+        }
+        
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function getCandidateResultByCriteria($criId, $catId, $canId, $judgeId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_result_score FROM tabs_results
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id AND 
+                                        tabs_cat_id = :tabs_cat_id AND 
+                                        tabs_can_id = :tabs_can_id AND 
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId,
+            'tabs_cat_id' => $catId,
+            'tabs_can_id' => $canId,
+            'tabs_user_id' => $judgeId
+        ]);
+
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_result_score'];
+
     }
 ?>

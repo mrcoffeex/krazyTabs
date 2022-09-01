@@ -4,7 +4,7 @@
 
     $redirect = @$_GET['cd'];
 
-    $title = getEventTitleByCatId($redirect).": ".getCategoryTitle($redirect)." Criteria";
+    $title = getEventTitleByCatId($redirect).": ".getCategoryTitle($redirect)." Results";
     $upp_description = '<span class="text-primary">'.countCriteria($redirect).'</span> results.';
 ?>
 
@@ -27,9 +27,6 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-criteria"><i class="ti-plus"></i> Create Criteria</button>
-                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
                                             <thead>
@@ -158,54 +155,6 @@
                 <?php include '_footer.php'; ?>
 
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- modals -->
-    <div class="modal fade" id="add-criteria" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalLabel"><i class="ti-plus"></i> Create Criteria for <?= getCategoryTitle($redirect) ?></h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" enctype="multipart/form-data" action="criteria_create?rand=<?= my_rand_str(30) ?>&cd=<?= $redirect ?>" onsubmit="validateCreateCriteria(this)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" class="form-control" name="cri_title" autofocus required>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Min</label>
-                                <input type="number" class="form-control" name="cri_min" min="0" step="0.01" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Max</label>
-                                <input type="number" class="form-control" name="cri_max" min="0" step="0.01" required>
-                            </div>
-                        </div>
-                        <!-- <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Overall Percentage %</label>
-                                <input type="number" class="form-control" name="cri_percentage" min="0" step="0.01" required>
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="submit_create_criteria" class="btn btn-success">Create</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </div>
-                </form>
             </div>
         </div>
     </div>

@@ -30,7 +30,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-user"><i class="ti-plus"></i> Create Judge</button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-judge"><i class="ti-plus"></i> Create Judge</button>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
@@ -151,7 +151,7 @@
     </div>
     
     <!-- modals -->
-    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-judge" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
