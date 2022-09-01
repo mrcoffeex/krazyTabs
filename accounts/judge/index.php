@@ -3,7 +3,7 @@
     require 'session.php';
 
     $title = "Judge ".$tabs_user_fullname;
-    $upp_description = 'Welcome to <span class="text-primary">'.getEventTitle($tabs_event_id)."</span>";
+    $upp_description = 'Welcome to <span class="text-primary">'.getEventTitle($tabs_event_id).'</span>';
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,6 @@
                 <div class="content-wrapper">
                     
                     <?php include '_breads.php'; ?>
-
                   
                         <div class="col-md-12 transparent">
                             <div class="row">

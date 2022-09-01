@@ -800,6 +800,27 @@
 
     }
 
+    function getCandidateIdByNumber($eventId, $number){
+
+        $statement=dbaselink()->prepare("SELECT tabs_can_id From tabs_candidates
+                                        Where
+                                        tabs_can_number = :tabs_can_number AND 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_can_number' => $number,
+            'tabs_event_id' => $eventId
+        ]);
+        $countres=$statement->rowCount();
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($countres > 0) {
+            return $res['tabs_can_id'];
+        } else {
+            return 0;
+        }
+
+    }
+
     // methods_events
 
     function countEvents(){

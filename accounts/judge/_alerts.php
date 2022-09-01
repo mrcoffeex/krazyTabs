@@ -16,6 +16,18 @@
                 toastr.success('Score has been saved');
             </script>
         ";
+    }else if ($note == "list_start" && $currpage == "rate") {
+        echo "
+            <script>
+                toastr.error('Candidate starts here');
+            </script>
+        ";
+    }else if ($note == "list_end" && $currpage == "rate") {
+        echo "
+            <script>
+                toastr.error('No more candidates');
+            </script>
+        ";
     }else{
         echo "";
     }
