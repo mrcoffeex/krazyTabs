@@ -62,7 +62,7 @@
                                                             <td class="p-2 text-center"><?= $catList['tabs_can_name'] ?></td>
                                                             <?php  
                                                                 //populate judeges
-                                                                $totalAverage=0;
+                                                                $totalScore=0;
                                                                 $getCategories=selectCategories($redirect);
                                                                 while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
 
@@ -94,12 +94,12 @@
 
                                                                     $finalCategoryPercentage = getAverageValueByCategoryPercentage($realAverage, $scoreMax['tabs_cri_score_max'], getCategoryPercentage($category['tabs_cat_id']));
 
-                                                                    $totalAverage += $finalCategoryPercentage;
+                                                                    $totalScore += $finalCategoryPercentage;
                                                             ?>
                                                             <td class="p-2 text-center"><?= $finalCategoryPercentage; ?></td>
                                                             <?php } ?>
 
-                                                            <td class="p-2 text-center"><?= RealNumber($totalAverage, 2) ?></td>
+                                                            <td class="p-2 text-center"><?= RealNumber($totalScore, 2) ?></td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
