@@ -1301,7 +1301,8 @@
             //not empty so update
             $statement=dbaselink()->prepare("UPDATE tabs_results 
                                             SET
-                                            tabs_result_score = :tabs_result_score
+                                            tabs_result_score = :tabs_result_score,
+                                            tabs_result_updated = NOW()
                                             Where
                                             tabs_result_id = :tabs_result_id");
             $statement->execute([

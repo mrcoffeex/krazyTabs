@@ -20,6 +20,7 @@
 
 <script>
     //custom js here
+	$("#tabs_log_username").focus();
 
     //toastr custom options
 	toastr.options = {

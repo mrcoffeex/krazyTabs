@@ -1,8 +1,7 @@
 <?php 
 
-	session_start([
-        'cookie_lifetime' => 86400,
-    ]);
+    ini_set('session.cookie_lifetime', 60 * 60 * 24 * 7);  // 7 day cookie lifetime
+	session_start();
 
 	if(!isset($_SESSION['hotkopi_tabs_session_id'])){
         header("location: ../../");

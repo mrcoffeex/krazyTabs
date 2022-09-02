@@ -33,7 +33,7 @@
                                             <i class="ti-user text-primary"></i>
                                         </span>
                                         </div>
-                                        <input type="text" name="tabs_log_username" class="form-control form-control-lg border-left-0" placeholder="Email">
+                                        <input type="text" name="tabs_log_username" id="tabs_log_username" class="form-control form-control-lg border-left-0" placeholder="Email" value="<?= $email; ?>" onfocus="let value = this.value; this.value = null; this.value=value" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -44,7 +44,7 @@
                                             <i class="ti-lock text-primary"></i>
                                         </span>
                                         </div>
-                                        <input type="password" name="tabs_log_password" class="form-control form-control-lg border-left-0" placeholder="Password">                        
+                                        <input type="password" name="tabs_log_password" id="tabs_log_password" class="form-control form-control-lg border-left-0" placeholder="Password" required>                        
                                     </div>
                                 </div>
                                 <div class="my-2 d-flex justify-content-between align-items-center">

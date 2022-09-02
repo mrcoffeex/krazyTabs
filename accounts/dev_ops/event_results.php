@@ -5,13 +5,11 @@
     $redirect = @$_GET['cd'];
 
     //get event_id
-    $eventID = getEventIdByCatId($redirect);
+    // $eventID = getEventIdByCatId($redirect);
+    // $candidateCount = countCandidatesByEvent($eventID);
 
-    $criteriaCount = countCriteria($redirect);
-    $candidateCount = countCandidatesByEvent($eventID);
-
-    $title = getEventTitleByCatId($redirect).": ".getCategoryTitle($redirect)." Category Results";
-    $upp_description = '<span class="text-primary">'.countCategoryResults($redirect).'</span> results in <span class="text-success">'.$candidateCount."</span> Candidates";
+    $title = getEventTitle($redirect)." Results";
+    $upp_description = '<span class="text-primary">'.countCategories($redirect).'</span> Categories';
 ?>
 
 <!DOCTYPE html>
@@ -43,20 +41,20 @@
                                                             <th class="sortStyle p-2 text-center">Candidate <i class="ti-angle-down"></th>
                                                             <?php  
                                                                 //populate judeges
-                                                                $getAllJudges=selectCategoryActiveJudges($redirect);
-                                                                $tableDataCount=$getAllJudges->rowCount();
-                                                                while ($judges=$getAllJudges->fetch(PDO::FETCH_ASSOC)) {
+                                                                $getCategoryHeaders=selectCategories($redirect);
+                                                                while ($categoryHead=$getCategoryHeaders->fetch(PDO::FETCH_ASSOC)) {
                                                             ?>
-                                                            <th class="sortStyle p-2 text-center" title="<?= getJudgeName($judges['tabs_user_id']) ?>"><?= limitString(getJudgeName($judges['tabs_user_id']), 10) ?> <i class="ti-angle-down"></th>
+                                                            <th class="sortStyle p-2 text-center" title="<?= getCategoryTitle($categoryHead['tabs_cat_id']) ?>">
+                                                                <?= getCategoryTitle($categoryHead['tabs_cat_id']) ?> <span class="text-primary"><?= getCategoryPercentage($categoryHead['tabs_cat_id'])."%" ?></span> <i class="ti-angle-down"></i> 
+                                                            </th>
                                                             <?php } ?>
                                                             <th class="sortStyle p-2 text-center">Total <i class="ti-angle-down"></th>
-                                                            <th class="sortStyle p-2 text-center">Avg <i class="ti-angle-down"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php 
                                                             //populate candidates
-                                                            $getCandidates=selectCandidatesByEvent($eventID);
+                                                            $getCandidates=selectCandidatesByEvent($redirect);
                                                             while ($catList=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                         ?>
                                                         <tr>
@@ -64,34 +62,44 @@
                                                             <td class="p-2 text-center"><?= $catList['tabs_can_name'] ?></td>
                                                             <?php  
                                                                 //populate judeges
-                                                                $allJudgeAverage=0;
-                                                                $getAllJudgesRow=selectCategoryActiveJudges($redirect);
-                                                                $countActiveJudges=$getAllJudgesRow->rowCount();
-                                                                while ($judgesRow=$getAllJudgesRow->fetch(PDO::FETCH_ASSOC)) {
+                                                                $totalAverage=0;
+                                                                $getCategories=selectCategories($redirect);
+                                                                while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
 
-                                                                    $allscores=0;
-                                                                    $getCriteriaScore=selectCriteria($redirect);
-                                                                    while ($criteriaScore=$getCriteriaScore->fetch(PDO::FETCH_ASSOC)) {
+                                                                    $criteriaCount = countCriteria($category['tabs_cat_id']);
 
-                                                                        $allscores += getCandidateResultByCriteria($criteriaScore['tabs_cri_id'], $redirect, $catList['tabs_can_id'], $judgesRow['tabs_user_id']);
+                                                                    //populate judeges
+                                                                    $allJudgeAverage=0;
+                                                                    $getAllJudgesRow=selectCategoryActiveJudges($category['tabs_cat_id']);
+                                                                    $countActiveJudges=$getAllJudgesRow->rowCount();
+                                                                    while ($judgesRow=$getAllJudgesRow->fetch(PDO::FETCH_ASSOC)) {
 
+                                                                        $allscores=0;
+                                                                        $getCriteriaScore=selectCriteria($category['tabs_cat_id']);
+                                                                        while ($criteriaScore=$getCriteriaScore->fetch(PDO::FETCH_ASSOC)) {
+
+                                                                            $allscores += getCandidateResultByCriteria($criteriaScore['tabs_cri_id'], $category['tabs_cat_id'], $catList['tabs_can_id'], $judgesRow['tabs_user_id']);
+
+                                                                        }
+
+                                                                        $judgeAverage = $allscores / $criteriaCount;
+                                                                        $allJudgeAverage += $judgeAverage;
                                                                     }
 
-                                                                    $judgeAverage = $allscores / $criteriaCount;
-                                                                    $allJudgeAverage += $judgeAverage;
+                                                                    $realAverage = calculateIfZero($allJudgeAverage, $countActiveJudges, "division", 2);
+
+                                                                    //get criteriaMax 
+                                                                    $getScoreMax=selectCriteria($category['tabs_cat_id']);
+                                                                    $scoreMax=$getScoreMax->fetch(PDO::FETCH_ASSOC);
+
+                                                                    $finalCategoryPercentage = getAverageValueByCategoryPercentage($realAverage, $scoreMax['tabs_cri_score_max'], getCategoryPercentage($category['tabs_cat_id']));
+
+                                                                    $totalAverage += $finalCategoryPercentage;
                                                             ?>
-                                                            <td class="p-2 text-center"><?= $judgeAverage; ?></td>
+                                                            <td class="p-2 text-center"><?= $finalCategoryPercentage; ?></td>
                                                             <?php } ?>
-                                                            <td class="p-2 text-center">
-                                                                <?= 
-                                                                RealNumber($allJudgeAverage, 3); 
-                                                                ?>
-                                                            </td>
-                                                            <td class="p-2 text-center">
-                                                                <?= 
-                                                                calculateIfZero($allJudgeAverage, $countActiveJudges, "division", 3); 
-                                                                ?>
-                                                            </td>
+
+                                                            <td class="p-2 text-center"><?= RealNumber($totalAverage, 2) ?></td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
