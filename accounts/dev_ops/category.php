@@ -43,6 +43,7 @@
                                                     <th>Title</th>
                                                     <th>Event</th>
                                                     <th>%</th>
+                                                    <th class="text-center">Reset</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
                                                 </tr>
@@ -86,6 +87,15 @@
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
+                                                            class="btn btn-warning btn-sm" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#reset_<?= $category['tabs_cat_id']; ?>">
+                                                            <i class="ti-reload"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button 
+                                                            type="button" 
                                                             class="btn btn-info btn-sm" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#edit_<?= $category['tabs_cat_id']; ?>">
@@ -102,6 +112,37 @@
                                                         </button>
                                                     </td>
                                                 </tr>
+
+                                                <!-- reset -->
+                                                <div class="modal fade" id="reset_<?= $category['tabs_cat_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="ModalLabel"><i class="ti-reload"></i> Reset Category Result</h5>
+                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form 
+                                                                method="post" 
+                                                                enctype="multipart/form-data" 
+                                                                action="category_reset?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id']; ?>&eventId=<?= $redirect ?>">
+                                                            <div class="modal-body">
+                                                                <p class="text-center">
+                                                                    Trying to reset <br>
+                                                                    <span class="text-warning"><?= $category['tabs_cat_title'] ?> Category</span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                name="submit_reset_category" class="btn btn-warning">Reset</button>
+                                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <!-- edit -->
                                                 <div class="modal fade" id="edit_<?= $category['tabs_cat_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -137,7 +178,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- deactivate -->
+                                                <!-- delete -->
                                                 <div class="modal fade" id="delete_<?= $category['tabs_cat_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-sm" role="document">
                                                         <div class="modal-content">

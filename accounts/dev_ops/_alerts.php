@@ -112,6 +112,12 @@
                 toastr.success('Category has been deleted');
             </script>
         ";
+    }else if ($note == "cat_reset" && $currpage == "category") {
+        echo "
+            <script>
+                toastr.success('Reset Successful');
+            </script>
+        ";
     }else if ($note == "cri_added" && $currpage == "criteria") {
         echo "
             <script>

@@ -67,6 +67,23 @@
         }        
     }
 
+    function RealNumber($value, $decimal){
+
+        if ($value == 0) {
+            $res = number_format(0, $decimal);
+        }else if (is_nan($value)) {
+            $res = 0;
+        } else {
+            if ($decimal == "") {
+                $res = number_format($value);
+            } else {
+                $res = number_format($value, $decimal);
+            }
+        }
+        
+        return $res;
+    }
+
 	function get_curr_age($birthday){
         //values
         $date_now = strtotime(date("Y-m-d"));
@@ -233,6 +250,17 @@
         }
 
         return $str;
+    }
+
+    function limitString($name, $limit){
+
+        if (strlen($name) > $limit){
+            $name = substr($name, 0, $limit) . '...';
+        }else{
+            $name = $name;
+        }
+
+        return $name;
     }
 
     function toAlpha($number){
@@ -628,6 +656,21 @@
         }else{
             return false;
         }
+    }
+
+    function getJudgeName($judgeId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_full_name From tabs_users
+                                        Where
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_user_id' => $judgeId
+        ]);
+
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_full_name'];
+
     }
 
     // methods candidates
@@ -1047,6 +1090,20 @@
 
     }
 
+    function getEventIdByCatId($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_event_id From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_event_id'];
+
+    }
+
     function getEventTitleByCatId($catId){
 
         $statement=dbaselink()->prepare("SELECT tabs_event_id From tabs_categories
@@ -1181,7 +1238,7 @@
 
     }
 
-    // method_results
+    // methods_results
 
     function checkExistingResult($criId, $catId, $canId, $judgeId){
 
@@ -1280,6 +1337,83 @@
         $res=$statement->fetch(PDO::FETCH_ASSOC);
 
         return $res['tabs_result_score'];
+
+    }
+
+    function getCandidateResultByCategoryAndJudge($catId, $judgeId){
+
+        $statement=dbaselink()->prepare("SELECT * FROM tabs_results
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id AND 
+                                        tabs_user_id = :tabs_user_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_cat_id' => $catId,
+            'tabs_user_id' => $judgeId
+        ]);
+
+        return $statement;
+
+    }
+
+    function getCandidateResultByCategory($catId){
+
+        $statement=dbaselink()->prepare("SELECT * FROM tabs_results
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        return $statement;
+
+    }
+
+    function selectCategoryActiveJudges($catId){
+
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_user_id From tabs_results
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id
+                                        Order By 
+                                        tabs_user_id ASC");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        return $statement;
+
+    }
+
+    function countCategoryResults($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_result_id From tabs_results
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+
+    function resetCategoryResults($catId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_results 
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 ?>

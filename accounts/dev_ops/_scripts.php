@@ -16,6 +16,9 @@
 <script src="../../js/dashboard.js"></script>
 <script src="../../js/Chart.roundedBarCharts.js"></script>
 <script src="../../js/toastr.min.js"></script>
+
+<script src="../../js/jq.tablesort.js"></script>
+<script src="../../js/tablesorter.js"></script>
 <!-- End custom js for this page-->
 
 <!-- js for jquery applicants-->

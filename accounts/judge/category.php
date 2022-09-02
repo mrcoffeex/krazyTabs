@@ -39,15 +39,15 @@
                                         <table class="table table-hover table-bordered" id="sortable-table-1">
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th class="sortStyle text-center">Rate<i class="ti-angle-down"></i></th>
-                                                    <th class="sortStyle text-center">#<i class="ti-angle-down"></i></th>
-                                                    <th class="sortStyle">Candidate<i class="ti-angle-down"></i></th>
+                                                    <th class="sortStyle text-center">Rate <i class="ti-angle-down"></i></th>
+                                                    <th class="sortStyle text-center"># <i class="ti-angle-down"></i></th>
+                                                    <th class="sortStyle">Candidate <i class="ti-angle-down"></i></th>
                                                     <?php  
                                                         //get criteria
                                                         $getCriHead=selectCriteria($redirect);
                                                         while ($criHead=$getCriHead->fetch(PDO::FETCH_ASSOC)) {
                                                     ?>
-                                                    <th class="sortStyle text-center"><?= $criHead['tabs_cri_title'] ?><i class="ti-angle-down"></i></th>
+                                                    <th class="sortStyle text-center"><?= $criHead['tabs_cri_title'] ?> <i class="ti-angle-down"></i></th>
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
