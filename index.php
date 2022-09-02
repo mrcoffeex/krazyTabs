@@ -22,7 +22,7 @@
                             <div class="brand-logo">
                                 <img src="images/logo-long.png" alt="logo">
                             </div>
-                            <h4>We code our way to innovation!</h4>
+                            <h4>Good. Better. Krazy!</h4>
                             <h6 class="font-weight-light">Login to Access Interface</h6>
                             <form class="pt-3" method="post" enctype="multipart/form-data" action="config/auth" onsubmit="validate_login(this)">
                                 <div class="form-group">

@@ -4,10 +4,6 @@
 
     $redirect = @$_GET['cd'];
 
-    //get event_id
-    // $eventID = getEventIdByCatId($redirect);
-    // $candidateCount = countCandidatesByEvent($eventID);
-
     $title = getEventTitle($redirect)." Results";
     $upp_description = '<span class="text-primary">'.countCategories($redirect).'</span> Categories';
 ?>
@@ -25,7 +21,25 @@
             <div class="main-panel" style="width: 100%;">
                 <div class="content-wrapper">
                     
-                    <?php include '_breads.php'; ?>
+                <div class="row mb-3">
+                    <div class="col-md-12"> 
+                        <div class="row">
+                            <div class="col-12 col-xl-8 mb-2 mb-xl-0">
+                                <h3 class="font-weight-bold"><?= $title; ?></h3>
+                                <h6 class="font-weight-normal mb-0"><?= $upp_description ?></h6>
+                            </div>
+                            <div class="col-12 col-xl-4 no-print">
+                                <div class="justify-content-end d-flex">
+                                    <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+                                        <button class="btn btn-success" type="button" onclick="window.print()">
+                                            Print Result
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -36,7 +50,7 @@
                                             <div class="table-sorter-wrapper col-lg-12 table-responsive">
                                                 <table class="table table-hover table-bordered" id="sortable-table-1">
                                                     <thead>
-                                                        <tr class="table-dark">
+                                                        <tr>
                                                             <th class="sortStyle p-2 text-center"># <i class="ti-angle-down"></th>
                                                             <th class="sortStyle p-2 text-center">Candidate <i class="ti-angle-down"></th>
                                                             <?php  
@@ -45,7 +59,7 @@
                                                                 while ($categoryHead=$getCategoryHeaders->fetch(PDO::FETCH_ASSOC)) {
                                                             ?>
                                                             <th class="sortStyle p-2 text-center" title="<?= getCategoryTitle($categoryHead['tabs_cat_id']) ?>">
-                                                                <?= getCategoryTitle($categoryHead['tabs_cat_id']) ?> <span class="text-primary"><?= getCategoryPercentage($categoryHead['tabs_cat_id'])."%" ?></span> <i class="ti-angle-down"></i> 
+                                                                <?= getCategoryTitle($categoryHead['tabs_cat_id']) ?> <span class="text-primary no-print"><?= getCategoryPercentage($categoryHead['tabs_cat_id'])."%" ?></span> <i class="ti-angle-down"></i> 
                                                             </th>
                                                             <?php } ?>
                                                             <th class="sortStyle p-2 text-center">Total <i class="ti-angle-down"></th>

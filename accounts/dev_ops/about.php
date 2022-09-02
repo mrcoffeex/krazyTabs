@@ -3,7 +3,7 @@
     require 'session.php';
 
     $title = "About KrazyApps";
-    $upp_description = "Good. Better. Krazy.";
+    $upp_description = "Good. Better. Krazy!";
 ?>
 
 <!DOCTYPE html>
