@@ -24,6 +24,12 @@
                 <span class="menu-title">Events</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="prints">
+                <i class="ti-printer menu-icon"></i>
+                <span class="menu-title">Print Winners</span>
+            </a>
+        </li>
  
         
         <div class="dropdown-divider mt-3 mb-3"></div>

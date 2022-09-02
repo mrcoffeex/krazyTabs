@@ -24,10 +24,6 @@
               <img src="../../images/profile-default.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
               <a href="logout" class="dropdown-item">
                 <i class="ti-power-off text-primary"></i>
                 Logout

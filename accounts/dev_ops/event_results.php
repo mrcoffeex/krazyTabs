@@ -51,7 +51,6 @@
                                                             <?php } ?>
                                                             <th class="sortStyle p-2 text-center">Total <i class="ti-angle-down"></th>
                                                             <th class="sortStyle p-2 text-center">Avg <i class="ti-angle-down"></th>
-                                                            <th class="sortStyle p-2 text-center"><?= getCategoryPercentage($redirect) ?>% <i class="ti-angle-down"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -85,23 +84,12 @@
                                                             <?php } ?>
                                                             <td class="p-2 text-center">
                                                                 <?= 
-                                                                RealNumber($allJudgeAverage, 2); 
+                                                                RealNumber($allJudgeAverage, 3); 
                                                                 ?>
                                                             </td>
                                                             <td class="p-2 text-center">
-                                                                <?=
-                                                                $realAverage = calculateIfZero($allJudgeAverage, $countActiveJudges, "division", 2);
-                                                                ?>
-                                                            </td>
-                                                            <td class="p-2 text-center">
-                                                                <?php  
-                                                                    //get criteriaMax 
-                                                                    $getScoreMax=selectCriteria($redirect);
-                                                                    $scoreMax=$getScoreMax->fetch(PDO::FETCH_ASSOC);
-
-                                                                    $finalCategoryPercentage = getAverageValueByCategoryPercentage($realAverage, $scoreMax['tabs_cri_score_max'], getCategoryPercentage($redirect));
-
-                                                                    echo $finalCategoryPercentage;
+                                                                <?= 
+                                                                calculateIfZero($allJudgeAverage, $countActiveJudges, "division", 3); 
                                                                 ?>
                                                             </td>
                                                         </tr>
@@ -114,72 +102,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <?php  
-                                            //populate judges
-                                            $getJudges=selectCategoryActiveJudges($redirect);
-                                            while ($judge=$getJudges->fetch(PDO::FETCH_ASSOC)) {
-
-                                                
-                                                $getList=getCandidateResultByCategoryAndJudge($redirect, $judge['tabs_user_id']);
-                                                $countCandidates=$getList->rowCount();
-                                        ?>
-
-                                        <div class="col-lg-6 mb-3">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover table-bordered">
-                                                    <thead>
-                                                        <tr class="table-dark">
-                                                            <th class="p-2 text-center" colspan="<?= 3 + $criteriaCount; ?>"><?= getJudgeName($judge['tabs_user_id']); ?></th>
-                                                        </tr>
-                                                        <tr class="table-dark">
-                                                            <th class="p-2 text-center"><?= $countCandidates."/".$candidateCount; ?></th>
-                                                            <th class="p-2">Candidate</th>
-                                                            <?php  
-                                                                //get criteria
-                                                                $getCriRow=selectCriteria($redirect);
-                                                                while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
-                                                            ?>
-                                                            <th class="p-2 text-center"><?= $criRow['tabs_cri_title'] ?></th>
-                                                            <?php } ?>
-                                                            <th class="p-2 text-center">Total Avg</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php  
-                                                            //populate criteria results
-                                                            while ($list=$getList->fetch(PDO::FETCH_ASSOC)) {
-                                                        ?>
-                                                        <tr>
-                                                            <td class="p-2 text-center"><?= getCandidateNumber($list['tabs_can_id']) ?></td>
-                                                            <td class="p-2"><?= getCandidateName($list['tabs_can_id']) ?></td>
-                                                            <?php  
-                                                                //get criteria
-                                                                $scores=0;
-                                                                $getCriRow=selectCriteria($redirect);
-                                                                while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
-
-                                                                    $scores += getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $list['tabs_can_id'], $list['tabs_user_id']);
-                                                            ?>
-                                                            <td class="p-2 text-center"><?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $list['tabs_can_id'], $list['tabs_user_id']) ?></td>
-                                                            <?php } ?>
-                                                            <td class="p-2 text-center"><?= $scores / $criteriaCount; ?></td>
-                                                        </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 
                 <?php include '_footer.php'; ?>

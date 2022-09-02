@@ -84,6 +84,23 @@
         return $res;
     }
 
+    function calculateIfZero($value1, $value2, $operator, $decimal){
+
+        if ($value1 == 0 || $value2 == 0) {
+            $res = 0;
+        }else{
+            if ($operator == "multiply") {
+                $res = RealNumber($value1 * $value2, $decimal);
+            } else if ($operator == "division") {
+                $res = RealNumber($value1 / $value2, $decimal);
+            } else {
+                $res = 0;
+            }
+        }
+
+        return $res;
+    }
+
 	function get_curr_age($birthday){
         //values
         $date_now = strtotime(date("Y-m-d"));
@@ -1090,6 +1107,20 @@
 
     }
 
+    function getCategoryPercentage($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_percentage From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cat_percentage'];
+
+    }
+
     function getEventIdByCatId($catId){
 
         $statement=dbaselink()->prepare("SELECT tabs_event_id From tabs_categories
@@ -1415,5 +1446,18 @@
             return false;
         }
 
+    }
+
+    function getAverageValueByCategoryPercentage($average, $criteriaMax, $percentage){
+
+        if ($average == 0) {
+            $res = 0;
+        } else {
+            $averagePercentageByCriteriaMax = ($average / $criteriaMax);
+
+            $res = ($averagePercentageByCriteriaMax * $percentage);
+        }
+        
+        return RealNumber($res, 2);
     }
 ?>
