@@ -10,6 +10,12 @@
                 toastr.error('Error');
             </script>
         ";
+    }else if ($note == "account_updated") {
+        echo "
+            <script>
+                toastr.success('Account information updated');
+            </script>
+        ";
     }else if ($note == "noexist" && $currpage == "index") {
         echo "
             <script>
@@ -38,6 +44,12 @@
         echo "
             <script>
                 toastr.success('User has been activated');
+            </script>
+        ";
+    }else if ($note == "username_exists" && $currpage == "users") {
+        echo "
+            <script>
+                toastr.error('Username already exists. Please try another username.');
             </script>
         ";
     }else if ($note == "event_added" && $currpage == "events") {

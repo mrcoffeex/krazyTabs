@@ -76,7 +76,25 @@
 		return true;  
 	}
 
+	function validateUpdateAccount(formObj){
+		formObj.submit_update_account.disabled = true;
+		formObj.submit_update_account.innerHTML = "processing ...";
+		return true;  
+	}
+
 	// events
+	$("#tabsName").focus();
+
+	function showPassword() {
+                                                        
+		var x = document.getElementById("tabsPassword");
+
+		if (x.type === "password") {
+			x.type = "text";
+		} else {
+			x.type = "password";
+		}
+	}
     
     //toastr custom options
 	toastr.options = {

@@ -5,7 +5,7 @@
     $catId = @$_GET['catId'];
     $canId = @$_GET['canId'];
 
-    if (validateGets("tabs_categories", "tabs_cat_id", $catId) > 0) {
+    if (checkIfExist("tabs_categories", "tabs_cat_id", $catId) > 0) {
         
         //check if belongs to events
         if (validateCategory($catId, $tabs_event_id) > 0) {
@@ -24,7 +24,7 @@
         header("location: error?note=invalid");
     }
 
-    if (validateGets("tabs_candidates", "tabs_can_id", $canId) > 0) {
+    if (checkIfExist("tabs_candidates", "tabs_can_id", $canId) > 0) {
         
         //check if belongs to events
         if (validateCandidate($canId, $tabs_event_id) > 0) {

@@ -9,12 +9,16 @@
         $username = clean_string($_POST['username']);
         $password = clean_string(encryptIt($_POST['password']));
 
-        $update_data = updateUser($name, $username, $password, $redirect);
-
-        if ($update_data == true) {
-            header("location: users?rand=".my_rand_str(30)."&note=user_updated");
+        if (countUsernameDuplicatesExceptMine($username, $redirect) > 0) {
+            header("location: users?rand=".my_rand_str(30)."&note=username_exists");
         }else{
-            header("location: users?rand=".my_rand_str(30)."&note=error");
+            $update_data = updateUser($name, $username, $password, $redirect);
+
+            if ($update_data == true) {
+                header("location: users?rand=".my_rand_str(30)."&note=user_updated");
+            }else{
+                header("location: users?rand=".my_rand_str(30)."&note=error");
+            }
         }
     }
 ?>

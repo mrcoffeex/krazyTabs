@@ -14,6 +14,7 @@
 
     //find user
     $getuser=dbaselink()->prepare("SELECT tabs_username,
+                                        tabs_password,
                                         tabs_user_id,
                                         tabs_full_name From tabs_users 
                                         Where 

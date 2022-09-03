@@ -4,7 +4,7 @@
 
     $redirect = @$_GET['cd'];
 
-    if (validateGets("tabs_categories", "tabs_cat_id", $redirect) > 0) {
+    if (checkIfExist("tabs_categories", "tabs_cat_id", $redirect) > 0) {
         if (getCategoryStatus($redirect) != 0) {
             header("location: ./?note=cat_closed");
         } else {

@@ -318,7 +318,7 @@
         return $mylatestcode;
     }
 
-    function validateGets($table, $column, $value){
+    function checkIfExist($table, $column, $value){
 
         $statement=dbaselink()->prepare("SELECT $column From $table
                                         Where
@@ -498,7 +498,24 @@
         }
     }
 
-    function updateUser($name, $username, $password, $userid){
+    function countUsernameDuplicatesExceptMine($username, $userId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_username From tabs_users 
+                                        Where
+                                        tabs_username = :tabs_username AND 
+                                        tabs_user_id != :tabs_user_id");
+        $statement->execute([
+            'tabs_username' => $username,
+            'tabs_user_id' => $userId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+
+    function updateUser($name, $username, $password, $userId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_users
             SET
@@ -512,7 +529,7 @@
             'tabs_full_name' => $name, 
             'tabs_username' => $username, 
             'tabs_password' => $password,
-            'tabs_user_id' => $userid
+            'tabs_user_id' => $userId
         ]);
 
         if ($statement) {
@@ -522,7 +539,7 @@
         }
     }
 
-    function deactivateUser($userid){
+    function deactivateUser($userId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_users
                                         SET
@@ -531,7 +548,7 @@
                                         tabs_user_id = :tabs_user_id");
         $statement->execute([
             'tabs_user_status' => 1,
-            'tabs_user_id' => $userid
+            'tabs_user_id' => $userId
         ]);
 
         if ($statement) {
@@ -541,7 +558,7 @@
         }
     }
 
-    function activateUser($userid){
+    function activateUser($userId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_users
                                         SET
@@ -550,7 +567,7 @@
                                         tabs_user_id = :tabs_user_id");
         $statement->execute([
             'tabs_user_status' => 0,
-            'tabs_user_id' => $userid
+            'tabs_user_id' => $userId
         ]);
 
         if ($statement) {
@@ -664,7 +681,7 @@
         }
     }
 
-    function updateJudge($name, $username, $password, $eventId, $userid){
+    function updateJudge($name, $username, $password, $eventId, $userId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_users
             SET
@@ -680,7 +697,7 @@
             'tabs_username' => $username, 
             'tabs_password' => $password,
             'tabs_event_id' => $eventId,
-            'tabs_user_id' => $userid
+            'tabs_user_id' => $userId
         ]);
 
         if ($statement) {
@@ -1499,7 +1516,7 @@
         //check if exist
         $result = checkExistingResult($criId, $catId, $canId, $judgeId);
 
-        if ($result != "") {
+        if (!empty($result)) {
             //not empty so update
             $statement=dbaselink()->prepare("UPDATE tabs_results 
                                             SET
