@@ -35,6 +35,7 @@
                                             <thead>
                                                 <tr class="table-dark">
                                                     <th>Title</th>
+                                                    <th>Description</th>
                                                     <th>Min-Max</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
@@ -47,6 +48,7 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $criteria['tabs_cri_title'] ?></td>
+                                                    <td><?= $criteria['tabs_cri_desc'] ?></td>
                                                     <td><?= $criteria['tabs_cri_score_min']." - ".$criteria['tabs_cri_score_max'] ?></td>
                                                     <td class="text-center">
                                                         <button 
@@ -89,6 +91,12 @@
                                                                         <div class="form-group">
                                                                             <label>Title</label>
                                                                             <input type="text" class="form-control" name="cri_title" value="<?= $criteria['tabs_cri_title'] ?>" autofocus required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="form-group">
+                                                                            <label>Description</label>
+                                                                            <textarea class="form-control" name="cri_desc" rows="3"><?= $criteria['tabs_cri_desc'] ?></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
@@ -179,6 +187,12 @@
                             <div class="form-group">
                                 <label>Title</label>
                                 <input type="text" class="form-control" name="cri_title" autofocus required>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" name="cri_desc" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-6">

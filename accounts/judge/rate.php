@@ -5,6 +5,38 @@
     $catId = @$_GET['catId'];
     $canId = @$_GET['canId'];
 
+    if (validateGets("tabs_categories", "tabs_cat_id", $catId) > 0) {
+        
+        //check if belongs to events
+        if (validateCategory($catId, $tabs_event_id) > 0) {
+
+            if (getCategoryStatus($catId) != 0) {
+                header("location: ./?note=cat_closed");
+            } else {
+                //nothing to do
+            }
+
+        }else{
+            header("location: error?note=invalid");
+        }
+        
+    } else {
+        header("location: error?note=invalid");
+    }
+
+    if (validateGets("tabs_candidates", "tabs_can_id", $canId) > 0) {
+        
+        //check if belongs to events
+        if (validateCandidate($canId, $tabs_event_id) > 0) {
+            //nothing to do
+        }else{
+            header("location: error?note=invalid");
+        }
+        
+    } else {
+        header("location: error?note=invalid");
+    }
+
     $title = "Judge ".$tabs_user_fullname;
     $upp_description = "
     <a href='category?rand=".my_rand_str(30)."&cd=$catId' class='text-decoration-none text-dark'>
@@ -64,8 +96,15 @@
                                             action="submit_score?rand=<?= my_rand_str(30) ?>&criId=<?= $criteria['tabs_cri_id'] ?>&canId=<?= $canId ?>" 
                                             onsubmit="validate_<?= $criteria['tabs_cri_id'] ?>(this)">
 
-                                                <h1 class="display-4 text-center"><?= $criteria['tabs_cri_title'] ?></h1>
-                                                <p class="text-center">please enter your score from <?= $criteria['tabs_cri_score_min']." - ".$criteria['tabs_cri_score_max'] ?></p>
+                                                <h1 class="display-4 text-center">
+                                                    <?= $criteria['tabs_cri_title'] ?>
+                                                </h1>
+                                                <p class="text-center text-primary">
+                                                    <?= $criteria['tabs_cri_desc'] ?>
+                                                </p>
+                                                <p class="text-center">
+                                                    please enter your score from <?= $criteria['tabs_cri_score_min']." - ".$criteria['tabs_cri_score_max'] ?>
+                                                </p>
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group pt-3">

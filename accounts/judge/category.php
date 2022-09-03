@@ -4,14 +4,19 @@
 
     $redirect = @$_GET['cd'];
 
-    if (validateCategory($redirect, $tabs_event_id) > 0) {
+    if (validateGets("tabs_categories", "tabs_cat_id", $redirect) > 0) {
         if (getCategoryStatus($redirect) != 0) {
             header("location: ./?note=cat_closed");
         } else {
-            //nothing to do
+            //check if belongs to events
+            if (validateCategory($redirect, $tabs_event_id) > 0) {
+                //nothing to do
+            }else{
+                header("location: error?note=invalid");
+            }
         }
-    } else {
-        header("location: ./?note=invalid");
+    }else {
+        header("location: error?note=invalid");
     }
 
     $title = "Judge ".$tabs_user_fullname;

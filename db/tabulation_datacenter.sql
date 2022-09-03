@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2022 at 12:41 PM
+-- Generation Time: Sep 03, 2022 at 11:50 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.0.32
 
@@ -79,6 +79,7 @@ CREATE TABLE `tabs_categories` (
   `tabs_cat_id` int(11) NOT NULL,
   `tabs_cat_title` text NOT NULL,
   `tabs_cat_percentage` double NOT NULL,
+  `tabs_cat_status` int(1) NOT NULL,
   `tabs_event_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -86,12 +87,13 @@ CREATE TABLE `tabs_categories` (
 -- Dumping data for table `tabs_categories`
 --
 
-INSERT INTO `tabs_categories` (`tabs_cat_id`, `tabs_cat_title`, `tabs_cat_percentage`, `tabs_event_id`) VALUES
-(5, 'Casual', 17.5, 3),
-(6, 'Swimwear', 17.5, 3),
-(7, 'Modern Filipiñana', 17.5, 3),
-(8, 'Gown', 17.5, 3),
-(9, 'Preliminary Interview', 30, 3);
+INSERT INTO `tabs_categories` (`tabs_cat_id`, `tabs_cat_title`, `tabs_cat_percentage`, `tabs_cat_status`, `tabs_event_id`) VALUES
+(5, 'Casual', 17.5, 0, 3),
+(6, 'Swimwear', 17.5, 0, 3),
+(7, 'Modern Filipiñana', 17.5, 0, 3),
+(8, 'Gown', 17.5, 0, 3),
+(9, 'Preliminary Interview', 30, 1, 3),
+(10, 'Q & A', 20, 0, 4);
 
 -- --------------------------------------------------------
 
@@ -102,6 +104,7 @@ INSERT INTO `tabs_categories` (`tabs_cat_id`, `tabs_cat_title`, `tabs_cat_percen
 CREATE TABLE `tabs_criterias` (
   `tabs_cri_id` int(11) NOT NULL,
   `tabs_cri_title` text NOT NULL,
+  `tabs_cri_desc` text NOT NULL,
   `tabs_cri_score_min` int(11) NOT NULL,
   `tabs_cri_score_max` int(11) NOT NULL,
   `tabs_cri_percentage` double NOT NULL,
@@ -112,15 +115,15 @@ CREATE TABLE `tabs_criterias` (
 -- Dumping data for table `tabs_criterias`
 --
 
-INSERT INTO `tabs_criterias` (`tabs_cri_id`, `tabs_cri_title`, `tabs_cri_score_min`, `tabs_cri_score_max`, `tabs_cri_percentage`, `tabs_cat_id`) VALUES
-(3, 'Pronunciation', 5, 10, 0, 1),
-(4, 'Delivery', 5, 10, 0, 1),
-(5, 'Thought', 5, 10, 0, 1),
-(7, 'Casual', 5, 10, 0, 5),
-(8, 'Modern Filipiñana ', 5, 10, 0, 7),
-(9, 'Swimwear', 5, 10, 0, 6),
-(10, 'Gown', 5, 10, 0, 8),
-(11, 'Preliminary Interview', 5, 10, 0, 9);
+INSERT INTO `tabs_criterias` (`tabs_cri_id`, `tabs_cri_title`, `tabs_cri_desc`, `tabs_cri_score_min`, `tabs_cri_score_max`, `tabs_cri_percentage`, `tabs_cat_id`) VALUES
+(3, 'Pronunciation', '', 5, 10, 0, 1),
+(4, 'Delivery', '', 5, 10, 0, 1),
+(5, 'Thought', '', 5, 10, 0, 1),
+(7, 'Casual', 'Posture / Beauty', 5, 10, 0, 5),
+(8, 'Modern Filipiñana ', '', 5, 10, 0, 7),
+(9, 'Swimwear', '', 5, 10, 0, 6),
+(10, 'Gown', '', 5, 10, 0, 8),
+(11, 'Preliminary Interview', '', 5, 10, 0, 9);
 
 -- --------------------------------------------------------
 
@@ -133,6 +136,7 @@ CREATE TABLE `tabs_events` (
   `tabs_event_title` text NOT NULL,
   `tabs_event_desc` text NOT NULL,
   `tabs_event_year` text NOT NULL,
+  `tabs_event_status` int(1) NOT NULL,
   `tabs_event_created` datetime NOT NULL,
   `tabs_event_updated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -141,9 +145,9 @@ CREATE TABLE `tabs_events` (
 -- Dumping data for table `tabs_events`
 --
 
-INSERT INTO `tabs_events` (`tabs_event_id`, `tabs_event_title`, `tabs_event_desc`, `tabs_event_year`, `tabs_event_created`, `tabs_event_updated`) VALUES
-(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
-(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', '2022-09-01 09:59:18', '2022-09-01 09:59:18');
+INSERT INTO `tabs_events` (`tabs_event_id`, `tabs_event_title`, `tabs_event_desc`, `tabs_event_year`, `tabs_event_status`, `tabs_event_created`, `tabs_event_updated`) VALUES
+(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', 1, '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
+(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', 0, '2022-09-01 09:59:18', '2022-09-01 09:59:18');
 
 -- --------------------------------------------------------
 
@@ -311,7 +315,23 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (125, 'attempt', 'Login Attempt - admin', '2022-09-02 14:58:53'),
 (126, 'auth', 'Login - judge2', '2022-09-02 15:27:32'),
 (127, 'auth', 'Logout - judge1', '2022-09-02 15:51:57'),
-(128, 'auth', 'Logout - judge2', '2022-09-02 15:51:57');
+(128, 'auth', 'Logout - judge2', '2022-09-02 15:51:57'),
+(129, 'auth', 'Login - kjohn0319@gmail.com', '2022-09-03 10:51:41'),
+(130, 'auth', 'Logout - kjohn0319@gmail.com', '2022-09-03 11:49:42'),
+(131, 'auth', 'Login - judge1', '2022-09-03 11:50:02'),
+(132, 'auth', 'Login - kjohn0319@gmail.com', '2022-09-03 11:53:09'),
+(133, 'auth', 'Logout - judge1', '2022-09-03 12:15:23'),
+(134, 'auth', 'Login - kjohn0319@gmail.com', '2022-09-03 12:36:50'),
+(135, 'auth', 'Logout - kjohn0319@gmail.com', '2022-09-03 12:56:27'),
+(136, 'auth', 'Login - kjohn0319@gmail.com', '2022-09-03 12:56:34'),
+(137, 'auth', 'Logout - kjohn0319@gmail.com', '2022-09-03 12:56:52'),
+(138, 'attempt', 'Login Attempt - judge1', '2022-09-03 12:56:59'),
+(139, 'auth', 'Login - judge1', '2022-09-03 12:57:07'),
+(140, 'auth', 'Logout - kjohn0319@gmail.com', '2022-09-03 13:12:06'),
+(141, 'auth', 'Login - judge1', '2022-09-03 13:12:12'),
+(142, 'auth', 'Logout - judge1', '2022-09-03 15:24:56'),
+(143, 'auth', 'Login - kjohn0319@gmail.com', '2022-09-03 15:25:48'),
+(144, 'auth', 'Logout - judge1', '2022-09-03 17:16:31');
 
 -- --------------------------------------------------------
 
@@ -447,7 +467,7 @@ INSERT INTO `tabs_results` (`tabs_result_id`, `tabs_event_id`, `tabs_cat_id`, `t
 (163, 3, 9, 11, 15, 21, 7.86, '2022-09-02 14:36:16', '2022-09-02 14:36:16'),
 (164, 3, 5, 7, 13, 1, 6.3, '2022-09-02 14:37:07', '2022-09-02 14:37:07'),
 (165, 3, 5, 7, 13, 2, 8.12, '2022-09-02 14:37:19', '2022-09-02 14:37:19'),
-(166, 3, 5, 7, 9, 1, 7.37, '2022-09-02 14:37:24', '2022-09-02 14:37:24'),
+(166, 3, 5, 7, 9, 1, 8.6, '2022-09-02 14:37:24', '2022-09-03 11:51:11'),
 (167, 3, 5, 7, 13, 5, 6.91, '2022-09-02 14:37:33', '2022-09-02 14:37:33'),
 (168, 3, 5, 7, 9, 2, 6.55, '2022-09-02 14:37:37', '2022-09-02 14:37:37'),
 (169, 3, 5, 7, 21, 11, 6.14, '2022-09-02 14:37:40', '2022-09-02 14:37:40'),
@@ -487,7 +507,7 @@ INSERT INTO `tabs_results` (`tabs_result_id`, `tabs_event_id`, `tabs_cat_id`, `t
 (203, 3, 5, 7, 13, 15, 5.74, '2022-09-02 14:40:09', '2022-09-02 14:40:09'),
 (204, 3, 5, 7, 9, 13, 5.44, '2022-09-02 14:40:12', '2022-09-02 14:40:12'),
 (205, 3, 5, 7, 21, 22, 6.08, '2022-09-02 14:40:17', '2022-09-02 14:40:17'),
-(206, 3, 5, 7, 9, 14, 7.53, '2022-09-02 14:40:19', '2022-09-02 14:40:19'),
+(206, 3, 5, 7, 9, 14, 9, '2022-09-02 14:40:19', '2022-09-03 11:51:56'),
 (207, 3, 5, 7, 13, 16, 9.69, '2022-09-02 14:40:21', '2022-09-02 14:40:21'),
 (208, 3, 5, 7, 9, 15, 8.65, '2022-09-02 14:40:27', '2022-09-02 14:40:27'),
 (209, 3, 5, 7, 21, 23, 5.21, '2022-09-02 14:40:28', '2022-09-02 14:40:28'),
@@ -1092,13 +1112,13 @@ ALTER TABLE `tabs_candidates`
 -- AUTO_INCREMENT for table `tabs_categories`
 --
 ALTER TABLE `tabs_categories`
-  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tabs_criterias`
 --
 ALTER TABLE `tabs_criterias`
-  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tabs_events`
@@ -1116,7 +1136,7 @@ ALTER TABLE `tabs_my_project`
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `tabs_results`

@@ -42,6 +42,7 @@
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Year</th>
+                                                    <th class="text-center">Switch</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
                                                 </tr>
@@ -80,7 +81,18 @@
                                                     <td><?= $event['tabs_event_title']; ?></td>
                                                     <td><?= $event['tabs_event_desc']; ?></td>
                                                     <td><?= $event['tabs_event_year']; ?></td>
-                                                   
+                                                    <td class="text-center">
+                                                        <div class="form-switch">
+                                                            <input 
+                                                            class="form-check-input" 
+                                                            type="checkbox" 
+                                                            role="switch" 
+                                                            value="updateSwitch" 
+                                                            id="eventSwitch_<?= $event['tabs_event_id']; ?>"
+                                                            onchange="updateSwitch_<?= $event['tabs_event_id']; ?>(this)" 
+                                                            <?= eventCheckboxStatus($event['tabs_event_status']) ?> />
+                                                        </div>
+                                                    </td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
@@ -169,6 +181,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <script>
+                                                    //switch
+                                                    function updateSwitch_<?= $event['tabs_event_id']; ?>(input) {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "event_switch.php?cd=<?= $event['tabs_event_id']; ?>",
+                                                            data: "selected=" + input.value,
+                                                            success: function(data) {
+                                                                if (data == "ok") {
+                                                                    toastr.success("Highlight Status changed");
+                                                                } else {
+                                                                    toastr.error("Error");
+                                                                }
+                                                            },
+                                                            error: function() {
+                                                                console.log("error");
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
 
                                                 <?php } ?>
                                             </tbody>

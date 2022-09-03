@@ -16,7 +16,7 @@
                 toastr.error('Category Closed');
             </script>
         ";
-    }else if ($note == "invalid" && $currpage == "index") {
+    }else if ($note == "invalid" && $currpage == "error") {
         echo "
             <script>
                 toastr.error('Invalid Action');

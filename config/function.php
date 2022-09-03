@@ -318,6 +318,21 @@
         return $mylatestcode;
     }
 
+    function validateGets($table, $column, $value){
+
+        $statement=dbaselink()->prepare("SELECT $column From $table
+                                        Where
+                                        $column = :my_column");
+        $statement->execute([
+            'my_column' => $value
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+        
+    }
+
     function compare_update($old_data , $new_data , $type_data){
         if ($old_data != $new_data) {
             $my_data_res = $type_data.": ".$old_data." -> ".$new_data." , ";
@@ -915,6 +930,24 @@
         return $statement;
     }
 
+    function selectEventsWithHighlights(){
+
+        $statement=dbaselink()->prepare("SELECT 
+                                        tabs_event_id,
+                                        tabs_event_title,
+                                        tabs_event_status
+                                        From 
+                                        tabs_events 
+                                        Where
+                                        tabs_event_status = :tabs_event_status
+                                        Order By tabs_event_id DESC");
+        $statement->execute([
+            'tabs_event_status' => 1
+        ]);
+
+        return $statement;
+    }
+
     function createEvent($title, $desc, $year){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_events
@@ -922,6 +955,7 @@
                 tabs_event_title, 
                 tabs_event_desc, 
                 tabs_event_year, 
+                tabs_event_status, 
                 tabs_event_created, 
                 tabs_event_updated
             )
@@ -929,13 +963,15 @@
                 :tabs_event_title,
                 :tabs_event_desc,
                 :tabs_event_year,
+                :tabs_event_status,
                 NOW(),
                 NOW()
             )");
         $statement->execute([
             'tabs_event_title' => $title, 
             'tabs_event_desc' => $desc, 
-            'tabs_event_year' => $year
+            'tabs_event_year' => $year, 
+            'tabs_event_status' => 0
         ]);
 
         if ($statement) {
@@ -997,6 +1033,91 @@
 
         return $res['tabs_event_title'];
 
+    }
+
+    function validateCategory($catId, $eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id AND 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId,
+            'tabs_event_id' => $eventId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+
+    function validateCandidate($canId, $eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_can_id From tabs_candidates
+                                        Where
+                                        tabs_can_id = :tabs_can_id AND 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_can_id' => $canId,
+            'tabs_event_id' => $eventId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+    
+    function getEventStatus($eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_event_status From tabs_events
+                                        Where
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_event_status'];
+
+    }
+
+    function updateEventStatus($eventId){
+
+        $status = getEventStatus($eventId);
+
+        if ($status == 0) {
+            $value = 1;
+        } else {
+            $value = 0;
+        }
+        
+        $statement=dbaselink()->prepare("UPDATE tabs_events SET
+                                        tabs_event_status = :tabs_event_status 
+                                        WHERE
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_status' => $value,
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function eventCheckboxStatus($status){
+
+        if ($status == 1) {
+            $res = "checked";
+        } else {
+            $res = "";
+        }
+        
+        return $res;
     }
 
     // methods_category
@@ -1221,27 +1342,10 @@
         if ($status == 0) {
             $res = "category?rand=".my_rand_str(30)."&cd=$catId";
         } else {
-            $res = "#";
+            $res = "./?note=cat_closed";
         }
         
         return $res;
-    }
-
-    function validateCategory($catId, $eventId){
-
-        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
-                                        Where
-                                        tabs_cat_id = :tabs_cat_id AND
-                                        tabs_event_id = :tabs_event_id");
-        $statement->execute([
-            'tabs_cat_id' => $catId,
-            'tabs_event_id' => $eventId
-        ]);
-
-        $count=$statement->rowCount();
-
-        return $count;
-        
     }
 
     // methods_criteria
@@ -1273,11 +1377,12 @@
 
     }
 
-    function createCriteria($title, $min, $max, $percentage, $catId){
+    function createCriteria($title, $desc, $min, $max, $percentage, $catId){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_criterias
             (
                 tabs_cri_title, 
+                tabs_cri_desc, 
                 tabs_cri_score_min, 
                 tabs_cri_score_max, 
                 tabs_cri_percentage, 
@@ -1285,6 +1390,7 @@
             )
             VALUES (
                 :tabs_cri_title, 
+                :tabs_cri_desc, 
                 :tabs_cri_score_min, 
                 :tabs_cri_score_max, 
                 :tabs_cri_percentage, 
@@ -1292,6 +1398,7 @@
             )");
         $statement->execute([
             'tabs_cri_title' => $title, 
+            'tabs_cri_desc' => $desc, 
             'tabs_cri_score_min' => $min, 
             'tabs_cri_score_max' => $max, 
             'tabs_cri_percentage' => $percentage, 
@@ -1306,11 +1413,12 @@
 
     }
 
-    function updateCriteria($title, $min, $max, $percentage, $criId){
+    function updateCriteria($title, $desc, $min, $max, $percentage, $criId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_criterias
                                         SET
                                         tabs_cri_title = :tabs_cri_title, 
+                                        tabs_cri_desc = :tabs_cri_desc, 
                                         tabs_cri_score_min = :tabs_cri_score_min, 
                                         tabs_cri_score_max = :tabs_cri_score_max, 
                                         tabs_cri_percentage = :tabs_cri_percentage 
@@ -1318,6 +1426,7 @@
                                         tabs_cri_id = :tabs_cri_id");
         $statement->execute([
             'tabs_cri_title' => $title, 
+            'tabs_cri_desc' => $desc, 
             'tabs_cri_score_min' => $min, 
             'tabs_cri_score_max' => $max, 
             'tabs_cri_percentage' => $percentage, 
