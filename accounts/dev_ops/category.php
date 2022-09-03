@@ -43,6 +43,7 @@
                                                     <th>Title</th>
                                                     <th>Event</th>
                                                     <th>%</th>
+                                                    <th class="text-center">Switch</th>
                                                     <th class="text-center">Reset</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
@@ -84,6 +85,18 @@
                                                     <td><?= $category['tabs_cat_title'] ?></td>
                                                     <td><?= getEventTitle($category['tabs_event_id']) ?></td>
                                                     <td><?= $category['tabs_cat_percentage']." %" ?></td>
+                                                    <td class="text-center">
+                                                        <div class="form-switch">
+                                                            <input 
+                                                            class="form-check-input" 
+                                                            type="checkbox" 
+                                                            role="switch" 
+                                                            value="updateSwitch" 
+                                                            id="catSwitch_<?= $category['tabs_cat_id']; ?>"
+                                                            onchange="updateSwitch_<?= $category['tabs_cat_id']; ?>(this)" 
+                                                            <?= categoryCheckboxStatus($category['tabs_cat_status']) ?> />
+                                                        </div>
+                                                    </td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
@@ -209,12 +222,33 @@
                                                     </div>
                                                 </div>
 
+                                                <script>
+                                                    //switch
+                                                    function updateSwitch_<?= $category['tabs_cat_id']; ?>(input) {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "category_switch.php?cd=<?= $category['tabs_cat_id']; ?>",
+                                                            data: "selected=" + input.value,
+                                                            success: function(data) {
+                                                                if (data == "ok") {
+                                                                    toastr.success("Status changed");
+                                                                } else {
+                                                                    toastr.error("Error");
+                                                                }
+                                                            },
+                                                            error: function() {
+                                                                console.log("error");
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
+
                                                 <?php } ?>
 
                                                 <tr>
                                                     <td class="text-center <?= $textColor ?>" colspan="4">Total Percentage</td>
                                                     <td class="<?= $textColor ?>"><?= $total ?> %</td>
-                                                    <td colspan="2"></td>
+                                                    <td colspan="3"></td>
                                                 </tr>
 
                                             </tbody>

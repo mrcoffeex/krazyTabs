@@ -64,13 +64,13 @@
                                                 ?>
 
                                                 <div class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
+                                                    <div class="card <?= categoryStatusColor($category['tabs_cat_status']) ?>">
                                                         <div class="card-body">
                                                             <p class="fs-6 mb-1 text-center">
                                                                 <?= $category['tabs_cat_title'] ?>
                                                             </p>
                                                         </div>
-                                                        <a href="category?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" class="stretched-link" title="click to open this category ..."></a>
+                                                        <a href="<?= categoryStatusLink($category['tabs_cat_status'], $category['tabs_cat_id']) ?>" class="stretched-link" title="click to open this category ..."></a>
                                                     </div>
                                                 </div>
                                                 
@@ -94,6 +94,8 @@
     <!-- modals -->
 
     <?php include '_scripts.php'; ?>
+
+    <?php include '_alerts.php'; ?>
 
 </body>
 

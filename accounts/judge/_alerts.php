@@ -10,6 +10,18 @@
                 toastr.error('Error');
             </script>
         ";
+    }else if ($note == "cat_closed" && $currpage == "index") {
+        echo "
+            <script>
+                toastr.error('Category Closed');
+            </script>
+        ";
+    }else if ($note == "invalid" && $currpage == "index") {
+        echo "
+            <script>
+                toastr.error('Invalid Action');
+            </script>
+        ";
     }else if ($note == "score_submit" && $currpage == "rate") {
         echo "
             <script>

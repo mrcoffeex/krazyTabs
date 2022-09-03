@@ -1034,16 +1034,19 @@
             (
                 tabs_cat_title, 
                 tabs_cat_percentage, 
+                tabs_cat_status, 
                 tabs_event_id
             )
             VALUES (
                 :tabs_cat_title,
                 :tabs_cat_percentage,
+                :tabs_cat_status,
                 :tabs_event_id
             )");
         $statement->execute([
             'tabs_cat_title' => $title, 
-            'tabs_cat_percentage' => $percentage, 
+            'tabs_cat_percentage' => $percentage,
+            'tabs_cat_status' => 0, 
             'tabs_event_id' => $eventId
         ]);
 
@@ -1149,6 +1152,96 @@
 
         return $title;
 
+    }
+
+    function getCategoryStatus($catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_status From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cat_status'];
+
+    }
+
+    function updateCategoryStatus($catId){
+
+        $status = getCategoryStatus($catId);
+
+        if ($status == 0) {
+            $value = 1;
+        } else {
+            $value = 0;
+        }
+        
+        $statement=dbaselink()->prepare("UPDATE tabs_categories SET
+                                        tabs_cat_status = :tabs_cat_status 
+                                        WHERE
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_cat_status' => $value,
+            'tabs_cat_id' => $catId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function categoryCheckboxStatus($status){
+
+        if ($status == 0) {
+            $res = "checked";
+        } else {
+            $res = "";
+        }
+        
+        return $res;
+    }
+
+    function categoryStatusColor($status){
+
+        if ($status == 0) {
+            $res = "card-tale";
+        } else {
+            $res = "card-light-danger";
+        }
+        
+        return $res;
+    }
+
+    function categoryStatusLink($status, $catId){
+
+        if ($status == 0) {
+            $res = "category?rand=".my_rand_str(30)."&cd=$catId";
+        } else {
+            $res = "#";
+        }
+        
+        return $res;
+    }
+
+    function validateCategory($catId, $eventId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cat_id From tabs_categories
+                                        Where
+                                        tabs_cat_id = :tabs_cat_id AND
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_cat_id' => $catId,
+            'tabs_event_id' => $eventId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+        
     }
 
     // methods_criteria
