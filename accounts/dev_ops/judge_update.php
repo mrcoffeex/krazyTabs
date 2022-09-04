@@ -10,12 +10,16 @@
         $password = clean_string(encryptIt($_POST['password']));
         $event = clean_int($_POST['event']);
 
-        $update_data = updateJudge($name, $username, $password, $event, $redirect);
-
-        if ($update_data == true) {
-            header("location: judges?rand=".my_rand_str(30)."&note=judge_updated");
+        if (countUsernameDuplicatesExceptMine($username, $redirect) > 0) {
+            header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
         }else{
-            header("location: judges?rand=".my_rand_str(30)."&note=error");
+            $update_data = updateJudge($name, $username, $password, $event, $redirect);
+    
+            if ($update_data == true) {
+                header("location: judges?rand=".my_rand_str(30)."&note=judge_updated");
+            }else{
+                header("location: judges?rand=".my_rand_str(30)."&note=error");
+            }
         }
     }
 ?>

@@ -129,7 +129,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 no-print">
                             <div class="row">
                                 <?php  
                                     //populate judges

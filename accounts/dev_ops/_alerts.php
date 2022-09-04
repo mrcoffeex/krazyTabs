@@ -82,6 +82,12 @@
                 toastr.success('Judge has been updated');
             </script>
         ";
+    }else if ($note == "username_exists" && $currpage == "judges") {
+        echo "
+            <script>
+                toastr.error('Username already exists. Please try another username.');
+            </script>
+        ";
     }else if ($note == "can_added" && $currpage == "candidates") {
         echo "
             <script>

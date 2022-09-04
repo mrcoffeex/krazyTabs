@@ -7,12 +7,16 @@
         $username = clean_string($_POST['username']);
         $event = clean_int($_POST['event']);
 
-        $insert_data = createJudge($name, $username, $event);
-
-        if ($insert_data == true) {
-            header("location: judges?rand=".my_rand_str(30)."&note=judge_added");
+        if (checkIfExist("tabs_users", "tabs_username", $username) > 0) {
+            header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
         }else{
-            header("location: judges?rand=".my_rand_str(30)."&note=error");
+            $insert_data = createJudge($name, $username, $event);
+    
+            if ($insert_data == true) {
+                header("location: judges?rand=".my_rand_str(30)."&note=judge_added");
+            }else{
+                header("location: judges?rand=".my_rand_str(30)."&note=error");
+            }
         }
     }
 ?>
