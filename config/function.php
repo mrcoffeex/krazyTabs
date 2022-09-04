@@ -957,7 +957,7 @@
                                         tabs_events 
                                         Where
                                         tabs_event_status = :tabs_event_status
-                                        Order By tabs_event_id DESC");
+                                        Order By tabs_event_id ASC");
         $statement->execute([
             'tabs_event_status' => 1
         ]);
