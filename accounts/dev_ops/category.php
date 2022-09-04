@@ -248,7 +248,7 @@
                                                 <tr>
                                                     <td class="text-center <?= $textColor ?>" colspan="4">Total Percentage</td>
                                                     <td class="<?= $textColor ?>"><?= $total ?> %</td>
-                                                    <td colspan="3"></td>
+                                                    <td colspan="4"></td>
                                                 </tr>
 
                                             </tbody>
