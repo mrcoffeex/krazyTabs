@@ -8,7 +8,7 @@
     $eventID = getEventIdByCatId($redirect);
 
     $criteriaCount = countCriteria($redirect);
-    $candidateCount = countCandidatesByEvent($eventID);
+    $candidateCount = countCandidateResultByEvent($eventID);
 
     $title = getEventTitleByCatId($redirect).": ".getCategoryTitle($redirect)." Category Results";
     $upp_description = '<span class="text-primary">'.countCategoryResults($redirect).'</span> results in <span class="text-success">'.$candidateCount."</span> Candidates";
@@ -81,44 +81,31 @@
                                                     <td class="p-2 text-center"><?= getCandidateName($catList['tabs_can_id']) ?></td>
                                                     <?php  
                                                         //populate judeges
-                                                        $allJudgeAverage=0;
+                                                        $allTotal=0;
                                                         $getAllJudgesRow=selectCategoryActiveJudges($redirect);
                                                         $countActiveJudges=$getAllJudgesRow->rowCount();
                                                         while ($judgesRow=$getAllJudgesRow->fetch(PDO::FETCH_ASSOC)) {
 
-                                                            $allscores=0;
+                                                            $allTotalPercentage=0;
                                                             $getCriteriaScore=selectCriteria($redirect);
                                                             while ($criteriaScore=$getCriteriaScore->fetch(PDO::FETCH_ASSOC)) {
 
-                                                                $allscores += getCandidateResultByCriteria($criteriaScore['tabs_cri_id'], $redirect, $catList['tabs_can_id'], $judgesRow['tabs_user_id']);
+                                                                $allscores = getCandidateResultByCriteria($criteriaScore['tabs_cri_id'], $redirect, $catList['tabs_can_id'], $judgesRow['tabs_user_id']);
+
+                                                                $allTotalPercentage += getCriteriaPercentage($allscores, $criteriaScore['tabs_cri_percentage'], $criteriaScore['tabs_cri_score_max']);
 
                                                             }
 
-                                                            $judgeAverage = $allscores / $criteriaCount;
-                                                            $allJudgeAverage += $judgeAverage;
+                                                            $allTotal += $allTotalPercentage;
+                                                            
+                                                            $allAverage = calculateIfZero($allTotal, $countActiveJudges, "division", 2);
                                                     ?>
-                                                    <td class="p-2 text-center"><?= $judgeAverage; ?></td>
+                                                    <td class="p-2 text-center"><?= RealNumber($allTotalPercentage, 2) ?></td>
                                                     <?php } ?>
+                                                    <td class="p-2 text-center"><?= RealNumber($allTotal, 2) ?></td>
+                                                    <td class="p-2 text-center"><?= $allAverage ?></td>
                                                     <td class="p-2 text-center">
-                                                        <?= 
-                                                        RealNumber($allJudgeAverage, 2); 
-                                                        ?>
-                                                    </td>
-                                                    <td class="p-2 text-center">
-                                                        <?=
-                                                        $realAverage = calculateIfZero($allJudgeAverage, $countActiveJudges, "division", 2);
-                                                        ?>
-                                                    </td>
-                                                    <td class="p-2 text-center">
-                                                        <?php  
-                                                            //get criteriaMax 
-                                                            $getScoreMax=selectCriteria($redirect);
-                                                            $scoreMax=$getScoreMax->fetch(PDO::FETCH_ASSOC);
-
-                                                            $finalCategoryPercentage = getAverageValueByCategoryPercentage($realAverage, $scoreMax['tabs_cri_score_max'], getCategoryPercentage($redirect));
-
-                                                            echo $finalCategoryPercentage;
-                                                        ?>
+                                                        <?= RealNumber(getAverageValueByCategoryPercentage($allAverage, getCategoryPercentage($redirect)), 2); ?>
                                                     </td>
                                                 </tr>
                                                 <?php } ?>
@@ -129,7 +116,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 no-print">
+                        <div class="col-lg-12">
                             <div class="row">
                                 <?php  
                                     //populate judges
@@ -157,8 +144,9 @@
                                                         while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
                                                     ?>
                                                     <th class="p-2 text-center"><?= $criRow['tabs_cri_title'] ?></th>
+                                                    <th class="p-2 text-center text-primary"><?= $criRow['tabs_cri_percentage']."%" ?></th>
                                                     <?php } ?>
-                                                    <th class="p-2 text-center">Total Avg</th>
+                                                    <th class="p-2 text-center">Total %</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -171,15 +159,18 @@
                                                     <td class="p-2"><?= getCandidateName($list['tabs_can_id']) ?></td>
                                                     <?php  
                                                         //get criteria
-                                                        $scores=0;
+                                                        $totalPercentage=0;
                                                         $getCriRow=selectCriteria($redirect);
                                                         while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
 
-                                                            $scores += getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $list['tabs_can_id'], $list['tabs_user_id']);
+                                                            $scores = getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $list['tabs_can_id'], $list['tabs_user_id']);
+
+                                                            $totalPercentage += getCriteriaPercentage($scores, $criRow['tabs_cri_percentage'], $criRow['tabs_cri_score_max']);
                                                     ?>
-                                                    <td class="p-2 text-center"><?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $list['tabs_can_id'], $list['tabs_user_id']) ?></td>
+                                                    <td class="p-2 text-center"><?= $scores; ?></td>
+                                                    <td class="p-2 text-center"><?= RealNumber(getCriteriaPercentage($scores, $criRow['tabs_cri_percentage'], $criRow['tabs_cri_score_max']), 2) ?></td>
                                                     <?php } ?>
-                                                    <td class="p-2 text-center"><?= $scores / $criteriaCount; ?></td>
+                                                    <td class="p-2 text-center"><?= RealNumber($totalPercentage, 2); ?></td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>

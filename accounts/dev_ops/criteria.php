@@ -48,12 +48,18 @@
                                                     $getCriteria = selectCriteria($redirect);
                                                     while ($criteria=$getCriteria->fetch(PDO::FETCH_ASSOC)) {
                                                         $totalPercentage += $criteria['tabs_cri_percentage'];
+
+                                                        if ($totalPercentage == 100) {
+                                                            $textColor = "text-success";
+                                                        } else {
+                                                            $textColor = "text-danger";
+                                                        }
                                                 ?>
                                                 <tr>
                                                     <td><?= $criteria['tabs_cri_title'] ?></td>
                                                     <td><?= $criteria['tabs_cri_desc'] ?></td>
                                                     <td><?= $criteria['tabs_cri_score_min']." - ".$criteria['tabs_cri_score_max'] ?></td>
-                                                    <td class="text-center"><?= $criteria['tabs_cri_percentage']." %" ?></td>
+                                                    <td class="text-center"><?= $criteria['tabs_cri_percentage']."%" ?></td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
@@ -166,8 +172,8 @@
                                                 <?php } ?>
 
                                                 <tr>
-                                                    <td class="text-center" colspan="3">Total Percentage</td>
-                                                    <td class="text-center"><?= $totalPercentage." %" ?></td>
+                                                    <td class="text-center <?= $textColor; ?>" colspan="3">Total Percentage</td>
+                                                    <td class="text-center <?= $textColor; ?>"><?= $totalPercentage."%" ?></td>
                                                     <td colspan="2"></td>
                                                 </tr>
 

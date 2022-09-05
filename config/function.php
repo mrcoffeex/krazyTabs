@@ -1605,6 +1605,22 @@
 
     }
 
+    function countCandidateResultByEvent($eventId){
+
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_can_id FROM tabs_results
+                                        Where 
+                                        tabs_event_id = :tabs_event_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+
     function getCandidateResultByCategoryAndJudge($catId, $judgeId){
 
         $statement=dbaselink()->prepare("SELECT * FROM tabs_results
@@ -1682,16 +1698,31 @@
 
     }
 
-    function getAverageValueByCategoryPercentage($average, $criteriaMax, $percentage){
+    function getAverageValueByCategoryPercentage($average, $percentage){
 
         if ($average == 0) {
             $res = 0;
         } else {
-            $averagePercentageByCriteriaMax = ($average / $criteriaMax);
+            $averagePercentageByCriteriaMax = ($average * $percentage);
 
-            $res = ($averagePercentageByCriteriaMax * $percentage);
+            $res = $averagePercentageByCriteriaMax / 100;
         }
         
-        return RealNumber($res, 2);
+        return $res;
+    }
+
+    function getCriteriaPercentage($score, $percentage, $criteriaMax){
+
+        $x = ($score * $percentage) / 100;
+        $y = $x * $criteriaMax;
+
+        if (is_nan($y)) {
+            $res = 0;
+        } else {
+            $res = $y;
+        }
+
+        return $res;
+
     }
 ?>
