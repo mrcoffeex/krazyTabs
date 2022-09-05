@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2022 at 05:25 AM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.0.32
+-- Generation Time: Sep 05, 2022 at 08:50 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.0.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -120,13 +118,15 @@ INSERT INTO `tabs_criterias` (`tabs_cri_id`, `tabs_cri_title`, `tabs_cri_desc`, 
 (3, 'Pronunciation', '', 5, 10, 0, 1),
 (4, 'Delivery', '', 5, 10, 0, 1),
 (5, 'Thought', '', 5, 10, 0, 1),
-(7, 'Casual', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 0, 5),
-(8, 'Modern Filipiñana ', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 0, 7),
-(9, 'Swimwear', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 0, 6),
+(7, 'Casual', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 100, 5),
+(8, 'Modern Filipiñana ', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 100, 7),
+(9, 'Swimwear', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 100, 6),
 (10, 'Gown', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 0, 8),
-(11, 'Preliminary Interview', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 0, 9),
-(14, 'Q & A', 'Beauty / Intelligence', 5, 10, 0, 11),
-(15, 'Preliminary Interview', 'Communication Skills / Content / Delivery', 5, 10, 0, 12);
+(11, 'Preliminary Interview', 'Beauty of the face / Bearing / Poise and Projection / Suitability of the Attire', 5, 10, 100, 9),
+(14, 'Q & A', 'Beauty / Intelligence', 5, 10, 100, 11),
+(15, 'Preliminary Interview', 'Communication Skills / Content / Delivery', 5, 10, 100, 12),
+(16, 'Beauty', 'Beauty 50%', 5, 10, 50, 10),
+(17, 'Intelligence', 'Intelligence 50%', 5, 10, 50, 10);
 
 -- --------------------------------------------------------
 
@@ -149,10 +149,10 @@ CREATE TABLE `tabs_events` (
 --
 
 INSERT INTO `tabs_events` (`tabs_event_id`, `tabs_event_title`, `tabs_event_desc`, `tabs_event_year`, `tabs_event_status`, `tabs_event_created`, `tabs_event_updated`) VALUES
-(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', 1, '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
-(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', 0, '2022-09-01 09:59:18', '2022-09-01 09:59:18'),
-(5, 'Mutya ng Digos 2022 TOP 5', 'top 5', '2022', 1, '2022-09-04 16:09:58', '2022-09-04 16:09:58'),
-(6, 'Mutya ng Digos 2022 TOP 10', 'top 10', '2022', 1, '2022-09-04 18:36:27', '2022-09-04 18:36:51');
+(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', 0, '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
+(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', 1, '2022-09-01 09:59:18', '2022-09-01 09:59:18'),
+(5, 'Mutya ng Digos 2022 TOP 5', 'top 5', '2022', 0, '2022-09-04 16:09:58', '2022-09-04 16:09:58'),
+(6, 'Mutya ng Digos 2022 TOP 10', 'top 10', '2022', 0, '2022-09-04 18:36:27', '2022-09-04 18:36:51');
 
 -- --------------------------------------------------------
 
@@ -413,7 +413,9 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (218, 'auth', 'Logout - judge2', '2022-09-04 22:48:32'),
 (219, 'auth', 'Login - judge3', '2022-09-04 22:48:42'),
 (220, 'auth', 'Logout - judge1', '2022-09-04 22:53:52'),
-(221, 'auth', 'Login - judge5', '2022-09-04 22:54:21');
+(221, 'auth', 'Login - judge5', '2022-09-04 22:54:21'),
+(222, 'auth', 'Login - dev', '2022-09-05 12:46:17'),
+(223, 'auth', 'Logout - dev', '2022-09-05 12:51:55');
 
 -- --------------------------------------------------------
 
@@ -1082,50 +1084,41 @@ ALTER TABLE `tabs_users`
 --
 ALTER TABLE `tabs_candidates`
   MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
 --
 -- AUTO_INCREMENT for table `tabs_categories`
 --
 ALTER TABLE `tabs_categories`
   MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `tabs_criterias`
 --
 ALTER TABLE `tabs_criterias`
-  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
+  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `tabs_events`
 --
 ALTER TABLE `tabs_events`
   MODIFY `tabs_event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `tabs_my_project`
 --
 ALTER TABLE `tabs_my_project`
   MODIFY `tabs_project` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
-
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 --
 -- AUTO_INCREMENT for table `tabs_results`
 --
 ALTER TABLE `tabs_results`
   MODIFY `tabs_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1248;
-
 --
 -- AUTO_INCREMENT for table `tabs_users`
 --
 ALTER TABLE `tabs_users`
   MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
