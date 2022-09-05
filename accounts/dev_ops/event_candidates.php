@@ -5,7 +5,7 @@
     $redirect = @$_GET['cd'];
 
     $title = getEventTitle($redirect)." Candidates";
-    $upp_description = '<span class="text-primary">'.countCandidates($redirect).'</span> results.';
+    $upp_description = '<span class="text-primary">'.countCandidatesByEvent($redirect).'</span> results.';
 ?>
 
 <!DOCTYPE html>

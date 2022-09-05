@@ -66,12 +66,12 @@
                                             <tbody>
                                                 <?php 
                                                     //populate candidates
-                                                    $getCandidates=selectCandidatesByEvent($redirect);
+                                                    $getCandidates=getCandidateResultByEvent($redirect);
                                                     while ($catList=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
-                                                    <td class="p-2 text-center"><?= $catList['tabs_can_number'] ?></td>
-                                                    <td class="p-2 text-center"><?= $catList['tabs_can_name'] ?></td>
+                                                    <td class="p-2 text-center"><?= getCandidateNumber($catList['tabs_can_id']) ?></td>
+                                                    <td class="p-2 text-center"><?= getCandidateName($catList['tabs_can_id']) ?></td>
                                                     <?php  
                                                         //populate judeges
                                                         $totalScore=0;

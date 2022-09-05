@@ -10,7 +10,7 @@
         $cri_desc = clean_string($_POST['cri_desc']);
         $cri_min = clean_int($_POST['cri_min']);
         $cri_max = clean_int($_POST['cri_max']);
-        $cri_percentage = 0;
+        $cri_percentage = clean_float($_POST['cri_percentage']);
 
         $update_data = updateCriteria($cri_title, $cri_desc, $cri_min, $cri_max, $cri_percentage, $redirect);
 

@@ -37,19 +37,23 @@
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Min-Max</th>
+                                                    <th class="text-center">Percentage %</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
+                                                    $totalPercentage=0;
                                                     $getCriteria = selectCriteria($redirect);
                                                     while ($criteria=$getCriteria->fetch(PDO::FETCH_ASSOC)) {
+                                                        $totalPercentage += $criteria['tabs_cri_percentage'];
                                                 ?>
                                                 <tr>
                                                     <td><?= $criteria['tabs_cri_title'] ?></td>
                                                     <td><?= $criteria['tabs_cri_desc'] ?></td>
                                                     <td><?= $criteria['tabs_cri_score_min']." - ".$criteria['tabs_cri_score_max'] ?></td>
+                                                    <td class="text-center"><?= $criteria['tabs_cri_percentage']." %" ?></td>
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
@@ -111,6 +115,12 @@
                                                                             <input type="number" class="form-control" name="cri_max" min="0" step="0.01" value="<?= $criteria['tabs_cri_score_max'] ?>" required>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="form-group">
+                                                                            <label>Percentage %</label>
+                                                                            <input type="number" class="form-control" name="cri_percentage" min="0" step="0.01" value="<?= $criteria['tabs_cri_percentage'] ?>" required>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -154,6 +164,12 @@
                                                 </div>
 
                                                 <?php } ?>
+
+                                                <tr>
+                                                    <td class="text-center" colspan="3">Total Percentage</td>
+                                                    <td class="text-center"><?= $totalPercentage." %" ?></td>
+                                                    <td colspan="2"></td>
+                                                </tr>
 
                                             </tbody>
                                         </table>
@@ -207,12 +223,12 @@
                                 <input type="number" class="form-control" name="cri_max" min="0" step="0.01" required>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-12">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                <label>Overall Percentage %</label>
+                                <label>Percentage %</label>
                                 <input type="number" class="form-control" name="cri_percentage" min="0" step="0.01" required>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -1591,6 +1591,20 @@
 
     }
 
+    function getCandidateResultByEvent($eventId){
+
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_can_id FROM tabs_results
+                                        Where 
+                                        tabs_event_id = :tabs_event_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        return $statement;
+
+    }
+
     function getCandidateResultByCategoryAndJudge($catId, $judgeId){
 
         $statement=dbaselink()->prepare("SELECT * FROM tabs_results

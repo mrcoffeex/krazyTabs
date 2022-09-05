@@ -41,13 +41,13 @@
                                                     <h5>Former/Current Clients:<br></h5>
                                                     <ul>
                                                         <li>Sunga Hospital (<span class="text-primary">Laboratory Results Information System</span>)</li>
-                                                        <li>SchedSave.com ((<span class="text-primary">Norway based</span>)</li>
-                                                        <li>Goncar Security Academy ((<span class="text-primary">Panabo/Tagum</span>)</li>
+                                                        <li>SchedSave.com (<span class="text-primary">Norway based</span>)</li>
+                                                        <li>Goncar Security Academy (<span class="text-primary">Panabo/Tagum</span>)</li>
                                                         <li>Little Ambassador Learning Center</li>
                                                         <li>Taghoy Medical Clinic</li>
-                                                        <li>RMB Rymars ((<span class="text-primary">Davao</span>)</li>
+                                                        <li>RMB Rymars (<span class="text-primary">Davao</span>)</li>
                                                         <li>ASCU Hardware</li>
-                                                        <li>HGS Hardware ((<span class="text-primary">other 3 branches</span>)</li>
+                                                        <li>HGS Hardware (<span class="text-primary">other 3 branches</span>)</li>
                                                     </ul>
                                                 </div>
                                                 <div class="col-md-6">
