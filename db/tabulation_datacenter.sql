@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2022 at 08:50 AM
+-- Generation Time: Oct 11, 2022 at 02:24 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.0.15
 
@@ -149,8 +149,8 @@ CREATE TABLE `tabs_events` (
 --
 
 INSERT INTO `tabs_events` (`tabs_event_id`, `tabs_event_title`, `tabs_event_desc`, `tabs_event_year`, `tabs_event_status`, `tabs_event_created`, `tabs_event_updated`) VALUES
-(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', 0, '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
-(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', 1, '2022-09-01 09:59:18', '2022-09-01 09:59:18'),
+(3, 'Mutya ng Digos 2022', 'mutya ng digos 2022', '2022', 1, '2022-08-31 15:57:15', '2022-09-01 10:13:02'),
+(4, 'Sinag ng Digos 2022', 'sinag ng digos 2022', '2022', 0, '2022-09-01 09:59:18', '2022-09-01 09:59:18'),
 (5, 'Mutya ng Digos 2022 TOP 5', 'top 5', '2022', 0, '2022-09-04 16:09:58', '2022-09-04 16:09:58'),
 (6, 'Mutya ng Digos 2022 TOP 10', 'top 10', '2022', 0, '2022-09-04 18:36:27', '2022-09-04 18:36:51');
 
@@ -165,6 +165,7 @@ CREATE TABLE `tabs_my_project` (
   `tabs_project_name` text NOT NULL,
   `tabs_project_address` text NOT NULL,
   `tabs_system_title` text NOT NULL,
+  `tabs_event_image` text NOT NULL,
   `tabs_year_origin` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -172,8 +173,8 @@ CREATE TABLE `tabs_my_project` (
 -- Dumping data for table `tabs_my_project`
 --
 
-INSERT INTO `tabs_my_project` (`tabs_project`, `tabs_project_name`, `tabs_project_address`, `tabs_system_title`, `tabs_year_origin`) VALUES
-(1, 'UM Tabulation Team', 'Digos City', '', '2022-08-31 11:27:07');
+INSERT INTO `tabs_my_project` (`tabs_project`, `tabs_project_name`, `tabs_project_address`, `tabs_system_title`, `tabs_event_image`, `tabs_year_origin`) VALUES
+(1, 'UM Tabulation Team', 'Digos City', '', '20221011195142_login-bg.png', '2022-08-31 11:27:07');
 
 -- --------------------------------------------------------
 
@@ -415,7 +416,28 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (220, 'auth', 'Logout - judge1', '2022-09-04 22:53:52'),
 (221, 'auth', 'Login - judge5', '2022-09-04 22:54:21'),
 (222, 'auth', 'Login - dev', '2022-09-05 12:46:17'),
-(223, 'auth', 'Logout - dev', '2022-09-05 12:51:55');
+(223, 'auth', 'Logout - dev', '2022-09-05 12:51:55'),
+(224, 'auth', 'Logout - dev', '2022-09-05 14:52:15'),
+(225, 'auth', 'Login - dev', '2022-09-05 14:55:45'),
+(226, 'auth', 'Logout - dev', '2022-09-05 14:56:04'),
+(227, 'auth', 'Login - dev', '2022-10-07 16:20:02'),
+(228, 'auth', 'Logout - dev', '2022-10-07 17:53:08'),
+(229, 'auth', 'Login - dev', '2022-10-11 09:27:36'),
+(230, 'auth', 'Logout - dev', '2022-10-11 09:27:39'),
+(231, 'auth', 'Login - dev', '2022-10-11 09:39:02'),
+(232, 'auth', 'Logout - dev', '2022-10-11 09:42:59'),
+(233, 'auth', 'Login - dev', '2022-10-11 09:43:05'),
+(234, 'auth', 'Logout - dev', '2022-10-11 11:29:41'),
+(235, 'auth', 'Login - dev', '2022-10-11 11:45:57'),
+(236, 'auth', 'Logout - dev', '2022-10-11 11:51:03'),
+(237, 'auth', 'Login - dev', '2022-10-11 11:57:18'),
+(238, 'auth', 'Logout - dev', '2022-10-11 11:57:30'),
+(239, 'auth', 'Login - dev', '2022-10-11 11:57:43'),
+(240, 'auth', 'Logout - dev', '2022-10-11 11:57:57'),
+(241, 'auth', 'Login - dev', '2022-10-11 11:58:07'),
+(242, 'auth', 'Logout - dev', '2022-10-11 19:51:45'),
+(243, 'auth', 'Logout - dev', '2022-10-11 19:51:48'),
+(244, 'auth', 'Login - dev', '2022-10-11 19:51:59');
 
 -- --------------------------------------------------------
 
@@ -1108,7 +1130,7 @@ ALTER TABLE `tabs_my_project`
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
 --
 -- AUTO_INCREMENT for table `tabs_results`
 --
