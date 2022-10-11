@@ -17,7 +17,7 @@
       
             <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
                 <div class="row flex-grow">
-                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                    <div class="col-lg-6 mt-5 align-items-center justify-content-center">
                         <div class="auth-form-transparent text-left p-3">
                             <div class="brand-logo">
                                 <img src="images/logo-long.png" alt="logo">
@@ -59,11 +59,14 @@
                                 <div class="my-3">
                                     <button type="submit" name="tabs_login" id="tabs_login" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
                                 </div>
+                                <div class="my-5">
+                                    <p class="text-dark font-weight-medium float-end flex-grow align-self-end"><?= $my_project_name; ?> &copy; <?= date("Y"); ?>  All rights reserved.</p>
+                                </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col-lg-6 login-half-bg d-flex flex-row">
-                        <p class="text-white font-weight-medium text-center flex-grow align-self-end"><?= $my_project_name; ?> &copy; <?= date("Y"); ?>  All rights reserved.</p>
+                    <div class="col-lg-6">
+                        <img src="uploads/<?= $my_event_image ?>" class="img-fluid" alt="event image">
                     </div>
                 </div>
             </div>

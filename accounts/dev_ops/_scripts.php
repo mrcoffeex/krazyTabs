@@ -82,6 +82,12 @@
 		return true;  
 	}
 
+	function validateUpdateImage(formObj){
+		formObj.submitImage.disabled = true;
+		formObj.submitImage.innerHTML = "processing ...";
+		return true;  
+	}
+
 	// events
 	$("#tabsName").focus();
 

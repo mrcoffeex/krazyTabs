@@ -33,6 +33,11 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <h3 class="mb-4"><i class="ti-info-alt"></i> About Us</h3>
+
+                                                    <div class="text-center">
+                                                        <img class="img-fluid" src="../../images/krazyappsph.png" alt="krazyappsph logo">
+                                                    </div>
+                                                    
                                                     <p class="mb-4" style="font-size: 15px; text-align: justify;">
                                                     We create/provides solutions to companies and individuals in a way of apps/softwares. Since 2017 we created several apps and helped a few companies to improved their transactions when it comes to efficiency and accuracy. Aside from the great performance and flexibility of our services. We offer Krazy affordable rates in the market.
                                                     </p>

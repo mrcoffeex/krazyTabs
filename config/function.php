@@ -299,6 +299,44 @@
         return $alpha;
     }
 
+    function ezImageUpload($input, $location){
+
+        $errors= array();
+        $file_name = $_FILES[$input]['name'];
+        $file_size =$_FILES[$input]['size'];
+        $file_tmp =$_FILES[$input]['tmp_name'];
+        $file_type=$_FILES[$input]['type'];
+        $file_ext=strtolower(end(explode('.',$_FILES[$input]['name'])));
+
+        $final_filename = date("YmdHis")."_".$file_name;
+
+        $extensions= array("jpeg","jpg","png");
+
+        if(in_array($file_ext,$extensions)=== false){
+            $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+        }
+
+        if($file_size > 10485760){
+            $errors[]='File size must be excately 10 MB';
+        }
+
+        $file_directory = $location."".$final_filename;
+
+        if(empty($errors)==true){
+            move_uploaded_file($file_tmp, $file_directory);
+            $res = $final_filename;
+        }else{
+            if ($file_tmp == "") {
+                $res = "empty";
+            }else{
+                $res = "error";
+            }
+        }
+
+        return $res;
+
+    }
+
     function latest_code($ltable, $lcolumn, $lfirstcount){
 
         $statement=dbaselink()->prepare("SELECT :lcolumn FROM :ltable ORDER BY :lcolumn DESC LIMIT 1");
@@ -1723,6 +1761,25 @@
         }
 
         return $res;
+
+    }
+
+    //methods_image
+
+    function updateEventImage($newImage){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_my_project
+                                        SET
+                                        tabs_event_image = :tabs_event_image");
+        $statement->execute([
+            'tabs_event_image' => $newImage
+        ]);
+        
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 ?>

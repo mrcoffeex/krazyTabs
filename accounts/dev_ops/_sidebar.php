@@ -33,6 +33,12 @@
                 <span class="menu-title">System Users</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="event_image">
+                <i class="ti-image menu-icon"></i>
+                <span class="menu-title">Event Image</span>
+            </a>
+        </li>
         <!-- <li class="nav-item">
             <a class="nav-link" href="error?note=not_ready">
                 <i class="ti-server menu-icon"></i>

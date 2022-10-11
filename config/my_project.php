@@ -12,4 +12,5 @@
 	$my_project_address = $project['tabs_project_address'];
 	$my_project_title = $project['tabs_system_title'];
 	$my_project_origin = $project['tabs_year_origin'];
+	$my_event_image = $project['tabs_event_image'];
 ?>

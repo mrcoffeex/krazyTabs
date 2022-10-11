@@ -10,6 +10,12 @@
                 toastr.error('Error');
             </script>
         ";
+    }else if ($note == "invalid") {
+        echo "
+            <script>
+                toastr.error('Invalid');
+            </script>
+        ";
     }else if ($note == "account_updated") {
         echo "
             <script>
@@ -152,6 +158,18 @@
         echo "
             <script>
                 toastr.success('Criteria has been deleted');
+            </script>
+        ";
+    }else if ($note == "updated" && $currpage == "event_image") {
+        echo "
+            <script>
+                toastr.success('Image has been updated');
+            </script>
+        ";
+    }else if ($note == "invalid_upload" && $currpage == "event_image") {
+        echo "
+            <script>
+                toastr.error('Image is invalid only accepting JPEG PNG GIF');
             </script>
         ";
     }else{
