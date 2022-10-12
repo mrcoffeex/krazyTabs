@@ -30,7 +30,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-event"><i class="ti-plus"></i> Create Event</button>
+                                        <a href="event_create_form">
+                                            <button type="button" class="btn btn-success"><i class="ti-plus"></i> Create Event</button>
+                                        </a>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
@@ -42,6 +44,7 @@
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Year</th>
+                                                    <th class="text-center">Settings</th>
                                                     <th class="text-center">Switch</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
@@ -82,6 +85,9 @@
                                                     <td><?= $event['tabs_event_desc']; ?></td>
                                                     <td><?= $event['tabs_event_year']; ?></td>
                                                     <td class="text-center">
+                                                        <?= getEliminate($event['tabs_event_eliminate'], $event['tabs_event_eliminate_num'], $event['tabs_event_eliminate_title']) ?>
+                                                    </td>
+                                                    <td class="text-center">
                                                         <div class="form-switch">
                                                             <input 
                                                             class="form-check-input" 
@@ -94,13 +100,13 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button 
-                                                            type="button" 
-                                                            class="btn btn-info btn-sm" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#edit_<?= $event['tabs_event_id']; ?>">
-                                                            <i class="ti-pencil"></i>
-                                                        </button>
+                                                        <a href="event_update_form?rand=<?= my_rand_str(30) ?>&eventId=<?= $event['tabs_event_id']; ?>">
+                                                            <button 
+                                                                type="button" 
+                                                                class="btn btn-info btn-sm" >
+                                                                <i class="ti-pencil"></i>
+                                                            </button>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center">
                                                         <button 
@@ -131,15 +137,15 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <label>Title</label>
-                                                                    <input type="text" class="form-control" name="event_title" value="<?= $event['tabs_event_title'] ?>" autofocus required>
+                                                                    <input type="text" class="form-control" name="event_title" maxlength="255" value="<?= $event['tabs_event_title'] ?>" autofocus required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Description</label>
-                                                                    <textarea class="form-control" name="event_desc" rows="3" required><?= $event['tabs_event_desc'] ?></textarea>
+                                                                    <textarea class="form-control" name="event_desc" rows="3" maxlength="255" required><?= $event['tabs_event_desc'] ?></textarea>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Year</label>
-                                                                    <input type="text" class="form-control" name="event_year" maxlength="4" value="<?= $event['tabs_event_year'] ?>" required>
+                                                                    <input type="number" class="form-control" name="event_year" min="2022" max="2050" value="<?= $event['tabs_event_year'] ?>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -231,17 +237,51 @@
                 </div>
                 <form method="post" enctype="multipart/form-data" action="event_create" onsubmit="validateCreateEvent(this)">
                 <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Scoring Type</label>
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" name="event_scoretype" id="event_scoretype0" value="0" checked required>
+                                    Averaging
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" name="event_scoretype" id="event_scoretype1" value="1">
+                                    Ranking
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>Title</label>
-                        <input type="text" class="form-control" name="event_title" autofocus required>
+                        <input type="text" class="form-control" name="event_title" maxlength="255" required>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="event_desc" rows="3" required></textarea>
+                        <textarea class="form-control" name="event_desc" rows="3" maxlength="255" required></textarea>
                     </div>
                     <div class="form-group">
                         <label>Year</label>
                         <input type="number" class="form-control" name="event_year" min="2022" max="2050" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" name="event_eliminate" id="event_eliminate" value="1" checked> Elimation
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Elimation Title</label>
+                        <input type="text" class="form-control" name="event_eliminate_title" id="event_eliminate_title" maxlength="255" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Elimation Candidate Count</label>
+                        <input type="number" class="form-control" name="event_eliminate_num" id="event_eliminate_num" min="1" step="1" max="20" required>
                     </div>
                 </div>
                 <div class="modal-footer">

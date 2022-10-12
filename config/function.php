@@ -429,6 +429,17 @@
 
     }
 
+    function validateChecked($value, $checkboxValue){
+
+        if ($checkboxValue == $value) {
+            $res = "checked";
+        } else {
+            $res = "";
+        }
+        
+        return $res;
+    }
+
     // methods_system_logs
 
     function get_system_logs_skin($type){
@@ -972,6 +983,19 @@
         return $statement;
     }
 
+    function selectEventsRecent(){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_events
+                                        Where
+                                        date(tabs_event_created) BETWEEN :created_from AND CURDATE()
+                                        Order By tabs_event_id DESC LIMIT 10");
+        $statement->execute([
+            'created_from' => date("Y-m-d", strtotime("-6 days"))
+        ]);
+
+        return $statement;
+    }
+
     function selectEventsById($eventId){
 
         $statement=dbaselink()->prepare("SELECT * From tabs_events 
@@ -1003,7 +1027,7 @@
         return $statement;
     }
 
-    function createEvent($title, $desc, $year){
+    function createEvent($title, $desc, $year, $eliminate, $eliminateTitle, $eliminateNum){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_events
             (
@@ -1011,6 +1035,9 @@
                 tabs_event_desc, 
                 tabs_event_year, 
                 tabs_event_status, 
+                tabs_event_eliminate, 
+                tabs_event_eliminate_title, 
+                tabs_event_eliminate_num, 
                 tabs_event_created, 
                 tabs_event_updated
             )
@@ -1018,7 +1045,10 @@
                 :tabs_event_title,
                 :tabs_event_desc,
                 :tabs_event_year,
-                :tabs_event_status,
+                :tabs_event_status, 
+                :tabs_event_eliminate, 
+                :tabs_event_eliminate_title, 
+                :tabs_event_eliminate_num, 
                 NOW(),
                 NOW()
             )");
@@ -1026,7 +1056,10 @@
             'tabs_event_title' => $title, 
             'tabs_event_desc' => $desc, 
             'tabs_event_year' => $year, 
-            'tabs_event_status' => 0
+            'tabs_event_status' => 0, 
+            'tabs_event_eliminate' => $eliminate, 
+            'tabs_event_eliminate_title' => $eliminateTitle, 
+            'tabs_event_eliminate_num' => $eliminateNum, 
         ]);
 
         if ($statement) {
@@ -1036,20 +1069,26 @@
         }
     }
 
-    function updateEvent($title, $desc, $year, $eventId){
+    function updateEvent($title, $desc, $year, $eliminate, $eliminateTitle, $eliminateNum, $eventId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_events
             SET
             tabs_event_title = :tabs_event_title, 
             tabs_event_desc = :tabs_event_desc, 
             tabs_event_year = :tabs_event_year,
+            tabs_event_eliminate = :tabs_event_eliminate,
+            tabs_event_eliminate_title = :tabs_event_eliminate_title,
+            tabs_event_eliminate_num = :tabs_event_eliminate_num,
             tabs_event_updated = NOW()
             Where
             tabs_event_id = :tabs_event_id");
         $statement->execute([
             'tabs_event_title' => $title, 
             'tabs_event_desc' => $desc, 
-            'tabs_event_year' => $year,
+            'tabs_event_year' => $year, 
+            'tabs_event_eliminate' => $eliminate, 
+            'tabs_event_eliminate_title' => $eliminateTitle, 
+            'tabs_event_eliminate_num' => $eliminateNum, 
             'tabs_event_id' => $eventId
         ]);
 
@@ -1168,6 +1207,39 @@
 
         if ($status == 1) {
             $res = "checked";
+        } else {
+            $res = "";
+        }
+        
+        return $res;
+    }
+
+    function getEliminate($eliminate, $eliminateNum, $eliminateTitle){
+
+        if ($eliminate == 0) {
+            $res = '<span class="badge badge-danger">No elimination</span>';
+        } else {
+            $res = '<span class="badge badge-primary">Elimination</span> <span class="badge badge-primary">' . $eliminateNum . ' candidates </span> <span class="badge badge-primary">' . $eliminateTitle . '</span>';
+        }
+        
+        return $res;
+    }
+
+    function requiredEliminate($eliminate){
+
+        if ($eliminate == 0) {
+            $res = "";
+        } else {
+            $res = "required";
+        }
+        
+        return $res;
+    }
+
+    function readonlyEliminate($eliminate){
+
+        if ($eliminate == 0) {
+            $res = "readonly";
         } else {
             $res = "";
         }

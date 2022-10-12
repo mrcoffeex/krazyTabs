@@ -155,4 +155,35 @@
 	load_live_system_logs_count();
 	});
 
+	$('#event_eliminate').change(function() {
+		
+		if ($('#event_eliminate').prop('checked') == true) {
+
+			console.log('checked');
+			$('#event_eliminate').val(1);
+
+			$('#event_eliminate_title').prop('readonly', false);
+			$('#event_eliminate_title').prop('required', true);
+
+			$('#event_eliminate_num').prop('readonly', false);
+			$('#event_eliminate_num').prop('required', true);
+			$('#event_eliminate_num').val('');
+
+		} else {
+
+			console.log('unchecked');
+			$('#event_eliminate').val(0);
+
+			$('#event_eliminate_title').prop('readonly', true);
+			$('#event_eliminate_title').prop('required', false);
+			$('#event_eliminate_title').val('');
+
+			$('#event_eliminate_num').prop('readonly', true);
+			$('#event_eliminate_num').prop('required', false);
+			$('#event_eliminate_num').val(0);
+
+		}
+
+	});
+
 </script>
