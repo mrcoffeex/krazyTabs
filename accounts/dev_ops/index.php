@@ -74,6 +74,9 @@
                                         //get categories
                                         $getCategories=selectCategories($event['tabs_event_id']);
                                         $countCategories=$getCategories->rowCount();
+
+                                        $candidates = countCandidatesByEvent($event['tabs_event_id']);
+                                        $judges = countJudgesByEvent($event['tabs_event_id']);
                                 ?>
 
                                 <div class="col-md-12">
@@ -96,6 +99,9 @@
 
                                                             <?php
                                                                 while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
+
+                                                                $criterias = countCriteria($category['tabs_cat_id']);
+                                                                $expectedScoreCount = $candidates * $criterias * $judges;
                                                             ?>
                                                             
                                                             <td class="p-3 text-center">
@@ -103,7 +109,9 @@
                                                                     <button 
                                                                         type="button" 
                                                                         class="btn btn-primary btn-sm">
-                                                                        <i class="ti-bar-chart"></i> <?= $category['tabs_cat_title'] ?>
+                                                                        <i class="ti-bar-chart"></i> 
+                                                                        <?= $category['tabs_cat_title'] ?> 
+                                                                        <?= countCategoryResults($category['tabs_cat_id']) . "/" . $expectedScoreCount ?>
                                                                     </button>
                                                                 </a>
                                                             </td>

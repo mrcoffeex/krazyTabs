@@ -8,7 +8,7 @@
     $eventID = getEventIdByCatId($redirect);
 
     $criteriaCount = countCriteria($redirect);
-    $candidateCount = countCandidateResultByEvent($eventID);
+    $candidateCount = countCandidateResultByEventCategory($eventID, $redirect);
 
     $title = getEventTitleByCatId($redirect).": ".getCategoryTitle($redirect)." Category Results";
     $upp_description = '<span class="text-primary">'.countCategoryResults($redirect).'</span> results in <span class="text-success">'.$candidateCount."</span> Candidates";
@@ -73,7 +73,7 @@
                                             <tbody>
                                                 <?php 
                                                     //populate candidates
-                                                    $getCandidates=getCandidateResultByEvent($eventID);
+                                                    $getCandidates=getCandidateResultByEventCategory($eventID, $redirect);
                                                     while ($catList=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
@@ -143,8 +143,10 @@
                                                         $getCriRow=selectCriteria($redirect);
                                                         while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
                                                     ?>
-                                                    <th class="p-2 text-center"><?= $criRow['tabs_cri_title'] ?></th>
-                                                    <th class="p-2 text-center text-primary"><?= $criRow['tabs_cri_percentage']."%" ?></th>
+                                                    <th class="p-2 text-center" title="<?= $criRow['tabs_cri_title'] ?>">
+                                                        <?= limitString($criRow['tabs_cri_title'], 10) ?> 
+                                                        <span class="text-primary"><?= $criRow['tabs_cri_percentage']."%" ?></span>
+                                                    </th>
                                                     <?php } ?>
                                                     <th class="p-2 text-center">Total %</th>
                                                 </tr>
@@ -167,8 +169,10 @@
 
                                                             $totalPercentage += getCriteriaPercentage($scores, $criRow['tabs_cri_percentage'], $criRow['tabs_cri_score_max']);
                                                     ?>
-                                                    <td class="p-2 text-center"><?= $scores; ?></td>
-                                                    <td class="p-2 text-center"><?= RealNumber(getCriteriaPercentage($scores, $criRow['tabs_cri_percentage'], $criRow['tabs_cri_score_max']), 2) ?></td>
+                                                    <td class="p-2 text-center">
+                                                        <?= $scores; ?>
+                                                        <span class="float-end">( <?= RealNumber(getCriteriaPercentage($scores, $criRow['tabs_cri_percentage'], $criRow['tabs_cri_score_max']), 2)."%" ?> )</span>
+                                                    </td>
                                                     <?php } ?>
                                                     <td class="p-2 text-center"><?= RealNumber($totalPercentage, 2); ?></td>
                                                 </tr>

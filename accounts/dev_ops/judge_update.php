@@ -12,7 +12,7 @@
         $event = clean_int($_POST['event']);
 
         if (countUsernameDuplicatesExceptMine($username, $judgeId) > 0) {
-            header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
+            header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=username_exists");
         }else{
             $update_data = updateJudge($name, $username, $password, $event, $judgeId);
     

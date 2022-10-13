@@ -9,7 +9,7 @@
         $username = clean_string($_POST['username']);
 
         if (checkIfExist("tabs_users", "tabs_username", $username) > 0) {
-            header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
+            header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=username_exists");
         }else{
             $insert_data = createJudge($name, $username, $eventId);
     

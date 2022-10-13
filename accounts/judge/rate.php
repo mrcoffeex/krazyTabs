@@ -113,7 +113,7 @@
                                                             class="form-range" 
                                                             min="<?= $criteria['tabs_cri_score_min'] ?>" 
                                                             max="<?= $criteria['tabs_cri_score_max'] ?>" 
-                                                            step="0.01" 
+                                                            step="1" 
                                                             id="range_<?= $criteria['tabs_cri_id'] ?>" 
                                                             onchange="rangeValue_<?= $criteria['tabs_cri_id'] ?>()">
                                                         </div>
@@ -127,7 +127,7 @@
                                                             class="form-control text-center"
                                                             min="<?= $criteria['tabs_cri_score_min'] ?>" 
                                                             max="<?= $criteria['tabs_cri_score_max'] ?>" 
-                                                            step="0.01" 
+                                                            step="1" 
                                                             value="<?= getCandidateResultByCriteria($criteria['tabs_cri_id'], $catId, $canId, $tabs_user_id) ?>" 
                                                             autofocus 
                                                             required

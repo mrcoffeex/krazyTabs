@@ -1790,9 +1790,43 @@
 
     }
 
+    function getCandidateResultByEventCategory($eventId, $catId){
+
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_can_id FROM tabs_results
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id AND
+                                        tabs_event_id = :tabs_event_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_cat_id' => $catId,
+            'tabs_event_id' => $eventId
+        ]);
+
+        return $statement;
+
+    }
+
+    function countCandidateResultByEventCategory($eventId, $catId){
+
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_can_id FROM tabs_results
+                                        Where 
+                                        tabs_cat_id = :tabs_cat_id AND
+                                        tabs_event_id = :tabs_event_id 
+                                        Order By tabs_result_score DESC");
+        $statement->execute([
+            'tabs_cat_id' => $catId,
+            'tabs_event_id' => $eventId
+        ]);
+
+        $count=$statement->rowCount();
+
+        return $count;
+
+    }
+
     function getCandidateResultByCategoryAndJudge($catId, $judgeId){
 
-        $statement=dbaselink()->prepare("SELECT * FROM tabs_results
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_can_id, tabs_user_id FROM tabs_results
                                         Where 
                                         tabs_cat_id = :tabs_cat_id AND 
                                         tabs_user_id = :tabs_user_id 
@@ -1882,13 +1916,12 @@
 
     function getCriteriaPercentage($score, $percentage, $criteriaMax){
 
-        $x = ($score * $percentage) / 100;
-        $y = $x * $criteriaMax;
+        $x = ($score / $criteriaMax) * $percentage;
 
-        if (is_nan($y)) {
+        if (is_nan($x)) {
             $res = 0;
         } else {
-            $res = $y;
+            $res = $x;
         }
 
         return $res;

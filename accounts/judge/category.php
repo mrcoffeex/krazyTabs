@@ -62,8 +62,13 @@
                                                         $getCriHead=selectCriteria($redirect);
                                                         while ($criHead=$getCriHead->fetch(PDO::FETCH_ASSOC)) {
                                                     ?>
-                                                    <th class="sortStyle text-center"><?= $criHead['tabs_cri_title'] ?> <i class="ti-angle-down"></i></th>
+                                                    <th class="sortStyle text-center">
+                                                        <?= $criHead['tabs_cri_title'] ?> 
+                                                        <span class="text-primary"><?= $criHead['tabs_cri_percentage']."%" ?></span>
+                                                        <i class="ti-angle-down"></i>
+                                                    </th>
                                                     <?php } ?>
+                                                    <th class="text-center">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -86,11 +91,17 @@
                                                     <td><?= $candidate['tabs_can_name'] ?></td>
                                                     <?php  
                                                         //get criteria
+                                                        $totalScore=0;
                                                         $getCriRow=selectCriteria($redirect);
                                                         while ($criRow=$getCriRow->fetch(PDO::FETCH_ASSOC)) {
+
+                                                            $score = getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id);
+
+                                                            $totalScore += $score;
                                                     ?>
                                                     <td class="text-center"><?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?></td>
                                                     <?php } ?>
+                                                    <td class="text-center"><?= $totalScore ?></td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>
