@@ -40,6 +40,7 @@
                                                 <tr class="table-dark">
                                                     <th class="text-center">Results</th>
                                                     <th class="text-center">Categories</th>
+                                                    <th class="text-center">Judges</th>   
                                                     <th class="text-center">Candidates</th>    
                                                     <th>Title</th>
                                                     <th>Description</th>
@@ -76,8 +77,16 @@
                                                     <td class="text-center">
                                                         <button 
                                                             type="button" 
+                                                            class="btn btn-info btn-sm" 
+                                                            onclick="window.location.href='event_judges?rand=<?= my_rand_str(30) ?>&eventId=<?= $event['tabs_event_id'] ?>'">
+                                                            <i class="ti-user"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button 
+                                                            type="button" 
                                                             class="btn btn-warning btn-sm" 
-                                                            onclick="window.location.href='event_candidates?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id'] ?>'">
+                                                            onclick="window.location.href='event_candidates?rand=<?= my_rand_str(30) ?>&eventId=<?= $event['tabs_event_id'] ?>'">
                                                             <i class="ti-crown"></i>
                                                         </button>
                                                     </td>

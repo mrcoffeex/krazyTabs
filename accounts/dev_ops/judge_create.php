@@ -2,20 +2,21 @@
     include '../../config/includes.php';
     include 'session.php';
 
+    $eventId = clean_string($_GET['eventId']);
+
     if (isset($_POST['name'])) {
         $name = clean_string($_POST['name']);
         $username = clean_string($_POST['username']);
-        $event = clean_int($_POST['event']);
 
         if (checkIfExist("tabs_users", "tabs_username", $username) > 0) {
             header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
         }else{
-            $insert_data = createJudge($name, $username, $event);
+            $insert_data = createJudge($name, $username, $eventId);
     
             if ($insert_data == true) {
-                header("location: judges?rand=".my_rand_str(30)."&note=judge_added");
+                header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=judge_added");
             }else{
-                header("location: judges?rand=".my_rand_str(30)."&note=error");
+                header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=error");
             }
         }
     }

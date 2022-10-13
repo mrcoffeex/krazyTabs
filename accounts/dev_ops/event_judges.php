@@ -2,8 +2,10 @@
     require '../../config/includes.php';
     require 'session.php';
 
-    $title = "Judges";
-    $upp_description = '<span class="text-primary">'.countJudges().'</span> results.';
+    $eventId = clean_int($_GET['eventId']);
+
+    $title = getEventTitle($eventId)." Judges";
+    $upp_description = '<span class="text-primary">'.countJudgesByEvent($eventId).'</span> results.';
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +46,7 @@
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    $getJudges=selectJudges();
+                                                    $getJudges=selectJudgesByEvent($eventId);
                                                     while ($judge=$getJudges->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
@@ -75,20 +77,20 @@
                                                             <form 
                                                                 method="post" 
                                                                 enctype="multipart/form-data" 
-                                                                action="judge_update?rand=<?= my_rand_str(30) ?>&cd=<?= $judge['tabs_user_id'] ?>">
+                                                                action="judge_update?rand=<?= my_rand_str(30) ?>&eventId=<?= $eventId ?>&judgeId=<?= $judge['tabs_user_id'] ?>">
 
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <label>Name</label>
-                                                                    <input type="text" class="form-control" name="name" value="<?= $judge['tabs_full_name'] ?>" autofocus required>
+                                                                    <input type="text" class="form-control" name="name" minlength="6" maxlength="255" value="<?= $judge['tabs_full_name'] ?>" autofocus required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Username</label>
-                                                                    <input type="text" class="form-control" name="username" value="<?= $judge['tabs_username'] ?>" required>
+                                                                    <input type="text" class="form-control" name="username" minlength="6" maxlength="16" value="<?= $judge['tabs_username'] ?>" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Password</label>
-                                                                    <input type="password" class="form-control" name="password" id="password_<?= $judge['tabs_user_id'] ?>" value="<?= decryptIt($judge['tabs_password']) ?>" required>
+                                                                    <input type="password" class="form-control" name="password" minlength="6" maxlength="16" id="password_<?= $judge['tabs_user_id'] ?>" value="<?= decryptIt($judge['tabs_password']) ?>" required>
                                                                 </div>
                                                                 <div class="form-check form-check-primary">
                                                                     <label class="form-check-label">
@@ -160,28 +162,15 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" enctype="multipart/form-data" action="judge_create" onsubmit="validateCreateJudge(this)">
+                <form method="post" enctype="multipart/form-data" action="judge_create?eventId=<?= $eventId ?>" onsubmit="validateCreateJudge(this)">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" name="name" autofocus required>
+                        <input type="text" class="form-control" name="name" minlength="6" maxlength="255" autofocus required>
                     </div>
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Event</label>
-                        <select name="event" class="form-control" required>
-                            <option></option>
-                            <?php  
-                                //populate events
-                                $getEvents = selectEvents();
-                                while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<option value='".$event['tabs_event_id']."'>".$event['tabs_event_title']."</option>";
-                                }
-                            ?>
-                        </select>
+                        <input type="text" class="form-control" name="username" minlength="6" maxlength="16" required>
                     </div>
                 </div>
                 <div class="modal-footer">

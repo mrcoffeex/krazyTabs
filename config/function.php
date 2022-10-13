@@ -668,6 +668,24 @@
 
     }
 
+    function countJudgesByEvent($eventId){
+        
+        $statement=dbaselink()->prepare("SELECT tabs_user_id From tabs_users
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_user_type = :tabs_user_type AND 
+                                        tabs_user_status = :tabs_user_status");
+        $statement->execute([
+            'tabs_user_type' => 1,
+            'tabs_user_status' => 0,
+            'tabs_event_id' => $eventId
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
     function selectJudges(){
 
         $statement=dbaselink()->prepare("SELECT * From tabs_users 
@@ -678,6 +696,23 @@
         $statement->execute([
             'tabs_user_type' => 1,
             'tabs_user_status' => 0
+        ]);
+
+        return $statement;
+    }
+
+    function selectJudgesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("SELECT * From tabs_users 
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_user_type = :tabs_user_type AND 
+                                        tabs_user_status = :tabs_user_status
+                                        Order By tabs_full_name ASC");
+        $statement->execute([
+            'tabs_user_type' => 1,
+            'tabs_user_status' => 0,
+            'tabs_event_id' => $eventId
         ]);
 
         return $statement;
@@ -881,20 +916,44 @@
 
     }
 
-    function deleteCandidate($canId){
+    function countCandidateResults($canId){
 
-        $statement=dbaselink()->prepare("DELETE FROM tabs_candidates
+        $statement=dbaselink()->prepare("SELECT tabs_result_id From tabs_results
                                         Where
                                         tabs_can_id = :tabs_can_id");
         $statement->execute([
             'tabs_can_id' => $canId
         ]);
 
-        if ($statement) {
-            return true;
-        }else{
-            return false;
-        }
+        $count=$statement->rowCount();
+        
+        return $count;
+
+    }
+
+    function deleteCandidate($canId){
+
+        //check results
+        if (empty(countCandidateResults($canId))) {
+            
+            $statement=dbaselink()->prepare("DELETE FROM tabs_candidates
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+            $statement->execute([
+                'tabs_can_id' => $canId
+            ]);
+
+            if ($statement) {
+                return true;
+            }else{
+                return false;
+            }
+
+        } else {
+
+            return "has_record";
+
+        } 
 
     }
 

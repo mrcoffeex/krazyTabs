@@ -118,7 +118,7 @@
 
         }
 
-        if ($currpage == "judges") {
+        if ($currpage == "event_judges") {
             
             if ($note == "judge_added") {
                 echo "
@@ -144,7 +144,7 @@
 
         }
 
-        if ($currpage == "candidates") {
+        if ($currpage == "event_candidates") {
             
             if ($note == "can_added") {
                 echo "
@@ -168,6 +168,12 @@
                 echo "
                     <script>
                         toastr.error('Candidate number has been taken');
+                    </script>
+                ";
+            } else if ($note == "has_record") {
+                echo "
+                    <script>
+                        toastr.error('Candidate has existing record. Cannot delete');
                     </script>
                 ";
             } else {

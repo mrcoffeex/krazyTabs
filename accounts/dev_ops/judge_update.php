@@ -2,7 +2,8 @@
     include '../../config/includes.php';
     include 'session.php';
 
-    $redirect = @$_GET['cd'];
+    $eventId = clean_int($_GET['eventId']);
+    $judgeId = clean_int($_GET['judgeId']);
 
     if (isset($_POST['name'])) {
         $name = clean_string($_POST['name']);
@@ -10,15 +11,15 @@
         $password = clean_string(encryptIt($_POST['password']));
         $event = clean_int($_POST['event']);
 
-        if (countUsernameDuplicatesExceptMine($username, $redirect) > 0) {
+        if (countUsernameDuplicatesExceptMine($username, $judgeId) > 0) {
             header("location: judges?rand=".my_rand_str(30)."&note=username_exists");
         }else{
-            $update_data = updateJudge($name, $username, $password, $event, $redirect);
+            $update_data = updateJudge($name, $username, $password, $event, $judgeId);
     
             if ($update_data == true) {
-                header("location: judges?rand=".my_rand_str(30)."&note=judge_updated");
+                header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=judge_updated");
             }else{
-                header("location: judges?rand=".my_rand_str(30)."&note=error");
+                header("location: event_judges?rand=".my_rand_str(30)."&eventId=$eventId&note=error");
             }
         }
     }

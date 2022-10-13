@@ -7,18 +7,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="judges">
-                <i class="ti-user  menu-icon"></i>
-                <span class="menu-title">Judges</span> 
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="candidates">
-                <i class="ti-crown menu-icon"></i>
-                <span class="menu-title">Candidates</span>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="events">
                 <i class="ti-star menu-icon"></i>
                 <span class="menu-title">Events</span>

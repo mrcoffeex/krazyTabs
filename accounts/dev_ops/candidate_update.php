@@ -2,7 +2,8 @@
     include '../../config/includes.php';
     include 'session.php';
 
-    $redirect = @$_GET['cd'];
+    $eventId = clean_int($_GET['eventId']);
+    $canId = clean_int($_GET['canId']);
 
     if (isset($_POST['can_number'])) {
         $can_number = clean_int($_POST['can_number']);
@@ -10,12 +11,12 @@
         $designation = clean_string($_POST['designation']);
         $event = clean_int($_POST['event']);
 
-        $insert_data = updateCandidate($can_number, $name, $designation, $event, $redirect);
+        $insert_data = updateCandidate($can_number, $name, $designation, $event, $canId);
 
         if ($insert_data == true) {
-            header("location: candidates?rand=".my_rand_str(30)."&note=can_updated");
+            header("location: event_candidates?rand=".my_rand_str(30)."&eventId=$eventId&note=can_updated");
         }else{
-            header("location: candidates?rand=".my_rand_str(30)."&note=error");
+            header("location: event_candidates?rand=".my_rand_str(30)."&eventId=$eventId&note=error");
         }
     }
 ?>

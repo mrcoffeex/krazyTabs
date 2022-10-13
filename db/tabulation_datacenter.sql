@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2022 at 03:02 PM
+-- Generation Time: Oct 13, 2022 at 06:04 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.0.15
 
@@ -81,7 +81,9 @@ INSERT INTO `tabs_candidates` (`tabs_can_id`, `tabs_can_number`, `tabs_can_name`
 (40, 12, 'Sinag #12', 'Sinag #12', 0, '2022-09-05 17:49:46', 4),
 (41, 13, 'Sinag #13', 'Sinag #13', 0, '2022-09-05 17:49:56', 4),
 (42, 14, 'Sinag #14', 'Sinag #14', 0, '2022-09-05 17:50:07', 7),
-(43, 15, 'Sinag #15', 'Sinag #15', 0, '2022-09-05 17:50:19', 7);
+(43, 15, 'Sinag #15', 'Sinag #15', 0, '2022-09-05 17:50:19', 7),
+(45, 1, 'Miss DTP', 'Miss DTP', 0, '2022-10-13 11:35:30', 8),
+(47, 2, 'Miss DBA', 'Miss DBA', 0, '2022-10-13 11:40:46', 8);
 
 -- --------------------------------------------------------
 
@@ -526,7 +528,8 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (275, 'auth', 'Login - judge101', '2022-09-05 18:05:44'),
 (276, 'auth', 'Login - judge105', '2022-09-05 18:05:48'),
 (277, 'auth', 'Logout - dev', '2022-10-12 20:34:14'),
-(278, 'auth', 'Login - dev', '2022-10-12 20:34:24');
+(278, 'auth', 'Login - dev', '2022-10-12 20:34:24'),
+(279, 'auth', 'Login - johngates', '2022-10-13 11:38:32');
 
 -- --------------------------------------------------------
 
@@ -1419,7 +1422,10 @@ INSERT INTO `tabs_results` (`tabs_result_id`, `tabs_event_id`, `tabs_cat_id`, `t
 (1715, 7, 16, 22, 20, 38, 7, '2022-09-05 22:41:38', '2022-09-05 22:41:38'),
 (1716, 7, 16, 22, 18, 43, 9.89, '2022-09-05 22:41:45', '2022-09-05 22:41:45'),
 (1717, 7, 16, 22, 20, 42, 8.5, '2022-09-05 22:41:49', '2022-09-05 22:41:49'),
-(1718, 7, 16, 22, 20, 43, 9, '2022-09-05 22:43:25', '2022-09-05 22:43:25');
+(1718, 7, 16, 22, 20, 43, 9, '2022-09-05 22:43:25', '2022-09-05 22:43:25'),
+(1719, 8, 17, 23, 22, 45, 45, '2022-10-13 11:38:50', '2022-10-13 11:38:50'),
+(1720, 8, 17, 24, 22, 45, 20, '2022-10-13 11:38:59', '2022-10-13 11:38:59'),
+(1721, 8, 17, 25, 22, 45, 25, '2022-10-13 11:41:03', '2022-10-13 11:41:03');
 
 -- --------------------------------------------------------
 
@@ -1448,7 +1454,7 @@ CREATE TABLE `tabs_users` (
 INSERT INTO `tabs_users` (`tabs_user_id`, `tabs_user_code`, `tabs_full_name`, `tabs_username`, `tabs_password`, `tabs_user_type`, `tabs_user_status`, `tabs_user_profile_img`, `tabs_event_id`, `tabs_user_created`, `tabs_user_updated`) VALUES
 (1, '0', 'hotkopi', 'dev', 'gozElr3tOF4jED67gzd4r2smH2NWy83w+P89isjSSgM=', 0, 0, '', 0, '2022-08-04 00:00:00', '2022-09-04 14:24:33'),
 (8, '20220804171234lPKZlLkU', 'joane may delima', 'joanemay', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 0, 0, '', 0, '2022-08-04 17:12:34', '2022-08-04 17:12:34'),
-(9, '20220806004654pcNlHHeq', 'CRISTY C. EPE', 'judge1', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-08-06 00:46:54', '2022-09-04 22:19:50'),
+(9, '20220806004654pcNlHHeq', 'CRISTY C. EPE', 'judge1', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-08-06 00:46:54', '2022-10-13 11:16:19'),
 (10, '20220831141717ITDhGPPj', 'lebron james', 'lebrons', 'As2CKbjBIK6Ll6wvk2RGYuFqk1xs0seZfmHSsIrZdwM=', 0, 0, '', 0, '2022-08-31 14:17:17', '2022-08-31 14:17:17'),
 (13, '20220831162011g2C4Mqyy', 'FISCAL ELEANOR DELA PEÑA', 'judge2', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-08-31 16:20:11', '2022-09-04 22:19:56'),
 (14, '20220901100320k7vRRjKW', 'NIKKI TAN', 'judge3', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-09-01 10:03:20', '2022-09-04 22:20:12'),
@@ -1458,7 +1464,8 @@ INSERT INTO `tabs_users` (`tabs_user_id`, `tabs_user_code`, `tabs_full_name`, `t
 (18, '20220901100526VLj0zyaM', 'DR. CLARENCE PILLERIN', 'Judge103', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 7, '2022-09-01 10:05:26', '2022-09-05 22:03:40'),
 (19, '202209011005428GJa9KQG', 'ATTY. TRIZIA PAULINO-DENUNA', 'Judge104', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 7, '2022-09-01 10:05:42', '2022-09-05 22:03:32'),
 (20, '20220901100559eYjaK92i', 'Mishel C. Cadungod, EdD', 'Judge105', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 7, '2022-09-01 10:05:59', '2022-09-05 22:03:56'),
-(21, '20220902141127PZUeaBgN', 'RODERICK VILAN', 'judge5', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-09-02 14:11:27', '2022-09-04 22:20:16');
+(21, '20220902141127PZUeaBgN', 'RODERICK VILAN', 'judge5', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 5, '2022-09-02 14:11:27', '2022-09-04 22:20:16'),
+(22, '20221013110725IRdH42yq', 'John Gates', 'johngates', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 8, '2022-10-13 11:07:25', '2022-10-13 11:38:17');
 
 --
 -- Indexes for dumped tables
@@ -1520,7 +1527,7 @@ ALTER TABLE `tabs_users`
 -- AUTO_INCREMENT for table `tabs_candidates`
 --
 ALTER TABLE `tabs_candidates`
-  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `tabs_categories`
 --
@@ -1545,17 +1552,17 @@ ALTER TABLE `tabs_my_project`
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 --
 -- AUTO_INCREMENT for table `tabs_results`
 --
 ALTER TABLE `tabs_results`
-  MODIFY `tabs_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1719;
+  MODIFY `tabs_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1722;
 --
 -- AUTO_INCREMENT for table `tabs_users`
 --
 ALTER TABLE `tabs_users`
-  MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
