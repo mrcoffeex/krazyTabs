@@ -686,6 +686,22 @@
 
     }
 
+    function countActiveJudge($eventId, $catId){
+        
+        $statement=dbaselink()->prepare("SELECT DISTINCT tabs_user_id From tabs_results
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_cat_id' => $catId
+        ]);
+        $countres=$statement->rowCount();
+
+        return $countres;
+
+    }
+
     function selectJudges(){
 
         $statement=dbaselink()->prepare("SELECT * From tabs_users 
@@ -1654,6 +1670,20 @@
         $res=$statement->fetch(PDO::FETCH_ASSOC);
 
         return $res['tabs_cat_id'];
+
+    }
+
+    function getCriteriaMax($criId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cri_score_max From tabs_criterias
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cri_score_max'];
 
     }
 

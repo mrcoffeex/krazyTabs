@@ -76,7 +76,6 @@
                                         $countCategories=$getCategories->rowCount();
 
                                         $candidates = countCandidatesByEvent($event['tabs_event_id']);
-                                        $judges = countJudgesByEvent($event['tabs_event_id']);
                                 ?>
 
                                 <div class="col-md-12">
@@ -99,6 +98,8 @@
 
                                                             <?php
                                                                 while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
+
+                                                                $judges = countActiveJudge($event['tabs_event_id'], $category['tabs_cat_id']);
 
                                                                 $criterias = countCriteria($category['tabs_cat_id']);
                                                                 $expectedScoreCount = $candidates * $criterias * $judges;

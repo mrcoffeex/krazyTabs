@@ -27,6 +27,7 @@
 <html lang="en">
 
 <?php include '_head.php'; ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <body>
     <div class="container-scroller">
@@ -54,7 +55,6 @@
                                         <table class="table table-hover table-bordered" id="sortable-table-1">
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th class="sortStyle text-center">Rate <i class="ti-angle-down"></i></th>
                                                     <th class="sortStyle text-center"># <i class="ti-angle-down"></i></th>
                                                     <th class="sortStyle">Candidate <i class="ti-angle-down"></i></th>
                                                     <?php  
@@ -68,7 +68,7 @@
                                                         <i class="ti-angle-down"></i>
                                                     </th>
                                                     <?php } ?>
-                                                    <th class="text-center">Total</th>
+                                                    <th class="sortStyle text-center">Total <i class="ti-angle-down"></i></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -78,17 +78,9 @@
                                                     while ($candidate=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
-                                                    <td class="text-center">
-                                                        <a href="rate?rand=<?= my_rand_str(30) ?>&catId=<?= $redirect ?>&canId=<?= $candidate['tabs_can_id'] ?>">
-                                                            <button 
-                                                            type="button" 
-                                                            class="btn btn-primary btn-sm">
-                                                            <i class="ti-star"></i>
-                                                            </button>
-                                                        </a>
-                                                    </td>
                                                     <td class="text-center"><?= $candidate['tabs_can_number'] ?></td>
                                                     <td><?= $candidate['tabs_can_name'] ?></td>
+
                                                     <?php  
                                                         //get criteria
                                                         $totalScore=0;
@@ -99,10 +91,44 @@
 
                                                             $totalScore += $score;
                                                     ?>
-                                                    <td class="text-center"><?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?></td>
+                                                        <td class="text-center p-0">
+                                                            <input 
+                                                            type="number" 
+                                                            class="form-control form-control-sm text-center border border-light" 
+                                                            min="<?= $criRow['tabs_cri_score_min'] ?>" 
+                                                            max="<?= $criRow['tabs_cri_score_max'] ?>" 
+                                                            step="1" 
+                                                            id="result_<?= $criRow['tabs_cri_id'] ?>" 
+                                                            value="<?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?>" 
+                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
+                                                        </td>
+
                                                     <?php } ?>
-                                                    <td class="text-center"><?= $totalScore ?></td>
+                                                    <td class="text-center text-bold"><span id="totalScore_<?= $candidate['tabs_can_id'] ?>"><?= $totalScore ?></span></td>
+                                                    
                                                 </tr>
+
+                                                <script>
+
+                                                    $(document).ready(function () {
+
+                                                        function loadTotalScore_<?= $candidate['tabs_can_id'] ?>() {
+                                                            $.ajax({
+                                                                type: "GET",
+                                                                url: "auto_total_score.php?canId=<?= $candidate['tabs_can_id'] ?>&catId=<?= $redirect ?>",
+                                                                dataType: "html",              
+                                                                success: function (response) {
+                                                                    $("#totalScore_<?= $candidate['tabs_can_id'] ?>").html(response);
+                                                                    setTimeout(loadTotalScore_<?= $candidate['tabs_can_id'] ?>, 1000)
+                                                                }
+                                                            });
+                                                        }
+
+                                                        loadTotalScore_<?= $candidate['tabs_can_id'] ?>();
+                                                    });
+
+                                                </script>
+
                                                 <?php } ?>
                                             </tbody>
                                         </table>
@@ -120,6 +146,52 @@
     </div>
 
     <?php include '_scripts.php'; ?>
+    
+    
+    <script type="text/javascript">
+        
+        function updateScore(canId, criId, score){
+
+            $(document).ready(function(){
+
+                $.get(
+                    "auto_update_score.php?canId=" + canId + "&catId=<?= $redirect ?>&criId=" + criId, 
+                    {score: score}, 
+                    function(data){
+
+                    setTimeout(function () {
+                        
+                        if (data == 0) {
+
+                            //nothing to do here
+
+                        } else if (data == 1) {
+
+                            toastr.error('error');
+
+                        } else if (data == 2) {
+
+                            //nothing to do here
+
+                        } else if (data == 3) {
+
+                            toastr.error('Exceeding max input');
+
+                        } else {
+
+                            //nothing to do here
+
+                        }
+
+                    }, 500);
+
+                });
+
+            });
+            
+        }
+
+    </script>
 
     <?php include '_alerts.php'; ?>
 
