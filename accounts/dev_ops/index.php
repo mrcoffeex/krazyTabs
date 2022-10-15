@@ -10,6 +10,7 @@
 <html lang="en">
 
 <?php include '_head.php'; ?>
+<script src="../../js/jquery.min.js"></script>
 
 <body>
     <div class="container-scroller">
@@ -109,13 +110,49 @@
                                                                 <a href="category_results?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1366, height=768, toolbar=1, resizable=0'); return false;">
                                                                     <button 
                                                                         type="button" 
-                                                                        class="btn btn-primary btn-sm">
+                                                                        class="btn btn-primary btn-sm" 
+                                                                        id="scoreBtn_<?= $category['tabs_cat_id'] ?>">
                                                                         <i class="ti-bar-chart"></i> 
                                                                         <?= $category['tabs_cat_title'] ?> 
-                                                                        <?= countCategoryResults($category['tabs_cat_id']) . "/" . $expectedScoreCount ?>
+                                                                        <span id="live_score_count_<?= $category['tabs_cat_id'] ?>"></span>
+                                                                        /
+                                                                        <span id="live_score_expected_<?= $category['tabs_cat_id'] ?>"></span>
                                                                     </button>
                                                                 </a>
                                                             </td>
+
+                                                            <script>
+                                                                $(document).ready(function () {
+
+                                                                    function load_score_count_<?= $category['tabs_cat_id'] ?>() {
+                                                                        $.ajax({
+                                                                            type: "GET",
+                                                                            url: "auto_result_count.php?catId=<?= $category['tabs_cat_id'] ?>",
+                                                                            dataType: "html",              
+                                                                            success: function (response) {
+                                                                                $("#live_score_count_<?= $category['tabs_cat_id'] ?>").html(response);
+                                                                                setTimeout(load_score_count_<?= $category['tabs_cat_id'] ?>, 3000)
+                                                                            }
+                                                                        });
+                                                                    }
+
+                                                                    load_score_count_<?= $category['tabs_cat_id'] ?>();
+
+                                                                    function load_score_expected_<?= $category['tabs_cat_id'] ?>() {
+                                                                        $.ajax({
+                                                                            type: "GET",
+                                                                            url: "auto_result_expected.php?eventId=<?= $event['tabs_event_id'] ?>&catId=<?= $category['tabs_cat_id'] ?>",
+                                                                            dataType: "html",              
+                                                                            success: function (response) {
+                                                                                $("#live_score_expected_<?= $category['tabs_cat_id'] ?>").html(response);
+                                                                                setTimeout(load_score_expected_<?= $category['tabs_cat_id'] ?>, 3000)
+                                                                            }
+                                                                        });
+                                                                    }
+
+                                                                    load_score_expected_<?= $category['tabs_cat_id'] ?>();
+                                                                });
+                                                            </script>
 
                                                             <?php } ?>
 
