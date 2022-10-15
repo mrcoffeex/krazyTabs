@@ -64,7 +64,7 @@
                                                     ?>
                                                     <th class="sortStyle text-center">
                                                         <?= $criHead['tabs_cri_title'] ?> 
-                                                        <span class="text-primary"><?= $criHead['tabs_cri_percentage']."%" ?></span>
+                                                        <span class="text-warning"><?= $criHead['tabs_cri_percentage']."%" ?></span>
                                                         <i class="ti-angle-down"></i>
                                                     </th>
                                                     <?php } ?>
