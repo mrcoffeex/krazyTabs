@@ -100,7 +100,7 @@
                                                             step="1" 
                                                             id="result_<?= $criRow['tabs_cri_id'] ?>" 
                                                             value="<?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?>" 
-                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
+                                                            onblur="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
                                                         </td>
 
                                                     <?php } ?>
