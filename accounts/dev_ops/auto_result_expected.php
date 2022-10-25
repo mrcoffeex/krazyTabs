@@ -6,8 +6,7 @@
     $catId = clean_int($_GET['catId']);
 
     $getCategories=selectCategories($eventId);
-
-    $candidates = countCandidatesByEvent($eventId);
+    $candidates = countCandidateResultByEventCategory($eventId, $catId);
 
     while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
 

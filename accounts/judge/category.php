@@ -100,7 +100,7 @@
                                                             step="1" 
                                                             id="result_<?= $criRow['tabs_cri_id'] ?>" 
                                                             value="<?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?>" 
-                                                            onblur="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
+                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
                                                         </td>
 
                                                     <?php } ?>
@@ -183,7 +183,7 @@
 
                         }
 
-                    }, 500);
+                    }, 700);
 
                 });
 

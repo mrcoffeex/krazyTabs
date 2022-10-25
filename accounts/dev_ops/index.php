@@ -75,11 +75,9 @@
                                         //get categories
                                         $getCategories=selectCategories($event['tabs_event_id']);
                                         $countCategories=$getCategories->rowCount();
-
-                                        $candidates = countCandidatesByEvent($event['tabs_event_id']);
                                 ?>
 
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="table-responsive">
@@ -88,32 +86,30 @@
                                                         <tr class="table-dark">
                                                             <th 
                                                             class="p-3 text-center" 
-                                                            colspan="<?= 1 + $countCategories; ?>">
+                                                            colspan="2">
                                                             <?= $event['tabs_event_title'] ?>
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
 
+                                                        <?php
+                                                            while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
+                                                        ?>
+
                                                         <tr>
 
-                                                            <?php
-                                                                while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
-
-                                                                $judges = countActiveJudge($event['tabs_event_id'], $category['tabs_cat_id']);
-
-                                                                $criterias = countCriteria($category['tabs_cat_id']);
-                                                                $expectedScoreCount = $candidates * $criterias * $judges;
-                                                            ?>
+                                                            <td class="p-1 text-center text-bold text-uppercase">
+                                                                <?= $category['tabs_cat_title'] ?> 
+                                                            </td>
                                                             
-                                                            <td class="p-3 text-center">
+                                                            <td class="p-1 text-center">
                                                                 <a href="category_results?rand=<?= my_rand_str(30) ?>&cd=<?= $category['tabs_cat_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1366, height=768, toolbar=1, resizable=0'); return false;">
                                                                     <button 
                                                                         type="button" 
                                                                         class="btn btn-primary" 
                                                                         id="scoreBtn_<?= $category['tabs_cat_id'] ?>">
                                                                         <i class="ti-bar-chart"></i> 
-                                                                        <?= $category['tabs_cat_title'] ?> 
                                                                         <span id="live_score_count_<?= $category['tabs_cat_id'] ?>"></span>
                                                                         /
                                                                         <span id="live_score_expected_<?= $category['tabs_cat_id'] ?>"></span>
@@ -154,9 +150,9 @@
                                                                 });
                                                             </script>
 
-                                                            <?php } ?>
-
                                                         </tr>
+
+                                                        <?php } ?>
 
                                                     </tbody>
                                                 </table>
