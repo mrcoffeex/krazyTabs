@@ -53,29 +53,7 @@
                                 <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-12 mb-2">
-                                                    <h1 class="display-4 text-center">Categories</h1>
-                                                </div>
-                                                <?php  
-                                                    //populate categories
-                                                    $getCategories = selectCategories($tabs_event_id);
-                                                    while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
-                                                ?>
-
-                                                <div class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card <?= categoryStatusColor($category['tabs_cat_status']) ?>">
-                                                        <div class="card-body">
-                                                            <p class="fs-6 mb-1 text-center">
-                                                                <?= $category['tabs_cat_title'] ?>
-                                                            </p>
-                                                        </div>
-                                                        <a href="<?= categoryStatusLink($category['tabs_cat_status'], $category['tabs_cat_id']) ?>" class="stretched-link" title="click to open this category ..."></a>
-                                                    </div>
-                                                </div>
-                                                
-                                                <?php } ?>
-                                            </div>
+                                            <div class="row" id="load_categories"></div>
                                         </div>
                                     </div>
                                 </div>

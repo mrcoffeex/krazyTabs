@@ -43,21 +43,6 @@
                                                 <label>Year</label>
                                                 <input type="number" class="form-control" name="event_year" min="2022" max="2050" required>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="checkbox" name="event_eliminate" id="event_eliminate" value="1" checked> Elimation
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Elimation Title</label>
-                                                <input type="text" class="form-control" name="event_eliminate_title" id="event_eliminate_title" maxlength="255" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Elimation Candidate Count</label>
-                                                <input type="number" class="form-control" name="event_eliminate_num" id="event_eliminate_num" min="1" step="1" max="20" required>
-                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" id="submit_create_event" class="btn btn-success">Create</button>
@@ -79,7 +64,6 @@
                                                 <tr class="table-dark">
                                                     <th>Title</th>
                                                     <th class="text-center">Year</th>
-                                                    <th class="text-center">Settings</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -90,9 +74,6 @@
                                                 <tr>
                                                     <td><?= $recent['tabs_event_title'] ?></td>
                                                     <td class="text-center"><?= $recent['tabs_event_year'] ?></td>
-                                                    <td class="text-center">
-                                                        <?= getEliminate($recent['tabs_event_eliminate'], $recent['tabs_event_eliminate_num'], $recent['tabs_event_eliminate_title']) ?>
-                                                    </td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>

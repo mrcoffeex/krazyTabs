@@ -77,19 +77,36 @@
 
 	$(document).ready(function () {
 
-	function load_live_system_logs_count() {
-		$.ajax({
-			type: "GET",
-			url: "auto_system_logs_count.php",
-			dataType: "html",              
-			success: function (response) {
-				$("#live_system_logs_count").html(response);
-				setTimeout(load_live_system_logs_count, 3000)
-			}
-		});
-	}
+		function load_live_system_logs_count() {
+			$.ajax({
+				type: "GET",
+				url: "auto_system_logs_count.php",
+				dataType: "html",              
+				success: function (response) {
+					$("#live_system_logs_count").html(response);
+					setTimeout(load_live_system_logs_count, 3000)
+				}
+			});
+		}
 
-	load_live_system_logs_count();
+		load_live_system_logs_count();
+	});
+
+	$(document).ready(function () {
+
+		function load_categories() {
+			$.ajax({
+				type: "GET",
+				url: "auto_categories.php",
+				dataType: "html",              
+				success: function (response) {
+					$("#load_categories").html(response);
+					setTimeout(load_categories, 3000)
+				}
+			});
+		}
+
+		load_categories();
 	});
 
 </script>

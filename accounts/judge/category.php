@@ -149,6 +149,34 @@
     
     
     <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            function autoCloseLoader() {
+                $.ajax({
+                    type: "GET",
+                    url: "auto_loader.php?catId=<?= $redirect ?>",
+                    dataType: "html",              
+                    success: function (response) {
+                        
+                        if (response == 0) {
+
+                            console.log("category open");
+                            
+                        } else {
+
+                            console.log("category close");
+                            window.location.href = 'index?note=cat_closed';
+                            
+                        }
+
+                        setTimeout(autoCloseLoader, 3000)
+                    }
+                });
+            }
+
+            autoCloseLoader();
+        });
         
         function updateScore(canId, criId, score){
 
@@ -176,6 +204,10 @@
                         } else if (data == 3) {
 
                             toastr.error('Exceeding max input');
+
+                        } else if (data == 4) {
+
+                            window.location.href = 'index?note=cat_closed'
 
                         } else {
 

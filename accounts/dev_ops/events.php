@@ -45,7 +45,6 @@
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Year</th>
-                                                    <th class="text-center">Settings</th>
                                                     <th class="text-center">Switch</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
@@ -93,9 +92,6 @@
                                                     <td><?= $event['tabs_event_title']; ?></td>
                                                     <td><?= $event['tabs_event_desc']; ?></td>
                                                     <td><?= $event['tabs_event_year']; ?></td>
-                                                    <td class="text-center">
-                                                        <?= getEliminate($event['tabs_event_eliminate'], $event['tabs_event_eliminate_num'], $event['tabs_event_eliminate_title']) ?>
-                                                    </td>
                                                     <td class="text-center">
                                                         <div class="form-switch">
                                                             <input 
