@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2022 at 04:39 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.0.15
+-- Generation Time: Oct 25, 2022 at 09:36 AM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.0.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -93,7 +95,9 @@ INSERT INTO `tabs_candidates` (`tabs_can_id`, `tabs_can_number`, `tabs_can_name`
 (54, 9, 'Mutya #9', 'Mutya #9', 0, '2022-10-13 16:33:15', 9),
 (55, 10, 'Mutya #10', 'Mutya #10', 0, '2022-10-13 16:33:26', 9),
 (56, 11, 'Mutya #11', 'Mutya #11', 0, '2022-10-13 16:33:33', 8),
-(57, 12, 'Mutya #12', 'Mutya #12', 0, '2022-10-13 16:33:39', 9);
+(57, 12, 'Mutya #12', 'Mutya #12', 0, '2022-10-13 16:33:39', 9),
+(58, 1, 'Leling', 'Leling', 0, '2022-10-25 12:04:55', 10),
+(59, 2, 'Hagonoy Crossing', 'Hagonoy Crossing', 0, '2022-10-25 12:05:30', 10);
 
 -- --------------------------------------------------------
 
@@ -132,7 +136,12 @@ INSERT INTO `tabs_categories` (`tabs_cat_id`, `tabs_cat_title`, `tabs_cat_percen
 (21, 'Sports Attire', 10, 1, 8),
 (22, 'Evening Gown', 15, 1, 8),
 (23, 'Casual Wear', 10, 1, 8),
-(24, 'Final Question & Answer', 100, 1, 9);
+(24, 'Final Question & Answer', 100, 1, 9),
+(25, 'TALENT COMPETITION', 20, 0, 10),
+(26, 'ETHNIC-INSPIRED FILIPINANA COMPETITION', 20, 0, 10),
+(27, 'TRIBAL WEAR COMPETITION', 20, 0, 10),
+(28, 'BEST ADVOCACY VIDEO & SPEECH', 20, 0, 10),
+(29, 'ETHNIC-INSPIRED CASUAL WEAR COMPETITION', 20, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -144,8 +153,8 @@ CREATE TABLE `tabs_criterias` (
   `tabs_cri_id` int(11) NOT NULL,
   `tabs_cri_title` text NOT NULL,
   `tabs_cri_desc` text NOT NULL,
-  `tabs_cri_score_min` int(11) NOT NULL,
-  `tabs_cri_score_max` int(11) NOT NULL,
+  `tabs_cri_score_min` double NOT NULL,
+  `tabs_cri_score_max` double NOT NULL,
   `tabs_cri_percentage` double NOT NULL,
   `tabs_cat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -194,7 +203,9 @@ INSERT INTO `tabs_criterias` (`tabs_cri_id`, `tabs_cri_title`, `tabs_cri_desc`, 
 (44, 'Poise and Grace', '', 1, 30, 30, 23),
 (45, 'Elegance and Sense of Style', '', 1, 40, 40, 23),
 (46, 'Beauty', '', 1, 40, 40, 24),
-(47, 'Wit & Intelligence', '', 1, 60, 60, 24);
+(47, 'Wit & Intelligence', '', 1, 60, 60, 24),
+(48, 'Talent', '', 1, 9.99, 100, 25),
+(49, 'Festival', '', 1, 9.99, 100, 26);
 
 -- --------------------------------------------------------
 
@@ -226,9 +237,9 @@ INSERT INTO `tabs_events` (`tabs_event_id`, `tabs_event_title`, `tabs_event_desc
 (5, 'Mutya ng Digos 2022 TOP 5', 'top 5', '2022', 0, 0, '', 0, 0, '2022-09-04 16:09:58', '2022-09-04 16:09:58'),
 (6, 'Mutya ng Digos 2022 TOP 10', 'top 10', '2022', 0, 0, '', 0, 0, '2022-09-04 18:36:27', '2022-09-04 18:36:51'),
 (7, 'Sinag ng Digos 2022 TOP 5', 'top 5', '2022', 0, 0, '', 0, 0, '2022-09-05 17:45:40', '2022-10-12 20:18:51'),
-(8, 'Mutya ng UM', 'mutya ng um 2022', '2022', 1, 1, 'Mutya ng Digos Top 5', 5, 0, '2022-10-12 20:26:31', '2022-10-12 20:34:32'),
-(9, 'Mutya ng UM TOP 5', 'mutya ng digos top 5', '2022', 1, 1, 'Mutya ng Digos Top 5', 5, 0, '2022-10-15 18:03:51', '2022-10-15 18:03:51'),
-(10, 'B\'yaneng ng Hagonoy 2022', '7:30PM @ HAGONOY MUNICIPAL GYMNASIUM', '2022', 0, 1, 'Sample', 14, 0, '2022-10-24 20:35:34', '2022-10-24 20:35:34');
+(8, 'Mutya ng UM', 'mutya ng um 2022', '2022', 0, 1, 'Mutya ng Digos Top 5', 5, 0, '2022-10-12 20:26:31', '2022-10-12 20:34:32'),
+(9, 'Mutya ng UM TOP 5', 'mutya ng digos top 5', '2022', 0, 1, 'Mutya ng Digos Top 5', 5, 0, '2022-10-15 18:03:51', '2022-10-15 18:03:51'),
+(10, 'B\'yaneng ng Hagonoy 2022', '7:30PM @ HAGONOY MUNICIPAL GYMNASIUM', '2022', 1, 1, 'Sample', 14, 0, '2022-10-24 20:35:34', '2022-10-25 14:07:46');
 
 -- --------------------------------------------------------
 
@@ -652,7 +663,11 @@ INSERT INTO `tabs_notification` (`tabs_notif_id`, `tabs_notif_type`, `tabs_notif
 (380, 'auth', 'Logout - umjudge1', '2022-10-17 15:10:22'),
 (381, 'auth', 'Login - dev', '2022-10-24 10:20:12'),
 (382, 'attempt', 'Login Attempt - kjohn0319@gmail.com', '2022-10-24 20:27:59'),
-(383, 'auth', 'Login - dev', '2022-10-24 20:28:20');
+(383, 'auth', 'Login - dev', '2022-10-24 20:28:20'),
+(384, 'auth', 'Login - Hagonoyjudge1', '2022-10-25 12:03:42'),
+(385, 'auth', 'Logout - dev', '2022-10-25 14:10:16'),
+(386, 'auth', 'Login - dev', '2022-10-25 14:10:25'),
+(387, 'auth', 'Login - Hagonoyjudge1', '2022-10-25 14:14:31');
 
 -- --------------------------------------------------------
 
@@ -2833,7 +2848,9 @@ INSERT INTO `tabs_results` (`tabs_result_id`, `tabs_event_id`, `tabs_cat_id`, `t
 (3579, 9, 24, 47, 24, 53, 59, '2022-10-15 21:51:00', '2022-10-15 21:51:00'),
 (3580, 9, 24, 47, 24, 54, 59, '2022-10-15 21:51:05', '2022-10-15 21:51:05'),
 (3581, 9, 24, 47, 24, 55, 57, '2022-10-15 21:51:08', '2022-10-15 21:51:08'),
-(3582, 9, 24, 47, 24, 57, 54, '2022-10-15 21:51:39', '2022-10-15 21:51:39');
+(3582, 9, 24, 47, 24, 57, 54, '2022-10-15 21:51:39', '2022-10-15 21:51:39'),
+(3585, 10, 25, 48, 27, 58, 9, '2022-10-25 14:35:29', '2022-10-25 15:14:57'),
+(3586, 10, 25, 48, 27, 59, 9.99, '2022-10-25 14:36:02', '2022-10-25 14:36:04');
 
 -- --------------------------------------------------------
 
@@ -2877,7 +2894,8 @@ INSERT INTO `tabs_users` (`tabs_user_id`, `tabs_user_code`, `tabs_full_name`, `t
 (23, '20221013153100JD5SsBLQ', 'UM Judge 2', 'umjudge2', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 9, '2022-10-13 15:31:00', '2022-10-15 21:37:16'),
 (24, '20221013162129uMesriwQ', 'UM Judge 3', 'umjudge3', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 9, '2022-10-13 16:21:29', '2022-10-15 21:37:20'),
 (25, '202210131621573G5WNVZ2', 'UM Judge 4', 'umjudge4', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 9, '2022-10-13 16:21:57', '2022-10-15 21:37:24'),
-(26, '20221013162211HC030Q6Q', 'UM Judge 5', 'umjudge5', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 9, '2022-10-13 16:22:11', '2022-10-15 21:37:29');
+(26, '20221013162211HC030Q6Q', 'UM Judge 5', 'umjudge5', 'KYbhfSccmfgV6lsb1k23tk6Fz98VuKKfHX24W3k9F1Y=', 1, 0, '', 9, '2022-10-13 16:22:11', '2022-10-15 21:37:29'),
+(27, '20221025120259TQMok5TG', 'Hagonoyjudge1', 'hagonoyjudge1', '7oI2xUsEE6CCVgX792ufBAlIsFs5N/B8FhmM1qLbaVs=', 1, 0, '', 10, '2022-10-25 12:02:59', '2022-10-25 14:31:09');
 
 --
 -- Indexes for dumped tables
@@ -2939,42 +2957,51 @@ ALTER TABLE `tabs_users`
 -- AUTO_INCREMENT for table `tabs_candidates`
 --
 ALTER TABLE `tabs_candidates`
-  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `tabs_can_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
 --
 -- AUTO_INCREMENT for table `tabs_categories`
 --
 ALTER TABLE `tabs_categories`
-  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `tabs_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
 --
 -- AUTO_INCREMENT for table `tabs_criterias`
 --
 ALTER TABLE `tabs_criterias`
-  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `tabs_cri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
 --
 -- AUTO_INCREMENT for table `tabs_events`
 --
 ALTER TABLE `tabs_events`
   MODIFY `tabs_event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT for table `tabs_my_project`
 --
 ALTER TABLE `tabs_my_project`
   MODIFY `tabs_project` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `tabs_notification`
 --
 ALTER TABLE `tabs_notification`
-  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=384;
+  MODIFY `tabs_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=388;
+
 --
 -- AUTO_INCREMENT for table `tabs_results`
 --
 ALTER TABLE `tabs_results`
-  MODIFY `tabs_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3583;
+  MODIFY `tabs_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3587;
+
 --
 -- AUTO_INCREMENT for table `tabs_users`
 --
 ALTER TABLE `tabs_users`
-  MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `tabs_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
