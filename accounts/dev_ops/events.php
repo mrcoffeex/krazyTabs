@@ -177,10 +177,15 @@
                                                                 enctype="multipart/form-data" 
                                                                 action="event_delete?rand=<?= my_rand_str(30) ?>&cd=<?= $event['tabs_event_id']; ?>">
                                                             <div class="modal-body">
-                                                                <p class="text-center">
-                                                                    Trying to delete <br>
-                                                                    <span class="text-danger"><?= $event['tabs_event_title']; ?></span>
-                                                                </p>
+                                                                <div class="form-group">
+                                                                    <label>Enter password *</label>
+                                                                    <input type="password" class="form-control" name="deletePassword" autofocus required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="text-danger">
+                                                                        <b>Warning!</b> deleting this event will also deleting all the records inside it including <b>judges</b> / <b>candidates</b> / <b>scores</b>
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" id="submit_delete_event" 

@@ -84,6 +84,12 @@
                         toastr.success('Event has been deleted');
                     </script>
                 ";
+            } else if ($note == "mismatch") {
+                echo "
+                    <script>
+                        toastr.error('Password mismatched');
+                    </script>
+                ";
             } else {
                 echo "";
             }

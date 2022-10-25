@@ -1159,22 +1159,6 @@
         }
     }
 
-    function deleteEvent($eventId){
-
-        $statement=dbaselink()->prepare("DELETE FROM tabs_events 
-                                        Where 
-                                        tabs_event_id = :tabs_event_id");
-        $statement->execute([
-            'tabs_event_id' => $eventId
-        ]);
-
-        if ($statement) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     function getEventTitle($eventId){
 
         $statement=dbaselink()->prepare("SELECT tabs_event_title From tabs_events
@@ -1927,5 +1911,133 @@
             return false;
         }
 
+    }
+
+    //methods_delete
+
+    function deleteCandidatesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_candidates 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function deleteJudgesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_users 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteScoresByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_results 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteCriteriaByEvent($eventId){
+        
+        $getCategories=selectCategories($eventId);
+        while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
+            
+            $statement=dbaselink()->prepare("DELETE FROM tabs_criterias
+                                            Where
+                                            tabs_cat_id = :tabs_cat_id");
+            $statement->execute([
+                'tabs_cat_id' => $category['tabs_cat_id']
+            ]);
+
+        }
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    function deleteCategoryByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_categories 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_events 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteEventRecords($eventId){
+
+        $deleteCandidates = deleteCandidatesByEvent($eventId);
+        $deleteJudges =  deleteJudgesByEvent($eventId);
+        $deleteScores = deleteScoresByEvent($eventId);
+        $deleteCriteria = deleteCriteriaByEvent($eventId);
+        $deleteCategory = deleteCategoryByEvent($eventId);
+        $deleteEvent =  deleteEvent($eventId);
+
+        if ($deleteCandidates == true && 
+            $deleteJudges == true && 
+            $deleteScores == true && 
+            $deleteCriteria == true && 
+            $deleteCategory == true && 
+            $deleteEvent == true) {
+            
+                return true;
+
+        } else {
+            return false;
+        }
+        
     }
 ?>
