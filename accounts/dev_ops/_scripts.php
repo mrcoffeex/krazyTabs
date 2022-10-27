@@ -88,6 +88,18 @@
 		return true;  
 	}
 
+	function validateTransferJudge(formObj){
+		formObj.submit_transfer_judge.disabled = true;
+		formObj.submit_transfer_judge.innerHTML = "processing ...";
+		return true;  
+	}
+
+	function validateTransferCandidate(formObj){
+		formObj.submit_transfer_candidate.disabled = true;
+		formObj.submit_transfer_candidate.innerHTML = "processing ...";
+		return true;  
+	}
+
 	// events
 	$("#tabsName").focus();
 
@@ -153,6 +165,42 @@
 	}
 
 	load_live_system_logs_count();
+	});
+
+	$(document).ready(function () {
+		
+		$('#selectAllJudges').click(function(){
+
+			if ($('#selectAllJudges').prop('checked')) {
+
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
+
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
+
+		});
+
+	});
+
+	$(document).ready(function () {
+		
+		$('#selectAllCandidates').click(function(){
+
+			if ($('#selectAllCandidates').prop('checked')) {
+
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
+
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
+
+		});
+
 	});
 
 </script>

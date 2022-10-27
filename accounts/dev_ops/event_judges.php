@@ -33,6 +33,14 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-judge"><i class="ti-plus"></i> Create Judge</button>
+
+                                        <button 
+                                        tpye="button" 
+                                        class="btn btn-primary float-end" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#transfer-judge">
+                                            <i class="ti-exchange-vertical"></i> Transfer Judges
+                                        </button>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
@@ -175,6 +183,57 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="submit_create_judge" class="btn btn-success">Create</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="transfer-judge" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel"><i class="ti-exchange-vertical"></i> Transfer Judge</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="judge_transfer?eventId=<?= $eventId ?>" onsubmit="validateTransferJudge(this)">
+                <div class="modal-body">
+                    <p class="text-uppercase text-bold mb-3">select judges to transfer</p>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="selectAllJudges" id="selectAllJudges" value="all"> Select All
+                        </label>
+                    </div>
+                    <?php 
+                        $getJudges=selectJudgesByEvent($eventId);
+                        while ($judge=$getJudges->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="judges[]" id="<?= $judge['tabs_user_id'] ?>" value="<?= $judge['tabs_user_id'] ?>"> <?= $judge['tabs_full_name'] ?>
+                        </label>
+                    </div>
+                    <?php } ?>
+
+                    <div class="form-group">
+                        <label>Select Event</label>
+                        <select name="event" class="form-control" required>
+                            <option></option>
+                            <?php  
+                                //populate events
+                                $getEvents = selectEvents();
+                                while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$event['tabs_event_id']."'>".$event['tabs_event_title']."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit_transfer_judge" class="btn btn-primary">Transfer</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
                 </form>

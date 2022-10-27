@@ -822,6 +822,27 @@
 
     }
 
+    function transferJudge($judgeId, $eventId){
+
+        $statement=dbaselink()->prepare("UPDATE
+                                        tabs_users
+                                        SET
+                                        tabs_event_id = :tabs_event_id
+                                        Where
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_user_id' => $judgeId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     // methods candidates
 
     function countCandidates(){
@@ -1033,6 +1054,27 @@
             return $res['tabs_can_id'];
         } else {
             return 0;
+        }
+
+    }
+
+    function transferCandidate($canId, $eventId){
+
+        $statement=dbaselink()->prepare("UPDATE
+                                        tabs_candidates
+                                        SET
+                                        tabs_event_id = :tabs_event_id
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_can_id' => $canId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
         }
 
     }

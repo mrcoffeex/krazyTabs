@@ -46,7 +46,6 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" id="submit_create_event" class="btn btn-success">Create</button>
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </form>
                                 </div>

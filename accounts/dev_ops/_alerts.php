@@ -132,16 +132,28 @@
                         toastr.success('Judge has been added');
                     </script>
                 ";
-            }else if ($note == "judge_updated") {
+            } else if ($note == "judge_updated") {
                 echo "
                     <script>
                         toastr.success('Judge has been updated');
                     </script>
                 ";
-            }else if ($note == "username_exists") {
+            } else if ($note == "username_exists") {
                 echo "
                     <script>
                         toastr.error('Username already exists. Please try another username.');
+                    </script>
+                ";
+            } else if ($note == "empty") {
+                echo "
+                    <script>
+                        toastr.error('No judge selected.');
+                    </script>
+                ";
+            } else if ($note == "judge_transfer") {
+                echo "
+                    <script>
+                        toastr.success('Judges has been transfered.');
                     </script>
                 ";
             } else {
@@ -180,6 +192,18 @@
                 echo "
                     <script>
                         toastr.error('Candidate has existing record. Cannot delete');
+                    </script>
+                ";
+            } else if ($note == "empty") {
+                echo "
+                    <script>
+                        toastr.error('No candidate selected');
+                    </script>
+                ";
+            } else if ($note == "candidate_transfer") {
+                echo "
+                    <script>
+                        toastr.success('Candidates has been transfered');
                     </script>
                 ";
             } else {

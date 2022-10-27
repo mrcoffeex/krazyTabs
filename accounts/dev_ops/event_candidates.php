@@ -33,6 +33,14 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-can"><i class="ti-plus"></i> Create Candidate</button>
+
+                                        <button 
+                                        tpye="button" 
+                                        class="btn btn-primary float-end" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#transfer-candidates">
+                                            <i class="ti-exchange-vertical"></i> Transfer Candidates
+                                        </button>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover table-bordered">
@@ -201,6 +209,57 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="submit_create_can" class="btn btn-success">Create</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="transfer-candidates" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel"><i class="ti-exchange-vertical"></i> Transfer Candidates</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="candidate_transfer?eventId=<?= $eventId ?>" onsubmit="validateTransferCandidate(this)">
+                <div class="modal-body">
+                    <p class="text-uppercase text-bold mb-3">select candidates to transfer</p>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="selectAllCandidates" id="selectAllCandidates" value="all"> Select All
+                        </label>
+                    </div>
+                    <?php 
+                        $getCandidates=selectCandidatesByEvent($eventId);
+                        while ($candidate=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="candidates[]" id="<?= $candidate['tabs_can_id'] ?>" value="<?= $candidate['tabs_can_id'] ?>"> <?= $candidate['tabs_can_number'] . " - " . $candidate['tabs_can_name'] ?>
+                        </label>
+                    </div>
+                    <?php } ?>
+
+                    <div class="form-group">
+                        <label>Select Event</label>
+                        <select name="event" class="form-control" required>
+                            <option></option>
+                            <?php  
+                                //populate events
+                                $getEvents = selectEvents();
+                                while ($event=$getEvents->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$event['tabs_event_id']."'>".$event['tabs_event_title']."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit_transfer_candidate" class="btn btn-primary">Transfer</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
                 </form>
