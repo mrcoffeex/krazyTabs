@@ -68,6 +68,7 @@
                                                     <th class="sortStyle p-2 text-center">Total <i class="ti-angle-down"></th>
                                                     <th class="sortStyle p-2 text-center">Avg <i class="ti-angle-down"></th>
                                                     <th class="sortStyle p-2 text-center"><?= getCategoryPercentage($redirect) ?>% <i class="ti-angle-down"></th>
+                                                    <th class="sortStyle p-2 text-center">Rank <i class="ti-angle-down"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -106,6 +107,16 @@
                                                     <td class="p-2 text-center"><?= $allAverage ?></td>
                                                     <td class="p-2 text-center">
                                                         <?= RealNumber(getAverageValueByCategoryPercentage($allAverage, getCategoryPercentage($redirect)), 2); ?>
+                                                    </td>
+                                                    <td class="p-2 text-center hide-on-print">
+                                                        <input 
+                                                        type="number" 
+                                                        class="form-control form-control-sm text-center border border-light" 
+                                                        min="1" 
+                                                        step="1" 
+                                                        id="catRank_<?= $catList['tabs_can_id'] ?>" 
+                                                        value="<?= getCandidateCatRank($catList['tabs_can_id'], $eventID, $redirect) ?>" 
+                                                        onkeyup="updateCatRank(<?= $catList['tabs_can_id'] ?>, this.value)" autofocus>
                                                     </td>
                                                 </tr>
                                                 <?php } ?>
@@ -196,6 +207,43 @@
     </div>
 
     <?php include '_scripts.php'; ?>
+
+    <script>
+
+        function updateCatRank(canId, catRank){
+
+            $(document).ready(function(){
+
+                $.get(
+                    "auto_update_cat_rank.php?canId=" + canId + "&eventId=<?= $eventID ?>&catId=<?= $redirect ?>", 
+                    {catRank: catRank}, 
+                    function(data){
+
+                    setTimeout(function () {
+                        
+                        if (data == 0) {
+
+                            //nothing to do here
+
+                        } else if (data == 1) {
+
+                            toastr.error('error');
+
+                        } else {
+
+                            //nothing to do here
+
+                        }
+
+                    }, 700);
+
+                });
+
+            });
+            
+        }
+
+    </script>
 
     <?php include '_alerts.php'; ?>
 

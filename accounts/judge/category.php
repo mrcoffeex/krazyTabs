@@ -78,8 +78,18 @@
                                                     while ($candidate=$getCandidates->fetch(PDO::FETCH_ASSOC)) {
                                                 ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $candidate['tabs_can_number'] ?></td>
-                                                    <td><?= $candidate['tabs_can_name'] ?></td>
+                                                    <td class="text-center"><h2><?= $candidate['tabs_can_number'] ?></h2></td>
+                                                    <td class="text-center">
+                                                        <h3><?= $candidate['tabs_can_name'] ?></h3>
+                                                        <?php  
+                                                            if (empty($candidate['tabs_can_image']) || $candidate['tabs_can_image'] == "empty") {
+                                                                //nothing
+                                                            } else {
+                                                        ?>
+                                                        <br>
+                                                        <img src="<?= previewImage($candidate['tabs_can_image'], '../../images/default_image.jpg', '../../uploads/') ?>" class="" alt="image">
+                                                        <?php } ?>
+                                                    </td>
 
                                                     <?php  
                                                         //get criteria
@@ -94,17 +104,18 @@
                                                         <td class="text-center p-0">
                                                             <input 
                                                             type="number" 
-                                                            class="form-control form-control-sm text-center border border-light" 
+                                                            class="form-control text-center border border-light" 
                                                             min="<?= $criRow['tabs_cri_score_min'] ?>" 
                                                             max="<?= $criRow['tabs_cri_score_max'] ?>" 
-                                                            step="1" 
+                                                            step="0.01" 
                                                             id="result_<?= $criRow['tabs_cri_id'] ?>" 
                                                             value="<?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?>" 
-                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
+                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)" 
+                                                            style="line-heigth: 3; font-size: 33px;" >
                                                         </td>
 
                                                     <?php } ?>
-                                                    <td class="text-center text-bold"><span id="totalScore_<?= $candidate['tabs_can_id'] ?>"><?= $totalScore ?></span></td>
+                                                    <td class="text-center text-bold"><h2><span id="totalScore_<?= $candidate['tabs_can_id'] ?>"><?= $totalScore ?></span></h2></td>
                                                     
                                                 </tr>
 
@@ -150,6 +161,34 @@
     
     <script type="text/javascript">
         
+        $(document).ready(function () {
+
+            function autoCloseLoader() {
+                $.ajax({
+                    type: "GET",
+                    url: "auto_loader.php?catId=<?= $redirect ?>",
+                    dataType: "html",              
+                    success: function (response) {
+                        
+                        if (response == 0) {
+
+                            console.log("category open");
+                            
+                        } else {
+
+                            console.log("category close");
+                            window.location.href = 'index?note=cat_closed';
+                            
+                        }
+
+                        setTimeout(autoCloseLoader, 3000)
+                    }
+                });
+            }
+
+            autoCloseLoader();
+        });
+        
         function updateScore(canId, criId, score){
 
             $(document).ready(function(){
@@ -168,6 +207,7 @@
                         } else if (data == 1) {
 
                             toastr.error('error');
+                            $("#result_" + criId + canId).val("");
 
                         } else if (data == 2) {
 
@@ -176,6 +216,16 @@
                         } else if (data == 3) {
 
                             toastr.error('Exceeding max input');
+                            $("#result_" + criId + canId).val("");
+
+                        } else if (data == 4) {
+
+                            window.location.href = 'index?note=cat_closed'
+
+                        } else if (data == 5) {
+
+                            toastr.error('Please put minimum input');
+                            // $("#result_" + criId + canId).val("");
 
                         } else {
 

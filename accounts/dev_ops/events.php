@@ -45,7 +45,6 @@
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Year</th>
-                                                    <th class="text-center">Settings</th>
                                                     <th class="text-center">Switch</th>
                                                     <th class="text-center">Edit</th>
                                                     <th class="text-center">Delete</th>
@@ -93,9 +92,6 @@
                                                     <td><?= $event['tabs_event_title']; ?></td>
                                                     <td><?= $event['tabs_event_desc']; ?></td>
                                                     <td><?= $event['tabs_event_year']; ?></td>
-                                                    <td class="text-center">
-                                                        <?= getEliminate($event['tabs_event_eliminate'], $event['tabs_event_eliminate_num'], $event['tabs_event_eliminate_title']) ?>
-                                                    </td>
                                                     <td class="text-center">
                                                         <div class="form-switch">
                                                             <input 
@@ -230,74 +226,6 @@
                 <?php include '_footer.php'; ?>
 
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- modals -->
-    <div class="modal fade" id="add-event" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalLabel"><i class="ti-plus"></i> Create Event</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" enctype="multipart/form-data" action="event_create" onsubmit="validateCreateEvent(this)">
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Scoring Type</label>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" name="event_scoretype" id="event_scoretype0" value="0" checked required>
-                                    Averaging
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" name="event_scoretype" id="event_scoretype1" value="1">
-                                    Ranking
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="event_title" maxlength="255" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" name="event_desc" rows="3" maxlength="255" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Year</label>
-                        <input type="number" class="form-control" name="event_year" min="2022" max="2050" required>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" name="event_eliminate" id="event_eliminate" value="1" checked> Elimation
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Elimation Title</label>
-                        <input type="text" class="form-control" name="event_eliminate_title" id="event_eliminate_title" maxlength="255" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Elimation Candidate Count</label>
-                        <input type="number" class="form-control" name="event_eliminate_num" id="event_eliminate_num" min="1" step="1" max="20" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="submit_create_event" class="btn btn-success">Create</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </div>
-                </form>
             </div>
         </div>
     </div>

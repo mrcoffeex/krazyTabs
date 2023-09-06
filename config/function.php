@@ -299,6 +299,18 @@
         return $alpha;
     }
 
+    function previewImage($image, $default_image, $directory){
+
+        if ($image == "empty" || $image == "") {
+            $res = $default_image;
+        }else{
+            $res = $directory . "" . $image;
+        }
+
+        return $res;
+
+    }
+
     function ezImageUpload($input, $location){
 
         $errors= array();
@@ -822,6 +834,27 @@
 
     }
 
+    function transferJudge($judgeId, $eventId){
+
+        $statement=dbaselink()->prepare("UPDATE
+                                        tabs_users
+                                        SET
+                                        tabs_event_id = :tabs_event_id
+                                        Where
+                                        tabs_user_id = :tabs_user_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_user_id' => $judgeId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     // methods candidates
 
     function countCandidates(){
@@ -872,13 +905,14 @@
 
     }
 
-    function createCandidate($number, $name, $designation, $eventId){
+    function createCandidate($number, $name, $designation, $image, $eventId){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_candidates
                                         (
                                             tabs_can_number, 
                                             tabs_can_name, 
                                             tabs_can_desc, 
+                                            tabs_can_image, 
                                             tabs_can_created, 
                                             tabs_event_id
                                         )
@@ -887,6 +921,7 @@
                                             :tabs_can_number, 
                                             :tabs_can_name, 
                                             :tabs_can_desc, 
+                                            :tabs_can_image, 
                                             NOW(), 
                                             :tabs_event_id
                                         )");
@@ -894,6 +929,7 @@
             'tabs_can_number' => $number,
             'tabs_can_name' => $name,
             'tabs_can_desc' => $designation,
+            'tabs_can_image' => $image,
             'tabs_event_id' => $eventId
         ]);
 
@@ -905,13 +941,14 @@
 
     }
 
-    function updateCandidate($number, $name, $designation, $eventId, $canId){
+    function updateCandidate($number, $name, $designation, $image, $eventId, $canId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_candidates 
                                         SET
                                         tabs_can_number = :tabs_can_number, 
                                         tabs_can_name = :tabs_can_name, 
                                         tabs_can_desc = :tabs_can_desc,
+                                        tabs_can_image = :tabs_can_image,
                                         tabs_event_id = :tabs_event_id
                                         Where
                                         tabs_can_id = :tabs_can_id
@@ -920,6 +957,7 @@
             'tabs_can_number' => $number,
             'tabs_can_name' => $name,
             'tabs_can_desc' => $designation,
+            'tabs_can_image' => $image,
             'tabs_event_id' => $eventId,
             'tabs_can_id' => $canId
         ]);
@@ -1037,6 +1075,27 @@
 
     }
 
+    function transferCandidate($canId, $eventId){
+
+        $statement=dbaselink()->prepare("UPDATE
+                                        tabs_candidates
+                                        SET
+                                        tabs_event_id = :tabs_event_id
+                                        Where
+                                        tabs_can_id = :tabs_can_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_can_id' => $canId
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     // methods_events
 
     function countEvents(){
@@ -1102,7 +1161,7 @@
         return $statement;
     }
 
-    function createEvent($title, $desc, $year, $eliminate, $eliminateTitle, $eliminateNum){
+    function createEvent($title, $desc, $year){
 
         $statement=dbaselink()->prepare("INSERT INTO tabs_events
             (
@@ -1110,9 +1169,6 @@
                 tabs_event_desc, 
                 tabs_event_year, 
                 tabs_event_status, 
-                tabs_event_eliminate, 
-                tabs_event_eliminate_title, 
-                tabs_event_eliminate_num, 
                 tabs_event_created, 
                 tabs_event_updated
             )
@@ -1121,9 +1177,6 @@
                 :tabs_event_desc,
                 :tabs_event_year,
                 :tabs_event_status, 
-                :tabs_event_eliminate, 
-                :tabs_event_eliminate_title, 
-                :tabs_event_eliminate_num, 
                 NOW(),
                 NOW()
             )");
@@ -1131,10 +1184,7 @@
             'tabs_event_title' => $title, 
             'tabs_event_desc' => $desc, 
             'tabs_event_year' => $year, 
-            'tabs_event_status' => 0, 
-            'tabs_event_eliminate' => $eliminate, 
-            'tabs_event_eliminate_title' => $eliminateTitle, 
-            'tabs_event_eliminate_num' => $eliminateNum, 
+            'tabs_event_status' => 0
         ]);
 
         if ($statement) {
@@ -1144,26 +1194,106 @@
         }
     }
 
-    function updateEvent($title, $desc, $year, $eliminate, $eliminateTitle, $eliminateNum, $eventId){
+    function updateEvent($title, $desc, $year, $eventId){
 
         $statement=dbaselink()->prepare("UPDATE tabs_events
             SET
             tabs_event_title = :tabs_event_title, 
             tabs_event_desc = :tabs_event_desc, 
             tabs_event_year = :tabs_event_year,
-            tabs_event_eliminate = :tabs_event_eliminate,
-            tabs_event_eliminate_title = :tabs_event_eliminate_title,
-            tabs_event_eliminate_num = :tabs_event_eliminate_num,
             tabs_event_updated = NOW()
             Where
             tabs_event_id = :tabs_event_id");
         $statement->execute([
             'tabs_event_title' => $title, 
             'tabs_event_desc' => $desc, 
-            'tabs_event_year' => $year, 
-            'tabs_event_eliminate' => $eliminate, 
-            'tabs_event_eliminate_title' => $eliminateTitle, 
-            'tabs_event_eliminate_num' => $eliminateNum, 
+            'tabs_event_year' => $year,
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteCandidatesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_candidates 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function deleteJudgesByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_users 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteScoresByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_results 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId
+        ]);
+
+        if ($statement) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function deleteCriteriaByEvent($eventId){
+        
+        $getCategories=selectCategories($eventId);
+        while ($category=$getCategories->fetch(PDO::FETCH_ASSOC)) {
+            
+            $statement=dbaselink()->prepare("DELETE FROM tabs_criterias
+                                            Where
+                                            tabs_cat_id = :tabs_cat_id");
+            $statement->execute([
+                'tabs_cat_id' => $category['tabs_cat_id']
+            ]);
+
+        }
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    function deleteCategoryByEvent($eventId){
+
+        $statement=dbaselink()->prepare("DELETE FROM tabs_categories 
+                                        Where 
+                                        tabs_event_id = :tabs_event_id");
+        $statement->execute([
             'tabs_event_id' => $eventId
         ]);
 
@@ -1188,6 +1318,30 @@
         }else{
             return false;
         }
+    }
+
+    function deleteEventRecords($eventId){
+
+        $deleteCandidates = deleteCandidatesByEvent($eventId);
+        $deleteJudges =  deleteJudgesByEvent($eventId);
+        $deleteScores = deleteScoresByEvent($eventId);
+        $deleteCriteria = deleteCriteriaByEvent($eventId);
+        $deleteCategory = deleteCategoryByEvent($eventId);
+        $deleteEvent =  deleteEvent($eventId);
+
+        if ($deleteCandidates == true && 
+            $deleteJudges == true && 
+            $deleteScores == true && 
+            $deleteCriteria == true && 
+            $deleteCategory == true && 
+            $deleteEvent == true) {
+            
+                return true;
+
+        } else {
+            return false;
+        }
+        
     }
 
     function getEventTitle($eventId){
@@ -1687,6 +1841,20 @@
 
     }
 
+    function getCriteriaMin($criId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_cri_score_min From tabs_criterias
+                                        Where
+                                        tabs_cri_id = :tabs_cri_id");
+        $statement->execute([
+            'tabs_cri_id' => $criId
+        ]);
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_cri_score_min'];
+
+    }
+
     // methods_results
 
     function checkExistingResult($criId, $catId, $canId, $judgeId){
@@ -1868,6 +2036,48 @@
 
         return $statement;
 
+    }
+
+    function getCandidateCatRank($canId, $eventId, $catId){
+
+        $statement=dbaselink()->prepare("SELECT tabs_result_catRank FROM tabs_results
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_can_id = :tabs_can_id AND
+                                        tabs_cat_id = :tabs_cat_id");
+        $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_can_id' => $canId,
+            'tabs_cat_id' => $catId
+        ]);
+
+        $res=$statement->fetch(PDO::FETCH_ASSOC);
+
+        return $res['tabs_result_catRank'];
+
+    }
+
+    function updateCatRank($canId, $eventId, $catId, $catRank){
+
+        $statement=dbaselink()->prepare("UPDATE tabs_results SET
+                                        tabs_result_catRank = :tabs_result_catRank
+                                        Where
+                                        tabs_event_id = :tabs_event_id AND
+                                        tabs_can_id = :tabs_can_id AND
+                                        tabs_cat_id = :tabs_cat_id");
+         $statement->execute([
+            'tabs_event_id' => $eventId,
+            'tabs_can_id' => $canId,
+            'tabs_cat_id' => $catId,
+            'tabs_result_catRank' => $catRank
+        ]);
+
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     function getCandidateResultByCategory($catId){

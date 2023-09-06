@@ -58,43 +58,9 @@
                                                 <label>Year</label>
                                                 <input type="number" class="form-control" name="event_year" min="2022" max="2050" value="<?= $event['tabs_event_year'] ?>" required>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="checkbox" name="event_eliminate" id="event_eliminate" value="<?= $event['tabs_event_eliminate'] ?>"  <?= validateChecked($event['tabs_event_eliminate'], 1) ?> > Elimation
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Elimation Title</label>
-                                                <input 
-                                                type="text" 
-                                                class="form-control" 
-                                                name="event_eliminate_title" 
-                                                id="event_eliminate_title" 
-                                                maxlength="255" 
-                                                value="<?= $event['tabs_event_eliminate_title'] ?>" 
-                                                <?= readonlyEliminate($event['tabs_event_eliminate']) ?> 
-                                                <?= requiredEliminate($event['tabs_event_eliminate']) ?> >
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Elimation Candidate Count</label>
-                                                <input 
-                                                type="number" 
-                                                class="form-control" 
-                                                name="event_eliminate_num" 
-                                                id="event_eliminate_num" 
-                                                min="1" 
-                                                step="1" 
-                                                max="20" 
-                                                value="<?= $event['tabs_event_eliminate_num'] ?>" 
-                                                <?= readonlyEliminate($event['tabs_event_eliminate']) ?> 
-                                                <?= requiredEliminate($event['tabs_event_eliminate']) ?> >
-                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" id="submit_update_event" class="btn btn-info">Update</button>
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </form>
                                 </div>
@@ -115,12 +81,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Settings</td>
-                                                    <td class="text-bold">
-                                                        <?= getEliminate($event['tabs_event_eliminate'], $event['tabs_event_eliminate_num'], $event['tabs_event_eliminate_title']) ?>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <td>Title</td>
                                                     <td class="text-bold"><?= $event['tabs_event_title'] ?></td>

@@ -8,38 +8,50 @@
     $criId = clean_int($_GET['criId']);
 
     $criMax = getCriteriaMax($criId);
+    $criMin = getCriteriaMin($criId);
 
     $score = clean_float($_GET['score']);
 
-	if (!empty($score)) {
+	if (getCategoryStatus($catId) != 0) {
 
-        if ($score > $criMax) {
-
-            print(3);
-
-        } else {
-            
-            $insert_data = createResult($tabs_event_id, $catId, $criId, $tabs_user_id, $canId, $score);
-
-            if ($insert_data == true) {
-
-                print(0);
-
-            } else {
-
-                print(1);
-
-            }
-
-        }
+        print(4);
 
     } else {
 
-        print(2);
+        if (!empty($score)) {
+
+            if ($score > $criMax) {
+    
+                print(3);
+    
+            } else if ($score < $criMin) {
+
+                print(5);
+
+            } else {
+                
+                $insert_data = createResult($tabs_event_id, $catId, $criId, $tabs_user_id, $canId, $score);
+    
+                if ($insert_data == true) {
+    
+                    print(0);
+    
+                } else {
+    
+                    print(1);
+    
+                }
+    
+            }
+    
+        } else {
+    
+            print(2);
+    
+        }
 
     }
     
-
 ?>
 
 

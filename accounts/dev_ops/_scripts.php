@@ -186,4 +186,40 @@
 
 	});
 
+	$(document).ready(function () {
+		
+		$('#selectAllJudges').click(function(){
+
+			if ($('#selectAllJudges').prop('checked')) {
+
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
+
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
+
+		});
+
+	});
+
+	$(document).ready(function () {
+		
+		$('#selectAllCandidates').click(function(){
+
+			if ($('#selectAllCandidates').prop('checked')) {
+
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
+
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
+
+		});
+
+	});
+
 </script>
