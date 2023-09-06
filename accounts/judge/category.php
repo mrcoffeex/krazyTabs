@@ -54,7 +54,6 @@
                             <div class="card">
                                 <div class="card-body text-center">
                                     <span class="text-bold"><?= $criteria['tabs_cri_title'] ?></span><br>
-                                    <?= $criteria['tabs_cri_desc'] ?><br>
                                     Scoring: <span class="text-primary"><?= $criteria['tabs_cri_score_min'] . " - " . $criteria['tabs_cri_score_max'] ?></span>
                                 </div>
                             </div>
