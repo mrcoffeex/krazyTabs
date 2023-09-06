@@ -44,6 +44,23 @@
                     <?php include '_breads.php'; ?>
 
                     <div class="row">
+
+                        
+                        <?php  
+                            $getCriteria=selectCriteria($redirect);
+                            while ($criteria=$getCriteria->fetch(PDO::FETCH_ASSOC)) {
+                        ?>
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <span class="text-bold"><?= $criteria['tabs_cri_title'] ?></span><br>
+                                    <?= $criteria['tabs_cri_desc'] ?><br>
+                                    Scoring: <span class="text-primary"><?= $criteria['tabs_cri_score_min'] . " - " . $criteria['tabs_cri_score_max'] ?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+                                
                         
                         <div class="col-lg-12">
                             <div class="card">
@@ -64,7 +81,7 @@
                                                     ?>
                                                     <th class="sortStyle text-center">
                                                         <?= $criHead['tabs_cri_title'] ?> 
-                                                        <span class="text-warning"><?= $criHead['tabs_cri_percentage']."%" ?></span>
+                                                        <span class="text-warning"><?= $criHead['tabs_cri_score_min']." - ".$criHead['tabs_cri_score_max'] ?></span>
                                                         <i class="ti-angle-down"></i>
                                                     </th>
                                                     <?php } ?>
@@ -110,8 +127,7 @@
                                                             step="0.01" 
                                                             id="result_<?= $criRow['tabs_cri_id'] ?>" 
                                                             value="<?= getCandidateResultByCriteria($criRow['tabs_cri_id'], $redirect, $candidate['tabs_can_id'], $tabs_user_id) ?>" 
-                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)" 
-                                                            style="line-heigth: 3; font-size: 33px;" >
+                                                            onkeyup="updateScore(<?= $candidate['tabs_can_id'] ?>, <?= $criRow['tabs_cri_id'] ?>, this.value)">
                                                         </td>
 
                                                     <?php } ?>
@@ -161,34 +177,6 @@
     
     <script type="text/javascript">
         
-        $(document).ready(function () {
-
-            function autoCloseLoader() {
-                $.ajax({
-                    type: "GET",
-                    url: "auto_loader.php?catId=<?= $redirect ?>",
-                    dataType: "html",              
-                    success: function (response) {
-                        
-                        if (response == 0) {
-
-                            console.log("category open");
-                            
-                        } else {
-
-                            console.log("category close");
-                            window.location.href = 'index?note=cat_closed';
-                            
-                        }
-
-                        setTimeout(autoCloseLoader, 3000)
-                    }
-                });
-            }
-
-            autoCloseLoader();
-        });
-        
         function updateScore(canId, criId, score){
 
             $(document).ready(function(){
@@ -226,6 +214,10 @@
 
                             toastr.error('Please put minimum input');
                             // $("#result_" + criId + canId).val("");
+
+                        } else if (data == 4) {
+
+                            window.location.href = 'index?note=cat_closed'
 
                         } else {
 

@@ -88,6 +88,18 @@
 		return true;  
 	}
 
+	function validateTransferJudge(formObj){
+		formObj.submit_transfer_judge.disabled = true;
+		formObj.submit_transfer_judge.innerHTML = "processing ...";
+		return true;  
+	}
+
+	function validateTransferCandidate(formObj){
+		formObj.submit_transfer_candidate.disabled = true;
+		formObj.submit_transfer_candidate.innerHTML = "processing ...";
+		return true;  
+	}
+
 	// events
 	$("#tabsName").focus();
 
@@ -155,34 +167,39 @@
 	load_live_system_logs_count();
 	});
 
-	$('#event_eliminate').change(function() {
+	$(document).ready(function () {
 		
-		if ($('#event_eliminate').prop('checked') == true) {
+		$('#selectAllJudges').click(function(){
 
-			console.log('checked');
-			$('#event_eliminate').val(1);
+			if ($('#selectAllJudges').prop('checked')) {
 
-			$('#event_eliminate_title').prop('readonly', false);
-			$('#event_eliminate_title').prop('required', true);
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
 
-			$('#event_eliminate_num').prop('readonly', false);
-			$('#event_eliminate_num').prop('required', true);
-			$('#event_eliminate_num').val('');
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
 
-		} else {
+		});
 
-			console.log('unchecked');
-			$('#event_eliminate').val(0);
+	});
 
-			$('#event_eliminate_title').prop('readonly', true);
-			$('#event_eliminate_title').prop('required', false);
-			$('#event_eliminate_title').val('');
+	$(document).ready(function () {
+		
+		$('#selectAllCandidates').click(function(){
 
-			$('#event_eliminate_num').prop('readonly', true);
-			$('#event_eliminate_num').prop('required', false);
-			$('#event_eliminate_num').val(0);
+			if ($('#selectAllCandidates').prop('checked')) {
 
-		}
+				console.log('checked');
+				$('input:checkbox').not(this).prop('checked', true);
+
+			} else {
+				console.log('unchecked');
+				$('input:checkbox').not(this).prop('checked', false);
+			}
+
+		});
 
 	});
 

@@ -20,38 +20,33 @@
 
         if (!empty($score)) {
 
-            if ($score > $criMax) {
-    
-                print(3);
-    
-            } else if ($score < $criMin) {
+        if ($score > $criMax) {
 
-                print(5);
+            print(3);
+
+        } else {
+            
+            $insert_data = createResult($tabs_event_id, $catId, $criId, $tabs_user_id, $canId, $score);
+
+            if ($insert_data == true) {
+
+                print(0);
 
             } else {
-                
-                $insert_data = createResult($tabs_event_id, $catId, $criId, $tabs_user_id, $canId, $score);
-    
-                if ($insert_data == true) {
-    
-                    print(0);
-    
-                } else {
-    
-                    print(1);
-    
-                }
-    
+
+                print(1);
+
             }
-    
-        } else {
-    
-            print(2);
-    
+
         }
+
+    } else {
+
+        print(2);
 
     }
     
+
 ?>
 
 
