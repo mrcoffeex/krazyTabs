@@ -2164,44 +2164,4 @@
             return false;
         }
     }
-
-    function deleteEvent($eventId){
-
-        $statement=dbaselink()->prepare("DELETE FROM tabs_events 
-                                        Where 
-                                        tabs_event_id = :tabs_event_id");
-        $statement->execute([
-            'tabs_event_id' => $eventId
-        ]);
-
-        if ($statement) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    function deleteEventRecords($eventId){
-
-        $deleteCandidates = deleteCandidatesByEvent($eventId);
-        $deleteJudges =  deleteJudgesByEvent($eventId);
-        $deleteScores = deleteScoresByEvent($eventId);
-        $deleteCriteria = deleteCriteriaByEvent($eventId);
-        $deleteCategory = deleteCategoryByEvent($eventId);
-        $deleteEvent =  deleteEvent($eventId);
-
-        if ($deleteCandidates == true && 
-            $deleteJudges == true && 
-            $deleteScores == true && 
-            $deleteCriteria == true && 
-            $deleteCategory == true && 
-            $deleteEvent == true) {
-            
-                return true;
-
-        } else {
-            return false;
-        }
-        
-    }
 ?>
